@@ -6,6 +6,7 @@ import { Store } from './core/storage.js';
 import { AppStore } from './app/state.js';
 import { requestPersistentStorage } from './core/storage.js';
 import { countPageview } from './core/counters.js';
+import { ensureLanguage, resolveLanguage } from './i18n/index.js';
 
 const root = document.getElementById('app');
 if (!root) throw new Error('Kein Wurzelelement gefunden.');
@@ -16,7 +17,21 @@ const store = new AppStore(new Store(window.localStorage));
 // die eigentliche Sicherung ist ohnehin der geteilte Link.
 void requestPersistentStorage();
 
-render(<App store={store} />, root);
+/*
+ * Die Sprache des Lesers holen, **bevor** zum ersten Mal gezeichnet wird.
+ *
+ * Nur Deutsch und Englisch stecken im ersten Ladevorgang; die übrigen zehn
+ * kommen bei Bedarf. Ohne dieses Warten sähe ein türkischer Leser für einen
+ * Wimpernschlag Englisch. Schlägt das Laden fehl — kein Netz, noch nicht im
+ * Zwischenspeicher —, geht es trotzdem weiter.
+ */
+const startSprache = resolveLanguage(
+  store.state.settings.lang,
+  navigator.languages ?? [navigator.language],
+);
+void ensureLanguage(startSprache).then(() => {
+  render(<App store={store} />, root);
+});
 
 /*
  * Zählung (F27). Wir lösen den Seitenaufruf selbst aus, damit hier ausdrücklich

@@ -23,7 +23,13 @@ import type { Ledger, Settlement } from '../core/types.js';
 import { settle } from '../core/settle.js';
 import { checkSettlement } from '../core/invariants.js';
 import { formatAmount } from '../core/amount.js';
-import { createTranslator, resolveLanguage, SUPPORTED } from '../i18n/index.js';
+import {
+  createTranslator,
+  ensureLanguage,
+  resolveLanguage,
+  SUPPORTED,
+  TRANSLATION_ISSUE_URL,
+} from '../i18n/index.js';
 import { CaptureBar } from '../ui/CaptureBar.js';
 import { ResultScreen } from '../ui/ResultScreen.js';
 import { ShareSheet } from '../ui/ShareSheet.js';
@@ -124,7 +130,15 @@ export function App({ store }: { store: AppStore }) {
 
   const settings = store.state.settings;
   const lang = resolveLanguage(settings.lang, navigator.languages ?? [navigator.language]);
-  const t = useMemo(() => createTranslator(lang), [lang]);
+  const [langGeladen, setLangGeladen] = useState(0);
+  const t = useMemo(() => createTranslator(lang), [lang, langGeladen]);
+
+  // Wechselt jemand zur Laufzeit auf eine nachzuladende Sprache, holen wir sie
+  // und zeichnen danach neu. Bis dahin steht Englisch da — für den Bruchteil
+  // einer Sekunde, den das Nachladen dauert.
+  useEffect(() => {
+    void ensureLanguage(lang).then(() => setLangGeladen((n) => n + 1));
+  }, [lang]);
 
   // Sprache und Farbschema am Wurzelelement führen — Grundlage dafür, dass
   // Vorleseprogramme richtig aussprechen (F18/F26).
@@ -243,6 +257,23 @@ export function App({ store }: { store: AppStore }) {
           ))}
         </select>
       </header>
+
+      {/*
+       * Kennzeichnung nicht gegengelesener Sprachen (F25).
+       *
+       * Deutsch und Englisch sind von Hand geschrieben, die übrigen zehn nicht.
+       * Die geldkritischen Beschriftungen wurden überall rückübersetzt geprüft;
+       * für den Rest steht hier ehrlich, woran man ist — samt einem Weg, es
+       * besser zu machen.
+       */}
+      {t.isMachineTranslated && incoming.status === 'none' && (
+        <p class="small muted" style="margin:0 0 8px">
+          {t.t('settings.machineTranslated')}{' '}
+          <a href={TRANSLATION_ISSUE_URL} target="_blank" rel="noopener">
+            {t.t('settings.improveTranslation')}
+          </a>
+        </p>
+      )}
 
       <main id="main">
         {incoming.status === 'loading' ? (

@@ -22,6 +22,8 @@ export const de = {
   'settings.theme.system': 'System',
   'settings.theme.light': 'Hell',
   'settings.theme.dark': 'Dunkel',
+  'settings.machineTranslated': 'Diese Übersetzung ist maschinell erstellt.',
+  'settings.improveTranslation': 'Verbesserung vorschlagen',
 
   // --- Anlässe ---
   'event.new': 'Neuer Anlass',

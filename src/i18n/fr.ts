@@ -1,0 +1,167 @@
+import type { Messages } from './de.js';
+
+export const fr: Messages = {
+  'app.name': 'Collective-Calc',
+  'app.tagline': 'Qui doit quoi à qui ?',
+
+  'nav.events': 'Occasions',
+  'nav.back': 'Retour',
+  'settings.language': 'Langue',
+  'settings.theme': 'Apparence',
+  'settings.theme.system': 'Système',
+  'settings.theme.light': 'Clair',
+  'settings.theme.dark': 'Sombre',
+  'settings.machineTranslated': 'Cette traduction a été générée automatiquement.',
+  'settings.improveTranslation': 'Proposer une amélioration',
+
+  'event.new': 'Nouvelle occasion',
+  'event.untitled': 'Comptes du {date}',
+  'event.rename': 'Renommer',
+  'event.delete': "Supprimer l'occasion",
+  'event.deleteConfirm':
+    'Supprimer cette occasion et toutes ses dépenses ? Cela ne pourra pas être annulé.',
+  'event.empty.title': 'Pas encore de dépense',
+  'event.empty.hint': "Note ci-dessous ce que quelqu'un a payé. Le reste suit tout seul.",
+  'event.total': 'Dépenses au total',
+  'event.count': { one: '{count} dépense', other: '{count} dépenses' },
+
+  'people.heading': 'Qui participe ?',
+  'people.add': 'Ajouter une personne',
+  'people.namePlaceholder': 'Prénom',
+  'people.hint': 'Le prénom suffit.',
+  'people.cannotRemove': 'Cette personne figure dans des dépenses ; on ne peut que la renommer.',
+  'people.you': 'Moi',
+  'people.needTwo': 'Ajoute au moins deux personnes, et le calcul sera possible.',
+
+  'entry.amount': 'Montant',
+  'entry.amountPlaceholder': '0,00',
+  'entry.understoodAs': 'Compris comme {amount}',
+  'entry.description': 'Pour quoi ?',
+  'entry.paidBy': 'Payé par',
+  'entry.add': 'Ajouter',
+  'entry.unnamed': 'Dépense',
+  'entry.recentDescriptions': 'Utilisé récemment',
+  'entry.saved': '{amount} · {description} · payé par {payer}',
+  'entry.savedNoDescription': '{amount} · payé par {payer}',
+  'entry.undo': 'Annuler',
+  'entry.edit': 'Modifier',
+  'entry.delete': 'Supprimer',
+  'entry.deleted': 'Entrée supprimée.',
+
+  'split.change': 'Modifier la répartition',
+  'split.equal': 'Parts égales',
+  'split.participants': 'Était présent',
+  'split.exact': 'Montants exacts',
+  'split.shares': 'Parts',
+  'split.percent': 'Pourcentage',
+  'split.sumMismatch': 'Les montants font {sum} au total, mais la dépense est de {total}.',
+  'split.nobody': 'Au moins une personne doit participer.',
+  'split.sharesHint': 'Qui compte double reçoit un 2. Qui ne participait pas, un 0.',
+
+  'repayment.add': 'Enregistrer un remboursement',
+  'repayment.from': 'De',
+  'repayment.to': 'À',
+  'repayment.label': 'Remboursement',
+  'repayment.markPaid': 'Noter comme payé',
+  'repayment.hint': 'Les remboursements ne comptent pas dans le total des dépenses.',
+
+  'currency.label': 'Devise',
+  'currency.foreign': 'Dans une autre devise',
+  'currency.rate': 'Taux',
+  'currency.converted': '{foreign} au taux {rate} = {amount}',
+  'currency.changeWarning':
+    "Changer de devise ne convertit rien : cela ne change que le symbole affiché.",
+  'currency.other': 'Autre …',
+  'currency.otherPlaceholder': 'p. ex. RON',
+  'currency.unsupported':
+    "Collective-Calc calcule en centièmes. Les devises sans sous-unité — le yen ou le won — ne sont donc pas possibles.",
+
+  'result.heading': 'Résultat',
+  'result.columnPerson': 'Personne',
+  'result.columnPaidShare': 'Avancé et part',
+  'result.columnBalance': 'Solde',
+  'result.owesShort': 'doit',
+  'result.getsShort': 'reçoit',
+  'result.owes': 'Tu dois',
+  'result.gets': 'Tu reçois',
+  'result.settled': 'Soldé',
+  'result.personOwes': '{name} doit {amount}',
+  'result.personGets': '{name} reçoit {amount}',
+  'result.transfer': '{from} vire {amount} à {to}',
+  'result.noTransfers': 'Tout est soldé — personne ne doit rien à personne.',
+  'result.paidAndShare': 'avancé {paid} · part {share}',
+  'result.repaidOut': 'remboursé {amount}',
+  'result.repaidIn': 'reçu {amount}',
+  'result.exactValue': 'Exactement : {value}',
+  'result.exactHint': 'Les parts affichées sont arrondies. Touche un chiffre pour la valeur exacte.',
+  'result.transferCount': { one: '{count} virement', other: '{count} virements' },
+
+  'remainder.heading': 'Il reste un solde non réparti',
+  'remainder.receivesLess': 'Il reste {amount} non versés à {name}.',
+  'remainder.paysLess': '{name} paie {amount} de moins que ce que donne le calcul.',
+  'remainder.explain':
+    "Les montants ne se divisent pas toujours en centimes entiers. Ce reste n'est attribué à personne — arrangez-vous entre vous 😉",
+  'remainder.wheel': "Pas d'accord ? Fais tourner la roue.",
+
+  'share.result': 'Partager le résultat',
+  'share.resultHint': 'Uniquement les noms, les soldes et les virements. Aucune dépense détaillée.',
+  'share.full': 'Transmettre les comptes',
+  'share.fullHint': "L'occasion complète, pour continuer sur un autre appareil.",
+  'share.copy': 'Copier le lien',
+  'share.copied': 'Lien copié.',
+  'share.qr': 'Code QR',
+  'share.qrAlt': 'Code QR contenant le lien : {url}',
+  'share.tooLarge':
+    "Ces comptes sont trop volumineux pour un lien. Utilise l'export en fichier pour les transmettre.",
+  'share.readOnlyNotice':
+    "Tu regardes des comptes partagés. Les modifications faites ici n'affectent pas l'original.",
+  'share.openCopy': 'Ouvrir comme copie personnelle',
+
+  'backup.heading': 'Sauvegarde ces comptes',
+  'backup.body':
+    'Les données ne sont que dans ce navigateur. S’il est nettoyé, elles disparaissent. Partage le lien ou télécharge un fichier : les deux sont une sauvegarde complète.',
+  'backup.share': 'Partager le lien',
+  'backup.download': 'Télécharger le fichier',
+  'backup.later': 'Plus tard',
+  'storage.notice': 'Ces données ne sont que dans ce navigateur.',
+
+  'export.heading': 'Exporter',
+  'export.json': 'Fichier (JSON)',
+  'export.jsonHint': 'Complet et rechargeable.',
+  'export.csv': 'Tableur (CSV)',
+  'export.csvHint': 'Pour refaire les calculs dans Excel ou LibreOffice.',
+  'export.print': 'Imprimer ou enregistrer en PDF',
+  'import.heading': 'Charger un fichier',
+  'import.button': 'Choisir un fichier',
+
+  'error.heading': 'Ces comptes ne peuvent pas être calculés de façon sûre en ce moment',
+  'error.body':
+    "Pour ne pas afficher de montants faux, Collective-Calc préfère n'afficher aucun chiffre. Tes données ne sont pas perdues : tu peux les télécharger.",
+  'error.exportRaw': 'Télécharger les données brutes',
+  'error.details': "Ce qui ne va pas exactement",
+  'error.brokenLinkTitle': "Le lien n'a pas pu être lu",
+  'error.brokenLink':
+    "Ce lien n'a pas pu être lu. Il a sans doute été coupé à l'envoi — demande qu'on te le renvoie.",
+  'error.link.empty': "Ce lien ne contient aucun compte.",
+  'error.link.notOurs': "Ce lien n'appartient pas à Collective-Calc.",
+  'error.link.truncated':
+    "Le lien est incomplet — il a sans doute été coupé à l'envoi. Demande qu'on te le renvoie.",
+  'error.link.garbled':
+    "Le contenu du lien ne forme pas des comptes valides. Demande qu'on te le renvoie.",
+  'error.link.newerFormat':
+    'Ce lien a été créé avec une version plus récente de Collective-Calc. Recharge la page pour obtenir la version actuelle.',
+  'error.file.notALedger': 'Ce fichier ne contient aucun compte.',
+  'error.file.noVersion':
+    "Ce fichier ne porte pas de version de format et ne vient pas de Collective-Calc.",
+  'error.file.newerFormat':
+    'Ce fichier a été créé avec une version plus récente de Collective-Calc. Recharge la page pour obtenir la version actuelle.',
+  'error.file.incomplete': 'Ces comptes sont incomplets.',
+  'error.file.noPath': "Aucune mise à jour n'existe pour ce format. Merci de signaler ce cas.",
+
+  'a11y.amountField': 'Montant en {currency}',
+  'a11y.balancePositive': 'Crédit',
+  'a11y.balanceNegative': 'Dette',
+  'a11y.savedAnnouncement': 'Enregistré : {text}',
+  'a11y.skipToContent': 'Aller au contenu',
+  'a11y.skipToCapture': 'Aller au formulaire',
+};

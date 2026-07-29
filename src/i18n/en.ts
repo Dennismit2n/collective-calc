@@ -11,6 +11,8 @@ export const en: Messages = {
   'settings.theme.system': 'System',
   'settings.theme.light': 'Light',
   'settings.theme.dark': 'Dark',
+  'settings.machineTranslated': 'This translation was generated automatically.',
+  'settings.improveTranslation': 'Suggest an improvement',
 
   'event.new': 'New event',
   'event.untitled': 'Settlement of {date}',
