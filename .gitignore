@@ -7,3 +7,5 @@ reports/
 *.local
 .DS_Store
 Thumbs.db
+test-results/
+playwright-report/

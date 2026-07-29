@@ -240,7 +240,9 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
         )}
 
         {suggestions.length > 0 && description === '' && (
-          <div class="chips oneline" aria-label={t.t('entry.description')}>
+          /* Eigene Beschriftung: Vorher trug diese Leiste dieselbe wie das
+             Eingabefeld daneben, und ein Vorleseprogramm nannte beide „Wofür?". */
+          <div class="chips oneline" role="group" aria-label={t.t('entry.recentDescriptions')}>
             {suggestions.map((s) => (
               <button key={s} type="button" class="chip" onClick={() => setDescription(s)}>
                 {s}

@@ -114,10 +114,23 @@ describe('Formatmigration', () => {
     expect(() => migrate({ title: 'ohne Version' })).toThrow(MigrationError);
   });
 
-  it('weist eine neuere Formatversion mit verständlicher Meldung ab', () => {
-    expect(() => migrate({ version: 99, id: 'a', title: 'b', currency: 'EUR', createdAt: 'c', people: [], entries: [] })).toThrow(
-      /neueren Fassung/,
-    );
+  it('weist eine neuere Formatversion mit eindeutigem Grund ab', () => {
+    // Geprüft wird der Schlüssel, nicht der Satz: Der Text steht in der
+    // Sprachtabelle und darf sich ändern, ohne Tests zu brechen.
+    expect(() =>
+      migrate({ version: 99, id: 'a', title: 'b', currency: 'EUR', createdAt: 'c', people: [], entries: [] }),
+    ).toThrow(expect.objectContaining({ code: 'newerFormat' }));
+  });
+
+  it('nennt für jeden Fehlschlag einen Grund', () => {
+    const faelle: Array<[unknown, string]> = [
+      ['nur ein Text', 'notALedger'],
+      [{ titel: 'ohne Version' }, 'noVersion'],
+      [{ version: 1, id: 'a' }, 'incomplete'],
+    ];
+    for (const [eingabe, code] of faelle) {
+      expect(() => migrate(eingabe)).toThrow(expect.objectContaining({ code }));
+    }
   });
 
   it('weist unvollständige Abrechnungen ab', () => {

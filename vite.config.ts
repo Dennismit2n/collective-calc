@@ -1,4 +1,7 @@
-import { defineConfig } from 'vite';
+// Aus 'vitest/config', nicht aus 'vite': Nur diese Fassung kennt den
+// `test`-Abschnitt. Mit der Vite-eigenen blieben die Testeinstellungen
+// ungeprüft — ein Tippfehler dort wäre stillschweigend wirkungslos geblieben.
+import { defineConfig } from 'vitest/config';
 import preact from '@preact/preset-vite';
 
 export default defineConfig({

@@ -158,10 +158,23 @@ describe('beschädigte Links werden erkannt, nicht halb gelesen', () => {
     expect(ok).toBe(true);
   });
 
-  it('meldet eine neuere Formatversion verständlich', async () => {
-    const l = build(2, 1);
-    const encoded = await encodeLedger({ ...l, version: 99 });
-    await expect(decodeLink(encoded)).rejects.toThrow(/neueren Fassung/);
+  it('nennt für jeden Fehlschlag einen eindeutigen Grund', async () => {
+    // Geprüft wird der Schlüssel, nicht der Satz. Der Text steht in der
+    // Sprachtabelle — vorher stand er im Code, und eine englische Oberfläche
+    // zeigte eine englische Überschrift mit einem deutschen Absatz darunter.
+    const l = build(4, 12);
+    const gut = await encodeLedger(l);
+
+    const faelle: Array<[string, string]> = [
+      ['', 'empty'],
+      ['xABCDEF', 'notOurs'],
+      [gut.slice(0, Math.floor(gut.length * 0.7)), 'truncated'],
+      [await encodeLedger({ ...l, version: 99 }), 'newerFormat'],
+    ];
+
+    for (const [fragment, code] of faelle) {
+      await expect(decodeLink(fragment)).rejects.toThrow(expect.objectContaining({ code }));
+    }
   });
 });
 

@@ -29,7 +29,8 @@ import { ResultScreen } from '../ui/ResultScreen.js';
 import { ShareSheet } from '../ui/ShareSheet.js';
 import { SharedLedger, SharedResult } from '../ui/SharedView.js';
 import type { DecodedLink } from '../core/codec.js';
-import { CodecError, decodeLink } from '../core/codec.js';
+import { decodeLink } from '../core/codec.js';
+import { describeError } from '../i18n/errors.js';
 import { shouldAskForBackup } from '../core/storage.js';
 import { downloadFile, safeFileName, toJson } from '../core/exportFile.js';
 import { CurrencyPicker } from '../ui/CurrencyPicker.js';
@@ -41,7 +42,8 @@ type Incoming =
   | { status: 'none' }
   | { status: 'loading' }
   | { status: 'ok'; link: DecodedLink }
-  | { status: 'error'; message: string };
+  /** Der rohe Fehler, nicht sein Text — übersetzt wird erst beim Zeichnen. */
+  | { status: 'error'; error: unknown };
 
 /** Erzwingt ein Neuzeichnen, wenn sich der Zustand ändert. */
 function useStore(store: AppStore): void {
@@ -84,10 +86,7 @@ export function App({ store }: { store: AppStore }) {
       },
       (err: unknown) => {
         if (cancelled) return;
-        setIncoming({
-          status: 'error',
-          message: err instanceof CodecError ? err.message : String(err),
-        });
+        setIncoming({ status: 'error', error: err });
       },
     );
     return () => {
@@ -203,7 +202,7 @@ export function App({ store }: { store: AppStore }) {
         ) : incoming.status === 'error' ? (
           <section class="notice warn">
             <h2 class="plain">{t.t('error.brokenLinkTitle')}</h2>
-            <p>{incoming.message}</p>
+            <p>{describeError(incoming.error, t)}</p>
             <button type="button" onClick={() => leaveSharedLink(setIncoming)}>
               {t.t('nav.back')}
             </button>

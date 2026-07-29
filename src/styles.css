@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Gestaltung (F24): Charakter ruhig und sachlich, Mittel aus dem System der
  * Startseite dennismit2n.github.io. Farbwerte übernommen, Kachelfarbe #4ade80 —
  * der einzige Bereich des Farbkreises, den die fünf vorhandenen Tools frei lassen.
@@ -19,6 +19,9 @@
 
   --brand: #16a34a;
   --brand-soft: #dcfce7;
+  /* Eigener Ton für Text auf hellem Grund: Das Marken-Grün erreicht dort die
+     geforderten 4,5:1 nicht. Für Flächen und Rahmen bleibt --brand. */
+  --link: #15803d;
   --credit: #15803d;
   --debit: #b45309;
   --credit-soft: #dcfce7;
@@ -42,6 +45,7 @@
 
     --brand: #4ade80;
     --brand-soft: #14301f;
+    --link: #4ade80;
     --credit: #4ade80;
     --debit: #fbbf24;
     --credit-soft: #14301f;
@@ -60,6 +64,7 @@
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   --brand: #4ade80;
   --brand-soft: #14301f;
+  --link: #4ade80;
   --credit: #4ade80;
   --debit: #fbbf24;
   --credit-soft: #14301f;
@@ -247,12 +252,15 @@ button.primary {
 button.ghost {
   background: transparent;
 }
+button.link,
+a {
+  color: var(--link);
+}
 button.link {
   background: none;
   border: none;
   padding: 4px 2px;
   min-height: 0;
-  color: var(--brand);
   text-decoration: underline;
   cursor: pointer;
 }

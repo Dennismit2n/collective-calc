@@ -14,7 +14,29 @@
 import type { Ledger } from './types.js';
 import { LEDGER_VERSION } from './types.js';
 
-export class MigrationError extends Error {}
+/** Warum eine gespeicherte Abrechnung nicht gelesen werden konnte. */
+export type MigrationErrorCode =
+  /** Gar kein Objekt — etwa eine fremde Datei. */
+  | 'notALedger'
+  /** Kein Versionsfeld: stammt nicht aus Collective-Calc. */
+  | 'noVersion'
+  /** Von einer neueren Fassung erzeugt. */
+  | 'newerFormat'
+  /** Pflichtfelder fehlen. */
+  | 'incomplete'
+  /** Kein Übergang von dieser Version auf die nächste hinterlegt. */
+  | 'noPath';
+
+export class MigrationError extends Error {
+  constructor(
+    readonly code: MigrationErrorCode,
+    /** Nur für Tests und Fehlerberichte — angezeigt wird der übersetzte Text. */
+    message: string,
+  ) {
+    super(message);
+    this.name = 'MigrationError';
+  }
+}
 
 /** Eine Migration hebt Daten von `from` auf `from + 1`. */
 interface Step {
@@ -37,21 +59,16 @@ function isRecord(value: unknown): value is Record<string, unknown> {
  */
 export function migrate(raw: unknown): Ledger {
   if (!isRecord(raw)) {
-    throw new MigrationError('Diese Datei enthält keine Abrechnung.');
+    throw new MigrationError('notALedger', 'Kein Objekt.');
   }
 
   const version = raw['version'];
   if (typeof version !== 'number' || !Number.isInteger(version) || version < 1) {
-    throw new MigrationError(
-      'Diese Datei trägt keine Formatversion und stammt nicht aus Collective-Calc.',
-    );
+    throw new MigrationError('noVersion', 'Feld "version" fehlt oder ist unbrauchbar.');
   }
 
   if (version > LEDGER_VERSION) {
-    throw new MigrationError(
-      `Diese Datei wurde mit einer neueren Fassung von Collective-Calc erstellt (Format ${version}). ` +
-        'Lade die Seite neu, um die aktuelle Fassung zu bekommen.',
-    );
+    throw new MigrationError('newerFormat', `Format ${version} ist neuer als ${LEDGER_VERSION}.`);
   }
 
   let data = raw;
@@ -59,9 +76,7 @@ export function migrate(raw: unknown): Ledger {
   while (current < LEDGER_VERSION) {
     const step = STEPS.find((s) => s.from === current);
     if (!step) {
-      throw new MigrationError(
-        `Für Format ${current} gibt es keinen Übergang auf ${current + 1}. Bitte melde diesen Fall.`,
-      );
+      throw new MigrationError('noPath', `Kein Übergang von Format ${current} auf ${current + 1}.`);
     }
     data = step.apply(data);
     current += 1;
@@ -79,11 +94,11 @@ export function assertLedgerShape(data: Record<string, unknown>): Ledger {
   const required = ['id', 'title', 'currency', 'createdAt'] as const;
   for (const key of required) {
     if (typeof data[key] !== 'string') {
-      throw new MigrationError(`Die Abrechnung ist unvollständig (Feld "${key}" fehlt).`);
+      throw new MigrationError('incomplete', `Feld "${key}" fehlt.`);
     }
   }
   if (!Array.isArray(data['people']) || !Array.isArray(data['entries'])) {
-    throw new MigrationError('Die Abrechnung ist unvollständig (Personen oder Ausgaben fehlen).');
+    throw new MigrationError('incomplete', 'Personen oder Ausgaben fehlen.');
   }
   return data as unknown as Ledger;
 }

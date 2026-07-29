@@ -52,6 +52,7 @@ export const de = {
   'entry.paidBy': 'Gezahlt von', // ⚠️
   'entry.add': 'Eintragen',
   'entry.unnamed': 'Ausgabe', // Ersatzname, wenn keine Beschreibung eingetragen wurde
+  'entry.recentDescriptions': 'Zuletzt benutzt',
   'entry.saved': '{amount} · {description} · gezahlt von {payer}', // ⚠️
   'entry.savedNoDescription': '{amount} · gezahlt von {payer}', // ⚠️
   'entry.undo': 'Rückgängig',
@@ -164,6 +165,22 @@ export const de = {
   'error.brokenLinkTitle': 'Der Link ließ sich nicht lesen',
   'error.brokenLink':
     'Dieser Link ließ sich nicht lesen. Vermutlich wurde er beim Verschicken abgeschnitten — lass ihn dir noch einmal schicken.',
+  // Gründe, warum ein Link nicht gelesen werden konnte. Der Codec liefert nur
+  // einen Schlüssel; der Text gehört hierher und nicht in den Code.
+  'error.link.empty': 'In diesem Link steht keine Abrechnung.',
+  'error.link.notOurs': 'Dieser Link gehört nicht zu Collective-Calc.',
+  'error.link.truncated':
+    'Der Link ist unvollständig — vermutlich wurde er beim Verschicken abgeschnitten. Lass ihn dir noch einmal schicken.',
+  'error.link.garbled':
+    'Der Inhalt des Links ergibt keine gültige Abrechnung. Lass ihn dir noch einmal schicken.',
+  'error.link.newerFormat':
+    'Dieser Link wurde mit einer neueren Fassung von Collective-Calc erstellt. Lade die Seite neu, um die aktuelle Fassung zu bekommen.',
+  'error.file.notALedger': 'Diese Datei enthält keine Abrechnung.',
+  'error.file.noVersion': 'Diese Datei trägt keine Formatversion und stammt nicht aus Collective-Calc.',
+  'error.file.newerFormat':
+    'Diese Datei wurde mit einer neueren Fassung von Collective-Calc erstellt. Lade die Seite neu, um die aktuelle Fassung zu bekommen.',
+  'error.file.incomplete': 'Diese Abrechnung ist unvollständig.',
+  'error.file.noPath': 'Für dieses Format gibt es keinen Übergang. Bitte melde diesen Fall.',
 
   // --- Barrierefreiheit ---
   'a11y.amountField': 'Betrag in {currency}',

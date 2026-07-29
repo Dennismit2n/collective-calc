@@ -25,7 +25,37 @@
 import type { Entry, Ledger, SplitMode } from './types.js';
 import { LEDGER_VERSION } from './types.js';
 
-export class CodecError extends Error {}
+/**
+ * Warum ein Link nicht gelesen werden konnte.
+ *
+ * Bewusst ein Schlüssel und keine fertige Meldung: Texte gehören in die
+ * Sprachtabelle (F18), nicht in den Code. Vorher stand hier deutscher Klartext —
+ * eine englische Oberfläche zeigte dadurch eine englische Überschrift mit einem
+ * deutschen Absatz darunter.
+ */
+export type CodecErrorCode =
+  /** Gar nichts hinter dem Doppelkreuz. */
+  | 'empty'
+  /** Kein Collective-Calc-Link. */
+  | 'notOurs'
+  /** Ließ sich nicht entpacken — fast immer: unterwegs abgeschnitten. */
+  | 'truncated'
+  /** Entpackt, aber der Inhalt ergibt keine Abrechnung. */
+  | 'garbled'
+  /** Von einer neueren Fassung erzeugt. */
+  | 'newerFormat';
+
+export class CodecError extends Error {
+  constructor(
+    readonly code: CodecErrorCode,
+    /** Nur für Tests und Fehlerberichte — angezeigt wird der übersetzte Text. */
+    message: string,
+    readonly detail?: string,
+  ) {
+    super(message);
+    this.name = 'CodecError';
+  }
+}
 
 const MODES: SplitMode[] = ['equal', 'shares', 'percent', 'exact'];
 
@@ -58,7 +88,7 @@ function fromBase64Url(text: string): Uint8Array {
   try {
     binary = atob(padded + '='.repeat((4 - (padded.length % 4)) % 4));
   } catch {
-    throw new CodecError('Der Link ist beschädigt — er enthält ungültige Zeichen.');
+    throw new CodecError('garbled', 'Der Link enthält ungültige Zeichen.');
   }
   const out = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) out[i] = binary.charCodeAt(i);
@@ -104,19 +134,19 @@ function packLedger(ledger: Ledger): unknown[] {
 }
 
 function expectArray(value: unknown, what: string): unknown[] {
-  if (!Array.isArray(value)) throw new CodecError(`Der Link ist unvollständig (${what} fehlt).`);
+  if (!Array.isArray(value)) throw new CodecError('garbled', `${what} fehlt.`, what);
   return value;
 }
 
 function expectNumber(value: unknown, what: string): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) {
-    throw new CodecError(`Der Link ist beschädigt (${what} ist keine Zahl).`);
+    throw new CodecError('garbled', `${what} ist keine Zahl.`, what);
   }
   return value;
 }
 
 function expectString(value: unknown, what: string): string {
-  if (typeof value !== 'string') throw new CodecError(`Der Link ist beschädigt (${what} fehlt).`);
+  if (typeof value !== 'string') throw new CodecError('garbled', `${what} fehlt.`, what);
   return value;
 }
 
@@ -124,10 +154,7 @@ function unpackLedger(raw: unknown): Ledger {
   const a = expectArray(raw, 'Abrechnung');
   const version = expectNumber(a[0], 'Formatversion');
   if (version > LEDGER_VERSION) {
-    throw new CodecError(
-      `Dieser Link wurde mit einer neueren Fassung von Collective-Calc erstellt (Format ${version}). ` +
-        'Lade die Seite neu, um die aktuelle Fassung zu bekommen.',
-    );
+    throw new CodecError('newerFormat', `Format ${version} ist neuer als ${LEDGER_VERSION}.`);
   }
 
   const names = expectArray(a[5], 'Personen').map((x, i) => expectString(x, `Name ${i + 1}`));
@@ -142,7 +169,7 @@ function unpackLedger(raw: unknown): Ledger {
     } else {
       const list = expectArray(rawWeights, `Aufteilung der Ausgabe ${i + 1}`);
       if (list.length !== people.length) {
-        throw new CodecError(`Der Link ist beschädigt (Aufteilung der Ausgabe ${i + 1} passt nicht zur Gruppe).`);
+        throw new CodecError('garbled', `Aufteilung der Ausgabe ${i + 1} passt nicht zur Gruppe.`);
       }
       weights = Object.fromEntries(
         people.map((p, idx) => [p.id, expectNumber(list[idx], `Gewicht ${idx + 1}`)]),
@@ -151,7 +178,7 @@ function unpackLedger(raw: unknown): Ledger {
 
     const payerIdx = expectNumber(e[2], `Zahler der Ausgabe ${i + 1}`);
     const payer = people[payerIdx];
-    if (!payer) throw new CodecError(`Der Link ist beschädigt (Zahler der Ausgabe ${i + 1} unbekannt).`);
+    if (!payer) throw new CodecError('garbled', `Zahler der Ausgabe ${i + 1} unbekannt.`);
 
     const modeIdx = expectNumber(e[4], `Aufteilungsart der Ausgabe ${i + 1}`);
     const entry: Entry = {
@@ -237,10 +264,7 @@ function unpackResult(raw: unknown): ResultView {
   const a = expectArray(raw, 'Ergebnis');
   const version = expectNumber(a[0], 'Formatversion');
   if (version > LEDGER_VERSION) {
-    throw new CodecError(
-      `Dieser Link wurde mit einer neueren Fassung von Collective-Calc erstellt (Format ${version}). ` +
-        'Lade die Seite neu, um die aktuelle Fassung zu bekommen.',
-    );
+    throw new CodecError('newerFormat', `Format ${version} ist neuer als ${LEDGER_VERSION}.`);
   }
   const names = expectArray(a[3], 'Personen').map((x, i) => expectString(x, `Name ${i + 1}`));
 
@@ -256,12 +280,12 @@ function unpackResult(raw: unknown): ResultView {
     };
   });
   if (summaries.length !== names.length) {
-    throw new CodecError('Der Link ist beschädigt (Salden passen nicht zur Personenliste).');
+    throw new CodecError('garbled', 'Salden passen nicht zur Personenliste.');
   }
 
   const inRange = (i: number): number => {
     if (!Number.isInteger(i) || i < 0 || i >= names.length) {
-      throw new CodecError('Der Link ist beschädigt (verweist auf eine unbekannte Person).');
+      throw new CodecError('garbled', 'Verweis auf eine unbekannte Person.');
     }
     return i;
   };
@@ -301,12 +325,12 @@ export type DecodedLink =
 
 export async function decodeLink(fragment: string): Promise<DecodedLink> {
   const text = fragment.startsWith('#') ? fragment.slice(1) : fragment;
-  if (text.length === 0) throw new CodecError('Der Link enthält keine Abrechnung.');
+  if (text.length === 0) throw new CodecError('empty', 'Der Link enthält keine Abrechnung.');
 
   const kindChar = text[0];
   const payload = text.slice(1);
   if (kindChar !== 'f' && kindChar !== 'r') {
-    throw new CodecError('Der Link gehört nicht zu Collective-Calc.');
+    throw new CodecError('notOurs', 'Der Link gehört nicht zu Collective-Calc.');
   }
 
   let json: string;
@@ -314,17 +338,14 @@ export async function decodeLink(fragment: string): Promise<DecodedLink> {
     json = new TextDecoder().decode(await inflate(fromBase64Url(payload)));
   } catch (err) {
     if (err instanceof CodecError) throw err;
-    throw new CodecError(
-      'Der Link ist unvollständig — vermutlich wurde er beim Verschicken abgeschnitten. ' +
-        'Lass ihn dir noch einmal schicken.',
-    );
+    throw new CodecError('truncated', 'Der komprimierte Inhalt liess sich nicht entpacken.');
   }
 
   let raw: unknown;
   try {
     raw = JSON.parse(json);
   } catch {
-    throw new CodecError('Der Link ist beschädigt und konnte nicht gelesen werden.');
+    throw new CodecError('garbled', 'Der Inhalt ist kein gültiges JSON.');
   }
 
   if (kindChar === 'f') return { kind: 'full', ledger: unpackLedger(raw) };

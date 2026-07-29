@@ -37,6 +37,7 @@ export const en: Messages = {
   'entry.paidBy': 'Paid by',
   'entry.add': 'Add',
   'entry.unnamed': 'Expense',
+  'entry.recentDescriptions': 'Recently used',
   'entry.saved': '{amount} · {description} · paid by {payer}',
   'entry.savedNoDescription': '{amount} · paid by {payer}',
   'entry.undo': 'Undo',
@@ -136,6 +137,19 @@ export const en: Messages = {
   'error.brokenLinkTitle': 'The link could not be read',
   'error.brokenLink':
     'This link could not be read. It was probably cut short when it was sent — ask for it again.',
+  'error.link.empty': 'There is no settlement in this link.',
+  'error.link.notOurs': 'This link does not belong to Collective-Calc.',
+  'error.link.truncated':
+    'The link is incomplete — it was probably cut short when it was sent. Ask for it again.',
+  'error.link.garbled': 'The contents of this link do not make a valid settlement. Ask for it again.',
+  'error.link.newerFormat':
+    'This link was created with a newer version of Collective-Calc. Reload the page to get the current version.',
+  'error.file.notALedger': 'This file contains no settlement.',
+  'error.file.noVersion': 'This file carries no format version and did not come from Collective-Calc.',
+  'error.file.newerFormat':
+    'This file was created with a newer version of Collective-Calc. Reload the page to get the current version.',
+  'error.file.incomplete': 'This settlement is incomplete.',
+  'error.file.noPath': 'There is no upgrade path for this format. Please report this case.',
 
   'a11y.amountField': 'Amount in {currency}',
   'a11y.balancePositive': 'Credit',
