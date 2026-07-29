@@ -103,6 +103,8 @@ export const de = {
   'result.transfer': '{from} überweist {amount} an {to}', // ⚠️
   'result.noTransfers': 'Alles ausgeglichen — niemand schuldet jemandem etwas.',
   'result.paidAndShare': 'ausgelegt {paid} · Anteil {share}', // ⚠️
+  'result.repaidOut': 'zurückgezahlt {amount}', // ⚠️
+  'result.repaidIn': 'erhalten {amount}', // ⚠️
   'result.exactValue': 'Genau: {value}',
   'result.exactHint': 'Angezeigte Anteile sind gerundet. Tippe eine Zahl an für den genauen Wert.',
   'result.transferCount': { one: '{count} Überweisung', other: '{count} Überweisungen' },

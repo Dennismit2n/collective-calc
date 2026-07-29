@@ -380,6 +380,44 @@ button.tight {
   padding-left: 12px;
   padding-right: 12px;
 }
+
+button.link.marked {
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------- Aufteilung */
+
+.split-editor {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  margin-top: 2px;
+}
+
+.person-values {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+.person-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.person-value span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.person-value input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 10px;
+  min-height: var(--tap);
+  width: 100%;
+}
 .capture-inner {
   max-width: 720px;
   margin: 0 auto;

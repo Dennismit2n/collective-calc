@@ -92,13 +92,26 @@ export const LEDGER_VERSION = 1;
 // Ergebnisse der Berechnung
 // ---------------------------------------------------------------------------
 
-/** Was eine Person ausgelegt hat und was ihr Anteil war — für den Ergebnis-Link (F10). */
+/**
+ * Was eine Person ausgelegt hat und was ihr Anteil war — für den Ergebnis-Link (F10).
+ *
+ * Ausgaben und Rückzahlungen werden getrennt ausgewiesen. Beides zusammenzuwerfen
+ * wäre rechnerisch richtig und trotzdem irreführend: Wer eine Rückzahlung erhält,
+ * hätte plötzlich einen viel größeren „Anteil an den Ausgaben", obwohl er nichts
+ * mehr verbraucht hat. Die Nachprüfbarkeit im Kopf lautet damit:
+ *
+ *     ausgelegt − Anteil + zurückgezahlt − erhalten = Saldo
+ */
 export interface PersonSummary {
   personId: PersonId;
-  /** Summe aller Beträge, die diese Person ausgelegt hat (inkl. Rückzahlungen). */
+  /** Summe der Ausgaben, die diese Person ausgelegt hat. Ohne Rückzahlungen. */
   paid: Cent;
-  /** Exakter Anteil, auf ganze Cent zur Null hin abgeschnitten — nur zur Anzeige. */
+  /** Anteil an den Ausgaben, zur Null hin abgeschnitten. Ohne Rückzahlungen. */
   share: Cent;
+  /** Was diese Person an andere zurückgezahlt hat. */
+  repaidOut: Cent;
+  /** Was diese Person von anderen zurückbekommen hat. */
+  repaidIn: Cent;
   /**
    * Saldo in ganzen Cent, zur Null hin abgeschnitten.
    * Positiv = bekommt Geld, negativ = schuldet Geld.

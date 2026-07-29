@@ -94,6 +94,19 @@ export function checkSettlement(ledger: Ledger, settlement: Settlement): Invaria
     problems.push(`(5) Offener Rest ${open} Cent übersteigt die Grenze von ${n - 1} Cent.`);
   }
 
+  // (9) Die angezeigten Zahlen müssen im Kopf zum Saldo führen (F10):
+  //     ausgelegt − Anteil + zurückgezahlt − erhalten = Saldo.
+  //     Weil Anteil und Saldo unabhängig voneinander abgeschnitten werden, darf
+  //     das Ergebnis um höchstens einen Cent danebenliegen.
+  for (const s of settlement.summaries) {
+    const derived = s.paid - s.share + s.repaidOut - s.repaidIn;
+    if (Math.abs(derived - s.balance) > 1) {
+      problems.push(
+        `(9) ${s.personId}: angezeigte Zahlen ergeben ${derived}, der Saldo ist aber ${s.balance}.`,
+      );
+    }
+  }
+
   // Zusatz: Ein Saldo darf nie weiter als 1 Cent vom exakten Wert abweichen.
   for (const s of settlement.summaries) {
     const exact = balance.get(s.personId);

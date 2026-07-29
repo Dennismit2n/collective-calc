@@ -76,6 +76,28 @@ describe('goldene Fälle', () => {
     expect(checkSettlement(l, s).problems).toEqual([]);
   });
 
+  it('Rückzahlungen erscheinen getrennt vom Anteil an den Ausgaben', () => {
+    // Sonst hätte Anna nach einer erhaltenen Rückzahlung plötzlich einen viel
+    // größeren „Anteil an den Ausgaben", obwohl sie nichts mehr verbraucht hat.
+    const p = people('Anna', 'Ben');
+    const l = ledger(p, [
+      entry(1000, 'p1', equalWeights(p)), // Anna legt 10 € aus, je 5 €
+      entry(300, 'p2', { p1: 1 }, { kind: 'repayment' }), // Ben zahlt 3 € zurück
+    ]);
+    const s = settle(l);
+    const anna = s.summaries[0]!;
+    const ben = s.summaries[1]!;
+
+    expect(anna).toMatchObject({ paid: 1000, share: 500, repaidOut: 0, repaidIn: 300, balance: 200 });
+    expect(ben).toMatchObject({ paid: 0, share: 500, repaidOut: 300, repaidIn: 0, balance: -200 });
+
+    // Die Zahlen müssen sich im Kopf zum Saldo zusammenrechnen lassen.
+    for (const x of [anna, ben]) {
+      expect(x.paid - x.share + x.repaidOut - x.repaidIn).toBe(x.balance);
+    }
+    expect(checkSettlement(l, s).problems).toEqual([]);
+  });
+
   it('eine vollständig beglichene Gruppe erzeugt keine Überweisung', () => {
     const p = people('Anna', 'Ben');
     const l = ledger(p, [entry(500, 'p1', { p1: 1 })]);

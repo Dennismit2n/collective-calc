@@ -18,7 +18,9 @@ import type { Ledger } from '../core/types.js';
 import type { Translator } from '../i18n/index.js';
 import { formatAmount, parseAmount } from '../core/amount.js';
 import type { NewEntry } from '../app/state.js';
-import { equalWeights, recentDescriptions } from '../app/state.js';
+import { recentDescriptions } from '../app/state.js';
+import type { SplitState } from './SplitEditor.js';
+import { initialSplit, SplitEditor, toWeights } from './SplitEditor.js';
 
 interface Props {
   ledger: Ledger;
@@ -32,8 +34,9 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
   const [amountText, setAmountText] = useState('');
   const [description, setDescription] = useState('');
   const [payerId, setPayerId] = useState<string | null>(null);
-  const [excluded, setExcluded] = useState<Set<string>>(new Set());
+  const [split, setSplit] = useState<SplitState>(initialSplit);
   const [showSplit, setShowSplit] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const amountRef = useRef<HTMLInputElement>(null);
 
   const people = ledger.people;
@@ -45,38 +48,39 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
     if (payerId && !people.some((p) => p.id === payerId)) setPayerId(null);
   }, [people, payerId]);
 
-  const participants = people.filter((p) => !excluded.has(p.id));
-  const canSubmit = parsed !== null && effectivePayer !== null && participants.length > 0;
+  const canSubmit = parsed !== null && effectivePayer !== null;
 
   function submit(event: Event): void {
     event.preventDefault();
     if (!canSubmit || !parsed || !effectivePayer) return;
-    const weights = equalWeights(ledger);
-    for (const id of excluded) weights[id] = 0;
+
+    const result = toWeights(split, people, parsed.cents, t, ledger.currency);
+    if ('error' in result) {
+      // Aufteilung geht nicht auf — Feld offen lassen und sagen, was fehlt,
+      // statt still etwas anderes einzutragen, als der Nutzer meinte.
+      setError(result.error);
+      setShowSplit(true);
+      return;
+    }
 
     onAdd({
       amount: parsed.cents,
       payerId: effectivePayer,
-      weights,
+      weights: result.weights,
       description,
-      mode: excluded.size > 0 ? 'shares' : 'equal',
+      mode: split.mode,
     });
 
     setAmountText('');
     setDescription('');
-    setExcluded(new Set());
+    setSplit(initialSplit());
     setShowSplit(false);
+    setError(null);
     amountRef.current?.focus();
   }
 
-  function toggleExcluded(id: string): void {
-    const next = new Set(excluded);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    setExcluded(next);
-  }
-
   const suggestions = recentDescriptions(ledger);
+  const splitChanged = split.mode !== 'equal' || split.excluded.size > 0;
 
   return (
     <form class="capture" onSubmit={submit}>
@@ -122,11 +126,13 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
           </span>
           <button
             type="button"
-            class="link small"
+            class={'link small' + (splitChanged ? ' marked' : '')}
             onClick={() => setShowSplit(!showSplit)}
             aria-expanded={showSplit}
           >
-            {t.t('split.change')}
+            {/* Sichtbar machen, dass eine abweichende Aufteilung eingestellt ist —
+                sonst trägt jemand fünf Ausgaben mit einer alten Einstellung ein. */}
+            {splitChanged ? `${t.t('split.change')} •` : t.t('split.change')}
           </button>
         </div>
 
@@ -150,22 +156,18 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
         </div>
 
         {showSplit && (
-          <div class="line">
-            <span class="small muted nowrap">{t.t('split.participants')}</span>
-            <div class="chips oneline" role="group" aria-label={t.t('split.participants')}>
-              {people.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  class={'chip' + (excluded.has(p.id) ? ' off' : '')}
-                  aria-pressed={!excluded.has(p.id)}
-                  onClick={() => toggleExcluded(p.id)}
-                >
-                  {p.name}
-                </button>
-              ))}
-            </div>
-          </div>
+          <SplitEditor
+            people={people}
+            state={split}
+            onChange={(next) => {
+              setSplit(next);
+              setError(null);
+            }}
+            t={t}
+            currency={ledger.currency}
+            amountCents={parsed?.cents ?? 0}
+            error={error}
+          />
         )}
 
         {suggestions.length > 0 && description === '' && (

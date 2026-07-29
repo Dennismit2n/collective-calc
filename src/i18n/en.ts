@@ -81,6 +81,8 @@ export const en: Messages = {
   'result.transfer': '{from} transfers {amount} to {to}',
   'result.noTransfers': 'All settled — nobody owes anybody anything.',
   'result.paidAndShare': 'paid {paid} · share {share}',
+  'result.repaidOut': 'repaid {amount}',
+  'result.repaidIn': 'received {amount}',
   'result.exactValue': 'Exactly: {value}',
   'result.exactHint': 'Shares shown are rounded. Tap a number for the exact value.',
   'result.transferCount': { one: '{count} transfer', other: '{count} transfers' },

@@ -15,6 +15,7 @@ import { useState } from 'preact/hooks';
 import type { Ledger, Settlement } from '../core/types.js';
 import type { Translator } from '../i18n/index.js';
 import { formatAmount, formatExact, formatSigned } from '../core/amount.js';
+import { summaryText } from './summaryText.js';
 
 const WHEEL_URL = 'https://dennismit2n.github.io/dreh-das-rad/';
 
@@ -22,9 +23,20 @@ interface Props {
   ledger: Ledger;
   settlement: Settlement;
   t: Translator;
+  /**
+   * Trägt eine Überweisung als geleistet ein (F6).
+   *
+   * Die Beschriftung lautet bewusst **„als bezahlt eintragen"** und nicht
+   * „erledigt": Da nur der Kassenwart schreibt, kann die App gar nicht wissen,
+   * ob überwiesen wurde. Der Haken protokolliert eine Handlung des Kassenwarts —
+   * er behauptet nichts über die Welt.
+   *
+   * Fehlt die Funktion (etwa in einer geteilten Ansicht), erscheint kein Knopf.
+   */
+  onMarkPaid?: (fromId: string, toId: string, amount: number) => void;
 }
 
-export function ResultScreen({ ledger, settlement, t }: Props) {
+export function ResultScreen({ ledger, settlement, t, onMarkPaid }: Props) {
   const [exactFor, setExactFor] = useState<string | null>(null);
   const nameOf = (id: string): string => ledger.people.find((p) => p.id === id)?.name ?? '?';
   const money = (c: number): string => formatAmount(c, t.locale, ledger.currency);
@@ -53,9 +65,7 @@ export function ResultScreen({ ledger, settlement, t }: Props) {
                   <th scope="row" style="font-weight:600">
                     {nameOf(s.personId)}
                   </th>
-                  <td class="small muted num">
-                    {t.t('result.paidAndShare', { paid: money(s.paid), share: money(s.share) })}
-                  </td>
+                  <td class="small muted num">{summaryText(s, t, money)}</td>
                   <td class={'amount num ' + (zero ? 'muted' : positive ? 'credit' : 'debit')}>
                     <button
                       type="button"
@@ -127,9 +137,28 @@ export function ResultScreen({ ledger, settlement, t }: Props) {
                     to: nameOf(tr.toId),
                   })}
                 </span>
+                {onMarkPaid && (
+                  <button
+                    type="button"
+                    class="link small no-print"
+                    aria-label={`${t.t('result.transfer', {
+                      from: nameOf(tr.fromId),
+                      amount: money(tr.amount),
+                      to: nameOf(tr.toId),
+                    })} — ${t.t('repayment.markPaid')}`}
+                    onClick={() => onMarkPaid(tr.fromId, tr.toId, tr.amount)}
+                  >
+                    {t.t('repayment.markPaid')}
+                  </button>
+                )}
               </li>
             ))}
           </ol>
+        )}
+        {onMarkPaid && settlement.transfers.length > 0 && (
+          <p class="small muted" style="margin:10px 0 0">
+            {t.t('repayment.hint')}
+          </p>
         )}
       </section>
 

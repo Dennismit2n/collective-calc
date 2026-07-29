@@ -17,6 +17,7 @@ import type { Ledger, Settlement } from '../core/types.js';
 import type { Translator } from '../i18n/index.js';
 import { formatAmount, formatSigned } from '../core/amount.js';
 import { ResultScreen } from './ResultScreen.js';
+import { summaryText } from './summaryText.js';
 
 const WHEEL_URL = 'https://dennismit2n.github.io/dreh-das-rad/';
 
@@ -50,11 +51,9 @@ export function SharedResult({ result, t }: { result: ResultView; t: Translator 
                   <th scope="row" style="font-weight:600">
                     {name(i)}
                   </th>
-                  {/* Die zwei Zusatzzahlen aus F10 — damit jeder seinen Saldo im Kopf
+                  {/* Die Zusatzzahlen aus F10 — damit jeder seinen Saldo im Kopf
                       nachrechnen kann, statt ihn glauben zu müssen. */}
-                  <td class="small muted num">
-                    {t.t('result.paidAndShare', { paid: money(s.paid), share: money(s.share) })}
-                  </td>
+                  <td class="small muted num">{summaryText(s, t, money)}</td>
                   <td class={'amount num ' + (zero ? 'muted' : positive ? 'credit' : 'debit')}>
                     <span class="small" style="font-weight:400">
                       {zero ? t.t('result.settled') : positive ? t.t('result.getsShort') : t.t('result.owesShort')}{' '}

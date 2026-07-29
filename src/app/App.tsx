@@ -224,7 +224,10 @@ export function App({ store }: { store: AppStore }) {
       {/* Rückgängig-Streifen und Erfassungszeile teilen sich einen festen Bereich am
           unteren Rand. Vorher schwebte der Streifen frei über dem Inhalt und verdeckte
           dabei ausgerechnet den Ergebnis-Knopf. */}
-      {ledger !== null && view === 'event' && incoming.status === 'none' && (
+      {/* Die Leiste erscheint auch ohne Erfassungszeile, sobald es etwas
+          rückgängig zu machen gibt — sonst hätte eine im Ergebnis eingetragene
+          Rückzahlung keinen Rückweg. */}
+      {ledger !== null && incoming.status === 'none' && (view === 'event' || store.state.undo !== null) && (
         <div class="bottom" ref={bottomRef}>
           {store.state.undo && (
             <div class="toast" role="status">
@@ -234,6 +237,7 @@ export function App({ store }: { store: AppStore }) {
               </button>
             </div>
           )}
+          {view === 'event' && (
           <CaptureBar
             ledger={ledger}
             t={t}
@@ -255,6 +259,7 @@ export function App({ store }: { store: AppStore }) {
               });
             }}
           />
+          )}
         </div>
       )}
     </div>
@@ -551,7 +556,31 @@ function ResultView({
         </section>
       ) : (
         <>
-          <ResultScreen ledger={ledger} settlement={settlement} t={t} />
+          <ResultScreen
+            ledger={ledger}
+            settlement={settlement}
+            t={t}
+            onMarkPaid={(fromId, toId, amount) => {
+              store.clearUndo();
+              const next = addEntry(ledger, {
+                amount,
+                payerId: fromId,
+                weights: { [toId]: 1 },
+                description: '',
+                mode: 'exact',
+                kind: 'repayment',
+              });
+              const created = next.entries[next.entries.length - 1]!;
+              store.write(next, {
+                label: t.t('result.transfer', {
+                  from: ledger.people.find((p) => p.id === fromId)?.name ?? '?',
+                  amount: formatAmount(amount, t.locale, ledger.currency),
+                  to: ledger.people.find((p) => p.id === toId)?.name ?? '?',
+                }),
+                restore: () => store.write(removeEntry(store.current ?? ledger, created.id)),
+              });
+            }}
+          />
           <ShareSheet
             ledger={ledger}
             settlement={settlement}

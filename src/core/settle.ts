@@ -153,7 +153,7 @@ function partitionIntoZeroSumGroups(values: number[]): number[] | undefined {
  * und den offen bleibenden Rest.
  */
 export function settle(ledger: Ledger, options: { forceGreedy?: boolean } = {}): Settlement {
-  const { balance, paid, share, totalExpenses } = computeBalances(ledger);
+  const { balance, paid, share, repaidOut, repaidIn, totalExpenses } = computeBalances(ledger);
 
   const order = new Map<PersonId, number>();
   ledger.people.forEach((p, i) => order.set(p.id, i));
@@ -256,6 +256,8 @@ export function settle(ledger: Ledger, options: { forceGreedy?: boolean } = {}):
       personId: p.id,
       paid: paid.get(p.id) ?? 0,
       share: Number(truncToward0(sh)),
+      repaidOut: repaidOut.get(p.id) ?? 0,
+      repaidIn: repaidIn.get(p.id) ?? 0,
       balance: Number(truncToward0(exact)),
       exactBalance: { n: exact.n.toString(), d: exact.d.toString() },
     };

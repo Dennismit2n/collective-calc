@@ -14,10 +14,14 @@ import { ZERO, add, fromInt, rat, sub } from './rational.js';
 export interface ExactBalances {
   /** Exakter Saldo je Person in Cent. Positiv = bekommt, negativ = schuldet. */
   balance: Map<PersonId, Rat>;
-  /** Was jede Person tatsächlich ausgelegt hat, in ganzen Cent. */
+  /** Was jede Person an **Ausgaben** ausgelegt hat, in ganzen Cent. */
   paid: Map<PersonId, Cent>;
-  /** Exakter Anteil je Person in Cent. */
+  /** Exakter Anteil je Person an den **Ausgaben**, in Cent. */
   share: Map<PersonId, Rat>;
+  /** Was jede Person an andere zurückgezahlt hat. */
+  repaidOut: Map<PersonId, Cent>;
+  /** Was jede Person von anderen zurückbekommen hat. */
+  repaidIn: Map<PersonId, Cent>;
   /** Summe aller Ausgaben ohne Rückzahlungen. */
   totalExpenses: Cent;
 }
@@ -86,19 +90,25 @@ export function computeBalances(ledger: Ledger): ExactBalances {
   const balance = new Map<PersonId, Rat>();
   const share = new Map<PersonId, Rat>();
   const paid = new Map<PersonId, Cent>();
+  const repaidOut = new Map<PersonId, Cent>();
+  const repaidIn = new Map<PersonId, Cent>();
   for (const p of ledger.people) {
     balance.set(p.id, ZERO);
     share.set(p.id, ZERO);
     paid.set(p.id, 0);
+    repaidOut.set(p.id, 0);
+    repaidIn.set(p.id, 0);
   }
 
   let totalExpenses = 0;
 
   for (const entry of ledger.entries) {
-    if (entry.kind === 'expense') totalExpenses += entry.amount;
+    const isExpense = entry.kind === 'expense';
+    if (isExpense) totalExpenses += entry.amount;
 
-    // Der Zahler hat den vollen Betrag ausgelegt.
-    paid.set(entry.payerId, (paid.get(entry.payerId) ?? 0) + entry.amount);
+    // Der Zahler hat den vollen Betrag ausgelegt beziehungsweise zurückgezahlt.
+    if (isExpense) paid.set(entry.payerId, (paid.get(entry.payerId) ?? 0) + entry.amount);
+    else repaidOut.set(entry.payerId, (repaidOut.get(entry.payerId) ?? 0) + entry.amount);
     balance.set(entry.payerId, add(balance.get(entry.payerId) ?? ZERO, fromInt(entry.amount)));
 
     // Und jede beteiligte Person trägt ihren Gewichtsanteil.
@@ -107,10 +117,11 @@ export function computeBalances(ledger: Ledger): ExactBalances {
     for (const [pid, w] of Object.entries(entry.weights)) {
       if (w === 0) continue;
       const part = rat(amount * BigInt(w), total);
-      share.set(pid, add(share.get(pid) ?? ZERO, part));
+      if (isExpense) share.set(pid, add(share.get(pid) ?? ZERO, part));
+      else repaidIn.set(pid, (repaidIn.get(pid) ?? 0) + Number(part.n / part.d));
       balance.set(pid, sub(balance.get(pid) ?? ZERO, part));
     }
   }
 
-  return { balance, paid, share, totalExpenses };
+  return { balance, paid, share, repaidOut, repaidIn, totalExpenses };
 }

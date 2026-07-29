@@ -205,7 +205,7 @@ export interface ResultView {
   title: string;
   currency: string;
   names: string[];
-  summaries: Array<{ paid: number; share: number; balance: number }>;
+  summaries: Array<{ paid: number; share: number; repaidOut: number; repaidIn: number; balance: number }>;
   transfers: Array<{ from: number; to: number; amount: number }>;
   remainders: Array<{ person: number; amount: number; direction: 'receives-less' | 'pays-less' }>;
   totalExpenses: number;
@@ -224,7 +224,7 @@ export async function encodeResult(view: ResultView): Promise<string> {
     view.title,
     view.currency,
     view.names,
-    view.summaries.map((s) => [s.paid, s.share, s.balance]),
+    view.summaries.map((s) => [s.paid, s.share, s.balance, s.repaidOut, s.repaidIn]),
     view.transfers.map((t) => [t.from, t.to, t.amount]),
     view.remainders.map((r) => [r.person, r.amount, r.direction === 'receives-less' ? 0 : 1]),
     view.totalExpenses,
@@ -250,6 +250,9 @@ function unpackResult(raw: unknown): ResultView {
       paid: expectNumber(s[0], `Auslage ${i + 1}`),
       share: expectNumber(s[1], `Anteil ${i + 1}`),
       balance: expectNumber(s[2], `Saldo ${i + 1}`),
+      // Rückzahlungen kamen mit Format 1 dazu; fehlen sie, sind sie null.
+      repaidOut: typeof s[3] === 'number' ? s[3] : 0,
+      repaidIn: typeof s[4] === 'number' ? s[4] : 0,
     };
   });
   if (summaries.length !== names.length) {
@@ -336,7 +339,13 @@ export function toResultView(ledger: Ledger, settlement: import('./types.js').Se
     title: ledger.title,
     currency: ledger.currency,
     names: ledger.people.map((p) => p.name),
-    summaries: settlement.summaries.map((s) => ({ paid: s.paid, share: s.share, balance: s.balance })),
+    summaries: settlement.summaries.map((s) => ({
+      paid: s.paid,
+      share: s.share,
+      repaidOut: s.repaidOut,
+      repaidIn: s.repaidIn,
+      balance: s.balance,
+    })),
     transfers: settlement.transfers.map((t) => ({ from: at(t.fromId), to: at(t.toId), amount: t.amount })),
     remainders: settlement.remainders.map((r) => ({
       person: at(r.personId),
