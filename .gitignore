@@ -1,6 +1,9 @@
 node_modules/
 dist/
 .vite/
+.stryker-tmp/
+stryker/
+reports/
 *.local
 .DS_Store
 Thumbs.db

@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": [
+    "Mutationstest (F21).",
+    "",
+    "Eine gruene Testsuite beweist nur, dass sie gelaufen ist. Dieser Lauf baut",
+    "absichtlich kleine Fehler in den Rechenkern ein - aus einem Plus wird ein",
+    "Minus, aus 'groesser' wird 'groesser gleich' - und misst, wie viele davon die",
+    "Tests bemerken. Das Ergebnis ist die einzige belastbare Aussage ueber die",
+    "Guete der Tests, die sich in ein README schreiben laesst.",
+    "",
+    "Mutiert wird nur die Geldlogik. Oberflaeche und Codec stehen bewusst nicht",
+    "drin: Dort waere der Lauf teuer und die Aussage duenn."
+  ],
+  "packageManager": "npm",
+  "testRunner": "vitest",
+  "_comment_tsconfig": [
+    "Stryker schreibt normalerweise die tsconfig.json in seiner Arbeitskopie um und",
+    "benutzt dafuer eine JavaScript-Schnittstelle, die TypeScript 7 nicht mehr hat.",
+    "Wir brauchen das Umschreiben gar nicht: Vitest uebersetzt die Dateien selbst,",
+    "und der Typecheck laeuft ohnehin getrennt. Also zeigen wir auf eine Datei,",
+    "die es nicht gibt - dann laesst Stryker die Finger davon."
+  ],
+  "tsconfigFile": "tsconfig.stryker-unused.json",
+  "reporters": ["progress", "clear-text", "html"],
+  "htmlReporter": { "fileName": "stryker/index.html" },
+  "coverageAnalysis": "perTest",
+  "mutate": [
+    "src/core/rational.ts",
+    "src/core/balances.ts",
+    "src/core/settle.ts",
+    "src/core/amount.ts",
+    "src/core/currency.ts",
+    "src/core/invariants.ts"
+  ],
+  "_comment_thresholds": [
+    "Gemessen wurden 86,35 %. Die Bruchgrenze liegt knapp darunter: Sie soll einen",
+    "Rueckschritt melden, aber nicht bei jeder Kleinigkeit rot werden. Ein rotes",
+    "Ergebnis, das man wegklickt, ist schlechter als gar keins."
+  ],
+  "thresholds": { "high": 95, "low": 85, "break": 84 },
+  "timeoutMS": 20000,
+  "tempDirName": ".stryker-tmp",
+  "cleanTempDir": true
+}

@@ -109,7 +109,14 @@ export function formatSigned(cents: Cent, locale: string, currency: string): str
 export function formatExact(n: string, d: string, locale: string): string {
   const num = BigInt(n);
   const den = BigInt(d);
-  if (den === 1n) return new Intl.NumberFormat(locale).format(Number(num) / 100);
+  // Beide Zweige formatieren gleich: Der Wert steht neben einem Geldbetrag,
+  // da wären „10" hier und „10,00" dort ein sichtbarer Bruch.
+  if (den === 1n) {
+    return new Intl.NumberFormat(locale, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 6,
+    }).format(Number(num) / 100);
+  }
 
   const negative = num < 0n;
   const abs = negative ? -num : num;

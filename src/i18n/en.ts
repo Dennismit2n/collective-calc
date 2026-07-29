@@ -66,6 +66,10 @@ export const en: Messages = {
   'currency.rate': 'Rate',
   'currency.converted': '{foreign} at rate {rate} = {amount}',
   'currency.changeWarning': 'Switching converts nothing — it only changes the currency symbol shown.',
+  'currency.other': 'Other …',
+  'currency.otherPlaceholder': 'e.g. RON',
+  'currency.unsupported':
+    'Collective-Calc works in hundredths. Currencies without a minor unit — such as yen or won — are therefore not possible.',
 
   'result.heading': 'Result',
   'result.columnPerson': 'Person',

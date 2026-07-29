@@ -76,6 +76,38 @@ describe('Betrag eingeben', () => {
     expect(formatAmount(parsed!.cents, 'de-DE', 'EUR')).toContain('12.345,00');
   });
 
+  it('behandelt Trennzeichen an ungewöhnlichen Stellen', () => {
+    expect(parseAmount('12,')?.cents).toBe(1200); // abgebrochene Eingabe
+    expect(parseAmount('12.')?.cents).toBe(1200);
+    expect(parseAmount('.234')).toBeNull(); // führendes Trennzeichen ist nicht eindeutig
+    expect(parseAmount('1.234.567')?.cents).toBe(123456700); // zwei Tausendertrenner
+    expect(parseAmount('1,234,567')?.cents).toBe(123456700);
+    // "1.234.56" ist eine krumme Schreibweise, aber die wohlwollende Lesart ist
+    // eindeutig: Tausendertrennung plus zwei Nachkommastellen.
+    expect(parseAmount('1.234.56')?.cents).toBe(123456);
+  });
+
+  it('unterscheidet ein und zwei Nachkommastellen', () => {
+    expect(parseAmount('5,5')?.cents).toBe(550);
+    expect(parseAmount('5,05')?.cents).toBe(505);
+    expect(parseAmount('5,50')?.cents).toBe(550);
+    expect(parseAmount('0,01')?.cents).toBe(1);
+  });
+
+  it('verkraftet große Beträge', () => {
+    expect(parseAmount('999.999,99')?.cents).toBe(99999999);
+    expect(parseAmount('1.000.000')?.cents).toBe(100000000);
+  });
+
+  it('erkennt jede Deutung eindeutig', () => {
+    // Jede der vier Deutungen muss auch wirklich vorkommen können —
+    // sonst wäre die Rückmeldung an den Nutzer teilweise toter Code.
+    const deutungen = new Set(
+      ['12', '12,50', '12.50', '1.500'].map((x) => parseAmount(x)?.interpretation),
+    );
+    expect(deutungen).toEqual(new Set(['plain', 'decimal-comma', 'decimal-dot', 'grouped']));
+  });
+
   it('erzeugt nie einen Betrag, der nicht ganzzahlig in Cent ist', () => {
     fc.assert(
       fc.property(fc.string({ maxLength: 20 }), (text) => {
@@ -118,5 +150,26 @@ describe('Betrag anzeigen', () => {
     expect(formatExact('2000', '3', 'de-DE')).toContain('6,66');
     expect(formatExact('666', '1', 'de-DE')).toBe('6,66');
     expect(formatExact('-2000', '3', 'de-DE')).toMatch(/^−/);
+  });
+
+  it('zeigt beim Exaktwert genug Stellen, um die Rundung zu erklären', () => {
+    // Der ganze Zweck des Exaktwerts ist, den fehlenden Cent sichtbar zu machen.
+    // Eine Anzeige mit nur zwei Nachkommastellen täte das nicht.
+    const exakt = formatExact('2000', '3', 'de-DE');
+    expect(exakt).toMatch(/6,6666/);
+    expect(formatExact('0', '1', 'de-DE')).toBe('0,00');
+    expect(formatExact('666', '1', 'de-DE')).toBe('6,66');
+    expect(formatExact('-1', '3', 'de-DE')).toMatch(/^−0,00/);
+  });
+
+  it('formatiert glatte und krumme Werte gleich', () => {
+    // Der Exaktwert steht direkt neben einem Geldbetrag — „10" hier und „10,00"
+    // dort wäre ein sichtbarer Bruch.
+    expect(formatExact('1000', '1', 'de-DE')).toBe('10,00');
+    expect(formatExact('1000', '2', 'de-DE')).toBe('5,00');
+  });
+
+  it('folgt auch beim Exaktwert der Sprache des Lesers', () => {
+    expect(formatExact('2000', '3', 'en-US')).toContain('6.66');
   });
 });

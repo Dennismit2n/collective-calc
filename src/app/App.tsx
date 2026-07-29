@@ -32,7 +32,7 @@ import type { DecodedLink } from '../core/codec.js';
 import { CodecError, decodeLink } from '../core/codec.js';
 import { shouldAskForBackup } from '../core/storage.js';
 import { downloadFile, safeFileName, toJson } from '../core/exportFile.js';
-import { COMMON_CURRENCIES } from '../core/currency.js';
+import { CurrencyPicker } from '../ui/CurrencyPicker.js';
 
 type View = 'event' | 'result' | 'list';
 
@@ -426,26 +426,15 @@ function EventView({ store, ledger, t, newName, setNewName, onShowResult }: Even
           {t.t('event.count', { count: expenses.length })}
           {expenses.length > 0 ? ` · ${t.t('event.total')} ${money(total)}` : ''}
         </span>
-        <label class="skip" for="currency">
-          {t.t('currency.label')}
-        </label>
-        <select
+        <CurrencyPicker
           id="currency"
           value={ledger.currency}
-          onChange={(e) => {
+          t={t}
+          onChange={(currency) => {
             store.clearUndo();
-            store.write({ ...ledger, currency: (e.target as HTMLSelectElement).value });
+            store.write({ ...ledger, currency });
           }}
-        >
-          {(COMMON_CURRENCIES as readonly string[]).includes(ledger.currency)
-            ? null
-            : <option value={ledger.currency}>{ledger.currency}</option>}
-          {COMMON_CURRENCIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+        />
       </div>
       {/* Ein Wechsel rechnet nichts um. Das muss dastehen, statt still zu passieren (F16). */}
       {ledger.entries.length > 0 && (

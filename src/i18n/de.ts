@@ -85,6 +85,10 @@ export const de = {
   'currency.converted': '{foreign} zum Kurs {rate} = {amount}', // ⚠️
   'currency.changeWarning':
     'Ein Wechsel rechnet nichts um — er ändert nur das angezeigte Währungszeichen.',
+  'currency.other': 'Andere …',
+  'currency.otherPlaceholder': 'z. B. RON',
+  'currency.unsupported':
+    'Collective-Calc rechnet in Hundertsteln. Währungen ohne Untereinheit — etwa Yen oder Won — sind deshalb nicht möglich.',
 
   // --- Ergebnis ⚠️ ---
   'result.heading': 'Ergebnis',

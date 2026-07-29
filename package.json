@@ -11,10 +11,13 @@
     "preview": "vite preview --port 8618",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:mutation": "stryker run",
     "typecheck": "tsc -b --noEmit"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.6",
+    "@stryker-mutator/core": "^9.6.1",
+    "@stryker-mutator/vitest-runner": "^9.6.1",
     "fast-check": "^4.9.0",
     "typescript": "^7.0.2",
     "vite": "^8.1.5",

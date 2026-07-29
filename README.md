@@ -69,9 +69,42 @@ und bietet den Export der Rohdaten an. Halb richtige Beträge wären schlimmer a
 | Offener Rest bei 6 Personen / 40 Ausgaben (2.000 Durchläufe) | in 62,5 % der Fälle, ⌀ 0,76 Cent, max. 3 Cent |
 | Exakter Ausgleich, 16 Personen, Zufallsdaten | 0,9 ms |
 | Exakter Ausgleich, 16 Personen, ungünstigster Fall | 5,5 ms |
+| Linklänge Urlaubswoche (6 Personen, 40 Ausgaben) | 779 Zeichen vollständig · 284 Zeichen als Ergebnis |
+| Linklänge Großgruppe (15 Personen, 200 Ausgaben) | 3.238 Zeichen vollständig · 492 Zeichen als Ergebnis |
 
-Die Messungen laufen als Test mit (`src/core/measurements.test.ts`), damit sie nicht
-irgendwann still nicht mehr stimmen.
+Die Messungen laufen als Test mit (`src/core/measurements.test.ts`, `src/core/codec.test.ts`),
+damit sie nicht irgendwann still nicht mehr stimmen.
+
+### Haben die Tests Zähne?
+
+Eine grüne Testsuite beweist nur, dass sie gelaufen ist. Deshalb läuft ein **Mutationstest**
+über die Geldlogik: Er baut absichtlich kleine Fehler ein — aus einem Plus wird ein Minus, aus
+„größer" wird „größer gleich" — und misst, wie viele davon die Tests bemerken.
+
+```bash
+npm run test:mutation
+```
+
+| Datei | erkannt |
+|---|---|
+| `settle.ts` — Rundung, offener Rest, Ausgleich | **95,2 %** |
+| `rational.ts` — exakte Bruchrechnung | 93,1 % |
+| `invariants.ts` | 85,9 % |
+| `balances.ts` | 85,7 % |
+| `amount.ts` — Betragseingabe | 75,7 % |
+| `currency.ts` — Umrechnung | 70,9 % |
+| **gesamt** | **86,4 %** |
+
+Der erste Lauf lag bei 82,5 % und hat zwei echte Mängel aufgedeckt: eine Handvoll
+Bruchrechnungs-Funktionen, die nie jemand aufrief und die deshalb gelöscht wurden statt
+nachträglich getestet zu werden — und die Erkenntnis, dass die Kurzliste der Währungen den
+ungarischen Forint enthielt, der keine Untereinheit hat. Jeder Betrag wäre dort um den Faktor
+hundert daneben gewesen. Ein Test prüft die Liste jetzt gegen dieselbe Regel wie das Freifeld.
+
+Die verbleibenden überlebenden Mutanten sind zu einem guten Teil gleichwertig: Änderungen, die
+sich am beobachtbaren Verhalten nicht auswirken, etwa doppelte Absicherungen, bei denen der
+zweite Wächter greift, wenn man den ersten entfernt. Sie ließen sich nur mit Tests „töten", die
+allein dafür geschrieben wären — und solche Tests messen dann sich selbst statt der Software.
 
 ## Entwicklung
 

@@ -54,31 +54,8 @@ export function sub(a: Rat, b: Rat): Rat {
   return rat(a.n * b.d - b.n * a.d, a.d * b.d);
 }
 
-export function mul(a: Rat, b: Rat): Rat {
-  return rat(a.n * b.n, a.d * b.d);
-}
-
-/** a / b */
-export function div(a: Rat, b: Rat): Rat {
-  if (b.n === 0n) throw new Error('rational: Division durch 0');
-  return rat(a.n * b.d, a.d * b.n);
-}
-
-export function neg(a: Rat): Rat {
-  return a.n === 0n ? ZERO : { n: -a.n, d: a.d };
-}
-
 export function isZero(a: Rat): boolean {
   return a.n === 0n;
-}
-
-/** -1, 0 oder 1 */
-export function sign(a: Rat): -1 | 0 | 1 {
-  return a.n === 0n ? 0 : a.n < 0n ? -1 : 1;
-}
-
-export function eq(a: Rat, b: Rat): boolean {
-  return a.n === b.n && a.d === b.d;
 }
 
 /** -1 wenn a < b, 0 bei Gleichheit, 1 wenn a > b */
@@ -88,8 +65,8 @@ export function cmp(a: Rat, b: Rat): -1 | 0 | 1 {
   return l === r ? 0 : l < r ? -1 : 1;
 }
 
-export function abs(a: Rat): Rat {
-  return a.n < 0n ? neg(a) : a;
+function abs(a: Rat): Rat {
+  return a.n < 0n ? { n: -a.n, d: a.d } : a;
 }
 
 /**
@@ -112,11 +89,12 @@ export function truncatedPart(a: Rat): Rat {
   return abs(sub(a, { n: t, d: 1n }));
 }
 
-/** Nur für Anzeige und Tests — niemals als Rechengrundlage weiterverwenden. */
-export function toNumber(a: Rat): number {
-  return Number(a.n) / Number(a.d);
-}
-
-export function toString(a: Rat): string {
-  return a.d === 1n ? a.n.toString() : `${a.n}/${a.d}`;
-}
+/*
+ * Bewusst nicht vorhanden: mul, div, neg, sign, eq, toNumber, toString.
+ *
+ * Die hatte ich zunächst mitgeschrieben, weil sie zu einer Bruchrechnung
+ * „dazugehören". Der Mutationstest hat gezeigt, dass sie kein Test je erreicht —
+ * schlicht weil sie niemand aufruft. Ungenutzter Code in einem Werkzeug, dessen
+ * Verkaufsargument Schlankheit ist, gehört gelöscht und nicht nachträglich
+ * getestet. Wer sie später braucht, schreibt sie mitsamt Test wieder hin.
+ */
