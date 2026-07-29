@@ -23,11 +23,8 @@ Collective-Calc nachweislich tut.
 > 🔗 dennismit2n.github.io/collective-calc
 > Kostenlos. Quelloffen. Fragt dich nie nach Kontodaten.
 >
-> #ausgabenteilen #urlaubmitfreunden #wgleben #reisen #kostenlosetools #openpource
+> #ausgabenteilen #urlaubmitfreunden #wgleben #reisen #kostenlosetools #opensource
 > #datenschutz #webdev #kleinetools #madeingermany
-
-**Hashtag-Korrektur:** `#openpource` ist ein Tippfehler — richtig ist `#opensource`.
-(Absichtlich hier stehengelassen, damit du ihn nicht versehentlich mitkopierst.)
 
 ---
 
