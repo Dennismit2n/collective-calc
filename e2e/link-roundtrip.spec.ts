@@ -30,6 +30,23 @@ test('eine Abrechnung überlebt den Weg durch einen geteilten Link', async ({ pa
   // Konfiguration auf Deutsch, also muss die Oberfläche deutsch sein.
   await expect(page.getByText('Wer schuldet wem was?')).toBeVisible();
 
+  /*
+   * Der Sprung zur Erfassung (F26).
+   *
+   * Zwei Dinge auf einmal: dass die Hauptfunktion für Tastaturnutzer in zwei
+   * Sprüngen erreichbar ist — sonst wären es bei vierzig Ausgaben über fünfzig —
+   * und dass der Sprung **den Anker der Adresse nicht anfasst**. Ein
+   * `href="#…"` tat genau das, und die App hielt den Anker prompt für einen
+   * geteilten Link und zeigte den Fehlerbildschirm.
+   */
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: 'Zur Erfassung springen' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('textbox', { name: /^Betrag in/ })).toBeFocused();
+  expect(new URL(page.url()).hash).toBe('');
+  await expect(page.locator('.notice.warn')).toHaveCount(0);
+
   // --- Gruppe anlegen ------------------------------------------------------
   for (const name of PEOPLE) {
     await page.getByPlaceholder('Vorname').fill(name);

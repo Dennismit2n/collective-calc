@@ -188,6 +188,7 @@ export const de = {
   'a11y.balanceNegative': 'Schuld',
   'a11y.savedAnnouncement': 'Gespeichert: {text}',
   'a11y.skipToContent': 'Zum Inhalt springen',
+  'a11y.skipToCapture': 'Zur Erfassung springen',
 } as const;
 
 export type MessageKey = keyof typeof de;

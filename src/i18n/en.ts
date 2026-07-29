@@ -156,4 +156,5 @@ export const en: Messages = {
   'a11y.balanceNegative': 'Debt',
   'a11y.savedAnnouncement': 'Saved: {text}',
   'a11y.skipToContent': 'Skip to content',
+  'a11y.skipToCapture': 'Skip to the entry form',
 };

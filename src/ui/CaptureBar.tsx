@@ -101,11 +101,12 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
   const splitChanged = split.mode !== 'equal' || split.excluded.size > 0;
 
   return (
-    <form class="capture" onSubmit={submit}>
+    <form class="capture" id="erfassung" onSubmit={submit}>
       <div class="capture-inner">
         <div class="line">
           <input
             ref={amountRef}
+            id="erfassung-betrag"
             class="amount num"
             type="text"
             inputMode="decimal"

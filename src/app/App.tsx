@@ -45,6 +45,33 @@ type Incoming =
   /** Der rohe Fehler, nicht sein Text — übersetzt wird erst beim Zeichnen. */
   | { status: 'error'; error: unknown };
 
+/**
+ * Sieht das nach einer geteilten Abrechnung aus?
+ *
+ * Zweiter Wächter neben den Sprung-Knöpfen: Auch ein von irgendwoher
+ * hereingereichter Anker — ein Lesezeichen, ein Verweis aus einem fremden
+ * Dokument — darf die App nicht in den Fehlerbildschirm schicken. Nur `f` und
+ * `r` sind unsere Linkarten.
+ */
+function looksLikeSharedLink(hash: string): boolean {
+  const text = hash.startsWith('#') ? hash.slice(1) : hash;
+  return text.length > 1 && (text[0] === 'f' || text[0] === 'r');
+}
+
+/**
+ * Setzt den Fokus auf ein Element, ohne die Adresse anzufassen.
+ * Nicht fokussierbare Ziele — etwa `<main>` — bekommen ihn vorübergehend.
+ */
+function focusById(id: string): void {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (!el.hasAttribute('tabindex') && !el.matches('a,button,input,select,textarea')) {
+    el.setAttribute('tabindex', '-1');
+  }
+  el.focus();
+  el.scrollIntoView({ block: 'nearest' });
+}
+
 /** Erzwingt ein Neuzeichnen, wenn sich der Zustand ändert. */
 function useStore(store: AppStore): void {
   const [, force] = useState(0);
@@ -57,7 +84,7 @@ export function App({ store }: { store: AppStore }) {
   const [newName, setNewName] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
   const [incoming, setIncoming] = useState<Incoming>(() =>
-    window.location.hash.length > 1 ? { status: 'loading' } : { status: 'none' },
+    looksLikeSharedLink(window.location.hash) ? { status: 'loading' } : { status: 'none' },
   );
 
   /*
@@ -70,7 +97,7 @@ export function App({ store }: { store: AppStore }) {
    */
   useEffect(() => {
     const onHashChange = (): void => {
-      setIncoming(window.location.hash.length > 1 ? { status: 'loading' } : { status: 'none' });
+      setIncoming(looksLikeSharedLink(window.location.hash) ? { status: 'loading' } : { status: 'none' });
     };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
@@ -131,9 +158,29 @@ export function App({ store }: { store: AppStore }) {
 
   return (
     <div class="app">
-      <a class="skip" href="#main">
+      {/*
+       * Sprunganker als Knöpfe, nicht als Verweise.
+       *
+       * Ein `href="#irgendwas"` schreibt in den Anker der Adresse — und genau
+       * dort liegt bei diesem Werkzeug die geteilte Abrechnung. Ein Klick auf
+       * „Zum Inhalt springen" hätte die App also für einen geteilten Link
+       * gehalten und den Fehlerbildschirm gezeigt. Ein Knopf, der den Fokus
+       * selbst setzt, kommt ohne die Adresse aus.
+       *
+       * Der zweite Anker stammt aus dem Durchlauf von Hand (F26): Die
+       * Erfassungszeile steht in der Tabulator-Reihenfolge ganz hinten, weil sie
+       * unten liegt. Bei vierzig Ausgaben wären das über fünfzig Sprünge bis zur
+       * Hauptfunktion — jede Ausgabe schiebt einen Löschen-Knopf dazwischen.
+       * Kein automatisches Prüfwerkzeug meldet das.
+       */}
+      <button type="button" class="skip" onClick={() => focusById('main')}>
         {t.t('a11y.skipToContent')}
-      </a>
+      </button>
+      {ledger !== null && view === 'event' && incoming.status === 'none' && (
+        <button type="button" class="skip" onClick={() => focusById('erfassung-betrag')}>
+          {t.t('a11y.skipToCapture')}
+        </button>
+      )}
 
       <header class="top">
         <div class="brand">

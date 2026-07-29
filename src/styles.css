@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Gestaltung (F24): Charakter ruhig und sachlich, Mittel aus dem System der
  * Startseite dennismit2n.github.io. Farbwerte übernommen, Kachelfarbe #4ade80 —
  * der einzige Bereich des Farbkreises, den die fünf vorhandenen Tools frei lassen.
@@ -102,18 +102,28 @@ body {
   border-radius: 6px;
 }
 
+/* Sprung-Knöpfe: unsichtbar, bis sie den Fokus haben. Als <button>, nicht als
+   <a href="#…"> — der Anker der Adresse gehört bei diesem Werkzeug den
+   geteilten Abrechnungen. */
 .skip {
   position: absolute;
   left: -9999px;
+  min-height: 0;
 }
 .skip:focus {
   left: 8px;
   top: 8px;
   z-index: 50;
   background: var(--panel);
+  border: 1px solid var(--border);
   padding: 10px 14px;
   border-radius: 8px;
   box-shadow: var(--shadow);
+}
+/* Ein Ziel, das nur zum Fokussieren einen tabindex bekommt, soll keinen
+   Rahmen zeigen — der Fokus ist dort ein Hilfsmittel, kein Bedienelement. */
+main:focus {
+  outline: none;
 }
 
 /* ---------------------------------------------------------------- Aufbau */

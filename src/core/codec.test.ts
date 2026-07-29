@@ -11,6 +11,7 @@ import fc from 'fast-check';
 
 import { CodecError, decodeLink, encodeLedger, encodeResult, toResultView } from './codec.js';
 import { settle } from './settle.js';
+import { checkSettlement } from './invariants.js';
 import type { Entry, Ledger } from './types.js';
 import { LEDGER_VERSION } from './types.js';
 
@@ -112,6 +113,45 @@ describe('Rundweg', () => {
       }),
       { numRuns: 150 },
     );
+  });
+});
+
+describe('ein echter, von der Oberfläche erzeugter Link', () => {
+  /*
+   * Nicht konstruiert, sondern am 29.07.2026 im gebauten Stand von Hand erfasst
+   * und über "Abrechnung übergeben" geteilt.
+   *
+   * Solche Links liegen nach dem Launch in fremden Chatverläufen und müssen dort
+   * beliebig lange funktionieren — sie sind laut F8 ausdrücklich die Sicherung.
+   * Dieser Test ist damit der Wächter gegen jeden künftigen Formatbruch: Er
+   * scheitert, sobald eine Änderung alte Links unlesbar machen würde.
+   */
+  const ECHTER_LINK =
+    'fbc67CsJAEIXhd5l6suyZvWVTay2INlm2MBK8RFOoeX-JGgQN0_7fYRKY9g90p3g-EhMxLbdrYhItvtChkLjRqIytEJRFrIkTLdq-P92JaXXdUeaUNMOZyPp1dBhuXfszIRVcBSgP1CPRLCaESTSXoWnmhPEqQr6iZLwF5D_344-Q-MnLYOyUWzeXGygXdU05s-Qn';
+
+  it('lässt sich lesen und ergibt die erwartete Abrechnung', async () => {
+    const decoded = await decodeLink(ECHTER_LINK);
+    expect(decoded.kind).toBe('full');
+    if (decoded.kind !== 'full') return;
+
+    const l = decoded.ledger;
+    expect(l.people.map((p) => p.name)).toEqual(['Dennis', 'Oma']);
+    expect(l.currency).toBe('EUR');
+    expect(l.entries.map((e) => [e.description, e.amount])).toEqual([
+      ['gurke', 1539],
+      ['blubb', 2377],
+      ['12', 2378],
+      ['45', 8734],
+    ]);
+
+    // Dennis legt 15,39 + 23,77 = 39,16 aus, Oma 23,78 + 87,34 = 111,12.
+    // Zusammen 150,28, je zur Hälfte 75,14 — glatt, also bleibt kein Rest offen.
+    const s = settle(l);
+    expect(s.totalExpenses).toBe(15028);
+    expect(s.summaries.map((x) => x.balance)).toEqual([-3598, 3598]);
+    expect(s.transfers).toEqual([{ fromId: 'p1', toId: 'p2', amount: 3598 }]);
+    expect(s.remainders).toEqual([]);
+    expect(checkSettlement(l, s).problems).toEqual([]);
   });
 });
 
