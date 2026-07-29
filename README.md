@@ -6,7 +6,7 @@ Eine Gruppe gibt gemeinsam Geld aus: Urlaub, Ferienhaus, Junggesellenabschied, F
 Restaurantabend. Collective-Calc rechnet aus, wer wem wie viel schuldet, und schickt das
 Ergebnis als Link an alle — die brauchen weder ein Konto noch eine Installation, um es zu sehen.
 
-> Status: in Arbeit. Noch nicht veröffentlicht.
+**→ [dennismit2n.github.io/collective-calc](https://dennismit2n.github.io/collective-calc/)**
 
 ## Was dieses Tool anders macht
 
@@ -106,15 +106,74 @@ sich am beobachtbaren Verhalten nicht auswirken, etwa doppelte Absicherungen, be
 zweite Wächter greift, wenn man den ersten entfernt. Sie ließen sich nur mit Tests „töten", die
 allein dafür geschrieben wären — und solche Tests messen dann sich selbst statt der Software.
 
+## Barrierefreiheit
+
+Zielmarke ist **WCAG 2.1 Stufe AA**. Was dafür getan wurde, und was nicht:
+
+**Automatisch geprüft** — axe läuft im Browser-Test über die Ergebnisansicht und die
+geteilte Ansicht, in hellem *und* dunklem Farbschema. Keine Verstöße gegen A und AA.
+Diese Prüfung findet erfahrungsgemäß etwa ein Drittel der Probleme.
+
+**Von Hand geprüft** (Stand 29.07.2026, Chromium unter Windows 11):
+
+- Vollständiger Durchlauf mit der Tastatur. Ergebnis: Die Erfassungszeile stand an
+  Position 20 der Reihenfolge — bei vierzig Ausgaben wären es über fünfzig Sprünge
+  bis zur Hauptfunktion gewesen. Ein zweiter Sprunganker „Zur Erfassung springen"
+  wurde ergänzt und ist per Browser-Test abgesichert.
+- Sichtbare Fokusumrandung an allen Bedienelementen, geprüft.
+- Antippbare Flächen mindestens 44 Pixel.
+
+**Was in der Gestaltung festliegt:**
+
+- Farbe trägt Bedeutung, steht aber **nie allein**: Guthaben und Schuld sind zusätzlich
+  durch Vorzeichen und Wort unterschieden. Das Rot-Grün-Paar kommt nirgends vor.
+- Zahlen stehen in gleicher Ziffernbreite, damit sich Beträge in Spalten vergleichen lassen.
+- Die Sprachkennung der Seite wird beim Umschalten mitgeführt, damit Vorleseprogramme
+  richtig aussprechen.
+- Der Rückgängig-Streifen verschwindet **nicht nach Zeit**, sondern erst bei der nächsten
+  Handlung. Ein Zeitfenster hätte ausgerechnet die Nutzer benachteiligt, die es am
+  dringendsten brauchen.
+- Die Textalternative eines QR-Codes ist der Link selbst, nicht das Wort „QR-Code".
+
+**Was offen ist:** Ein Durchlauf mit einem echten Vorleseprogramm (NVDA, VoiceOver) steht
+aus. Die Auszeichnung ist darauf ausgelegt — Meldebereiche für die Bestätigungszeile,
+echte Tabellenauszeichnung mit Kopfzellen im Ergebnis —, aber geprüft ist sie nur über
+den Barrierefreiheitsbaum, nicht durch Hören.
+
+## Woran gemessen wird, ob das Tool benutzt wird
+
+Festgelegt am **29.07.2026**, vor der Veröffentlichung. Nachträglich gesetzte Ziele werden
+immer erreicht, deshalb steht die Messlatte hier und nicht später.
+
+| Kennzahl | Untergrenze |
+|---|---|
+| Besucher, die mindestens eine Ausgabe erfassen | 20 % |
+| davon: teilen einen Link | 10 % |
+| Öffnungen je geteiltem Ergebnis-Link | über 1,5 |
+| **mehrtägige Anlässe im dritten Monat** | **mindestens einer pro Woche** |
+
+Die letzte Zeile entscheidet. Wird sie erreicht, benutzen echte Gruppen das Werkzeug im
+Alltag. Wird sie verfehlt, während die oberen drei stimmen, ist ein gutes Werkzeug
+entstanden, das Leute ausprobieren und nicht behalten — dann liegt die Antwort nicht in
+mehr Funktionen, sondern in der Frage, warum sie am zweiten Tag nicht wiederkommen.
+
+Die Zahlen sind Schätzungen, keine Vergleichswerte aus dem Markt.
+
 ## Entwicklung
 
 ```bash
 npm install
-npm run dev        # Entwicklungsserver auf Port 8618
-npm test           # Testsuite
-npm run typecheck  # TypeScript ohne Ausgabe
-npm run build      # Auslieferungsstand nach dist/
+npm run dev            # Entwicklungsserver auf Port 8618
+npm test               # Einheitentests
+npm run test:e2e       # Browser-Test samt Barrierefreiheitsprüfung
+npm run test:mutation  # misst, ob die Tests etwas merken (~2 Minuten)
+npm run typecheck      # TypeScript ohne Ausgabe
+npm run build          # Auslieferungsstand nach dist/
 ```
+
+Typecheck, Einheitentests und Browser-Test laufen bei jedem Push über GitHub Actions, und
+**die Auslieferung hängt daran**: Was die Geldlogik nicht besteht, geht nicht live. Der
+Mutationstest läuft wöchentlich und auf Zuruf — er ist eine Messung, kein Wächter.
 
 ## Was gezählt wird
 

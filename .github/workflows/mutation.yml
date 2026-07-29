@@ -1,0 +1,35 @@
+# Mutationstest — nicht bei jedem Push.
+#
+# Der Lauf dauert rund zwei Minuten und ist eine Messung, kein Wächter: Er sagt,
+# ob die Tests überhaupt etwas merken. Ihn an jeden Push zu hängen würde die
+# Rückmeldung verlangsamen, ohne mehr auszusagen. Einmal in der Woche und auf
+# Zuruf genügt.
+name: Mutationstest
+
+on:
+  schedule:
+    # Montags früh, damit das Ergebnis zum Wochenstart dasteht.
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mutation:
+    name: Haben die Tests Zähne?
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test:mutation
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutationsbericht
+          path: stryker
+          retention-days: 30
