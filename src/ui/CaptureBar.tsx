@@ -189,27 +189,33 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
                   })
                 : ''}
           </span>
-          {foreign === null && (
-            <button type="button" class="link small" onClick={() => setForeign(firstOtherCurrency(ledger.currency))}>
-              {t.t('currency.foreign')}
+          {/* Zwei Nebenwege, als solche erkennbar gruppiert — vorher hingen sie
+              einzeln rechts in der Luft. */}
+          <span class="options">
+            {foreign === null && (
+              <button type="button" class="link small" onClick={() => setForeign(firstOtherCurrency(ledger.currency))}>
+                {t.t('currency.foreign')}
+              </button>
+            )}
+            <button
+              type="button"
+              class={'link small' + (splitChanged ? ' marked' : '')}
+              onClick={() => setShowSplit(!showSplit)}
+              aria-expanded={showSplit}
+            >
+              {/* Sichtbar machen, dass eine abweichende Aufteilung eingestellt ist —
+                  sonst trägt jemand fünf Ausgaben mit einer alten Einstellung ein. */}
+              {splitChanged ? `${t.t('split.change')} •` : t.t('split.change')}
             </button>
-          )}
-          <button
-            type="button"
-            class={'link small' + (splitChanged ? ' marked' : '')}
-            onClick={() => setShowSplit(!showSplit)}
-            aria-expanded={showSplit}
-          >
-            {/* Sichtbar machen, dass eine abweichende Aufteilung eingestellt ist —
-                sonst trägt jemand fünf Ausgaben mit einer alten Einstellung ein. */}
-            {splitChanged ? `${t.t('split.change')} •` : t.t('split.change')}
-          </button>
+          </span>
         </div>
 
-        {/* Eine Zeile, die seitlich rollt statt umzubrechen — die Höhe der Leiste
-            bleibt dadurch gleich, egal wie viele Personen dabei sind. */}
+        {/* Beschriftete Zeilen mit gleich breiter Spalte links: So ist auf einen
+            Blick klar, wozu eine Kürzelreihe gehört. Sie rollt seitlich statt
+            umzubrechen — die Höhe der Leiste bleibt gleich, egal wie viele
+            Personen dabei sind. */}
         <div class="line">
-          <span class="small muted nowrap">{t.t('entry.paidBy')}</span>
+          <span class="small muted rowlabel">{t.t('entry.paidBy')}</span>
           <div class="chips oneline" role="group" aria-label={t.t('entry.paidBy')}>
             {people.map((p) => (
               <button
@@ -241,14 +247,23 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
         )}
 
         {suggestions.length > 0 && description === '' && (
-          /* Eigene Beschriftung: Vorher trug diese Leiste dieselbe wie das
-             Eingabefeld daneben, und ein Vorleseprogramm nannte beide „Wofür?". */
-          <div class="chips oneline" role="group" aria-label={t.t('entry.recentDescriptions')}>
-            {suggestions.map((s) => (
-              <button key={s} type="button" class="chip" onClick={() => setDescription(s)}>
-                {s}
-              </button>
-            ))}
+          /*
+           * Beschriftet und optisch zurückgenommen.
+           *
+           * Vorher sahen diese Kürzel exakt aus wie die Personen darüber — „45"
+           * und „12" konnten genauso gut Namen sein. Jetzt tragen sie dieselbe
+           * Beschriftungsspalte wie die Zahler-Zeile und einen leichteren
+           * Anstrich, damit die beiden Reihen nicht mehr verwechselbar sind.
+           */
+          <div class="line">
+            <span class="small muted rowlabel">{t.t('entry.recentDescriptions')}</span>
+            <div class="chips oneline" role="group" aria-label={t.t('entry.recentDescriptions')}>
+              {suggestions.map((s) => (
+                <button key={s} type="button" class="chip ghostchip" onClick={() => setDescription(s)}>
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

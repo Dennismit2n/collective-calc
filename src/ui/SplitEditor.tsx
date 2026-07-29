@@ -150,7 +150,7 @@ export function SplitEditor({ people, state, onChange, t, currency, amountCents,
 
       {state.mode === 'equal' ? (
         <div class="line" style="margin-top:8px">
-          <span class="small muted nowrap">{t.t('split.participants')}</span>
+          <span class="small muted rowlabel">{t.t('split.participants')}</span>
           <div class="chips oneline" role="group" aria-label={t.t('split.participants')}>
             {people.map((p) => (
               <button

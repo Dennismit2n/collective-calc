@@ -309,6 +309,22 @@ button.link {
   text-decoration: line-through;
 }
 
+/* Vorschläge sind Abkürzungen, keine Auswahl — deshalb nur ein Umriss.
+   Vorher sahen sie exakt aus wie die Personen darüber, und „45" oder „12"
+   konnten genauso gut Namen sein. */
+.chip.ghostchip {
+  background: transparent;
+  border-style: dashed;
+  color: var(--text-soft);
+  min-height: 38px;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+.chip.ghostchip:hover {
+  color: var(--text);
+  border-style: solid;
+}
+
 /* ---------------------------------------------------------------- Liste */
 
 ul.entries {
@@ -355,6 +371,22 @@ li.repay {
   white-space: nowrap;
 }
 
+/* Löschen ist eine Nebenhandlung und wird entsprechend gedämpft. In der
+   Akzentfarbe zog eine Reihe von „Löschen" den Blick stärker an als die
+   Beträge daneben — genau umgekehrt zur Wichtigkeit. */
+ul.entries .link,
+ol.transfers .link {
+  color: var(--text-soft);
+  text-decoration-color: var(--border);
+}
+ul.entries .link:hover,
+ul.entries .link:focus-visible,
+ol.transfers .link:hover,
+ol.transfers .link:focus-visible {
+  color: var(--link);
+  text-decoration-color: currentColor;
+}
+
 /* ---------------------------------------------------------------- Erfassung */
 
 /* Rückgängig-Streifen und Erfassungszeile teilen sich einen Bereich am unteren Rand.
@@ -389,6 +421,46 @@ li.repay {
 }
 .nowrap {
   white-space: nowrap;
+}
+
+/* Gleich breite Beschriftungsspalte: „Gezahlt von" und „Zuletzt" stehen
+   dadurch übereinander, und jede Kürzelreihe hat sichtbar eine Zugehörigkeit. */
+.rowlabel {
+  white-space: nowrap;
+  flex: 0 0 auto;
+  width: 6.8em;
+  text-align: right;
+}
+@media (max-width: 420px) {
+  .rowlabel {
+    width: 5.6em;
+    font-size: 12px;
+  }
+}
+
+/* Die beiden Nebenwege gehören zusammen und stehen deshalb als Gruppe.
+   Gedämpft statt grün: In derselben Farbe wie „Eintragen" haben sie mit dem
+   Hauptweg um Aufmerksamkeit konkurriert, obwohl sie Ausnahmen sind. */
+.options {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.options .link {
+  color: var(--text-soft);
+  text-decoration-color: var(--border);
+}
+.options .link:hover,
+.options .link:focus-visible {
+  color: var(--link);
+  text-decoration-color: currentColor;
+}
+/* Eine abweichende Aufteilung bleibt trotzdem sichtbar — sonst trägt jemand
+   fünf Ausgaben mit einer alten Einstellung ein, ohne es zu merken. */
+.options .link.marked {
+  color: var(--link);
+  text-decoration-color: currentColor;
 }
 .chips.oneline {
   flex-wrap: nowrap;
