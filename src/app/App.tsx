@@ -28,6 +28,9 @@ import { ShareSheet } from '../ui/ShareSheet.js';
 import { SharedLedger, SharedResult } from '../ui/SharedView.js';
 import type { DecodedLink } from '../core/codec.js';
 import { CodecError, decodeLink } from '../core/codec.js';
+import { shouldAskForBackup } from '../core/storage.js';
+import { downloadFile, safeFileName, toJson } from '../core/exportFile.js';
+import { COMMON_CURRENCIES } from '../core/currency.js';
 
 type View = 'event' | 'result' | 'list';
 
@@ -383,10 +386,38 @@ function EventView({ store, ledger, t, newName, setNewName, onShowResult }: Even
           }}
         />
       </h1>
-      <p class="small muted num">
-        {t.t('event.count', { count: expenses.length })}
-        {expenses.length > 0 ? ` · ${t.t('event.total')} ${money(total)}` : ''}
-      </p>
+      <div class="line" style="margin-bottom:4px">
+        <span class="small muted num grow">
+          {t.t('event.count', { count: expenses.length })}
+          {expenses.length > 0 ? ` · ${t.t('event.total')} ${money(total)}` : ''}
+        </span>
+        <label class="skip" for="currency">
+          {t.t('currency.label')}
+        </label>
+        <select
+          id="currency"
+          value={ledger.currency}
+          onChange={(e) => {
+            store.clearUndo();
+            store.write({ ...ledger, currency: (e.target as HTMLSelectElement).value });
+          }}
+        >
+          {(COMMON_CURRENCIES as readonly string[]).includes(ledger.currency)
+            ? null
+            : <option value={ledger.currency}>{ledger.currency}</option>}
+          {COMMON_CURRENCIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+      </div>
+      {/* Ein Wechsel rechnet nichts um. Das muss dastehen, statt still zu passieren (F16). */}
+      {ledger.entries.length > 0 && (
+        <p class="small muted" style="margin:0 0 8px">
+          {t.t('currency.changeWarning')}
+        </p>
+      )}
 
       <section class="card" aria-labelledby="people-heading">
         <h2 id="people-heading">{t.t('people.heading')}</h2>
@@ -446,6 +477,56 @@ function EventView({ store, ledger, t, newName, setNewName, onShowResult }: Even
         </p>
       </section>
 
+      {/*
+       * Die Sicherungsaufforderung (F9).
+       *
+       * Sie tritt deutlich auf, aber **genau einmal je Anlass** — erst wenn wirklich
+       * etwas zu verlieren ist und nur solange nie geteilt wurde. Der Abend-Fall mit
+       * zwei Ausgaben sieht sie nie. Von innen heraus kann die App nichts gegen das
+       * Aufräumen des Browsers tun; der einzige echte Schutz ist, dass die Daten
+       * woanders liegen.
+       */}
+      {shouldAskForBackup({
+        entryCount: ledger.entries.length,
+        everShared: store.state.shared.has(ledger.id),
+        alreadyAsked: store.wasBackupAsked(ledger.id),
+      }) && (
+        <section class="notice" aria-labelledby="backup-heading">
+          <h2 id="backup-heading" class="plain">
+            {t.t('backup.heading')}
+          </h2>
+          <p style="margin:0 0 10px">{t.t('backup.body')}</p>
+          <div class="row">
+            <button
+              type="button"
+              class="primary"
+              onClick={() => {
+                store.markBackupAsked(ledger.id);
+                onShowResult();
+              }}
+            >
+              {t.t('backup.share')}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                downloadFile(
+                  safeFileName(displayTitle(ledger, t), 'json'),
+                  toJson(ledger),
+                  'application/json',
+                );
+                store.markBackupAsked(ledger.id);
+              }}
+            >
+              {t.t('backup.download')}
+            </button>
+            <button type="button" class="ghost" onClick={() => store.markBackupAsked(ledger.id)}>
+              {t.t('backup.later')}
+            </button>
+          </div>
+        </section>
+      )}
+
       {ledger.people.length < 2 && <p class="notice">{t.t('people.needTwo')}</p>}
 
       <section class="card" aria-labelledby="entries-heading">
@@ -474,6 +555,18 @@ function EventView({ store, ledger, t, newName, setNewName, onShowResult }: Even
                     </span>
                     <span class="entry-meta">
                       {t.t('entry.paidBy')} {payer} · {involved}/{ledger.people.length}
+                      {/* Der Kurs gehört sichtbar an die Ausgabe — sonst steht da
+                          nach drei Tagen eine Zahl, deren Herkunft niemand kennt. */}
+                      {e.fx && (
+                        <>
+                          {' · '}
+                          {t.t('currency.converted', {
+                            foreign: formatAmount(e.fx.foreignAmount, t.locale, e.fx.currency),
+                            rate: e.fx.rate,
+                            amount: formatAmount(e.amount, t.locale, ledger.currency),
+                          })}
+                        </>
+                      )}
                     </span>
                   </span>
                   <span class="entry-amount num">{money(e.amount)}</span>

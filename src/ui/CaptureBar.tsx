@@ -21,6 +21,12 @@ import type { NewEntry } from '../app/state.js';
 import { recentDescriptions } from '../app/state.js';
 import type { SplitState } from './SplitEditor.js';
 import { initialSplit, SplitEditor, toWeights } from './SplitEditor.js';
+import { COMMON_CURRENCIES, convert } from '../core/currency.js';
+
+/** Die erste gängige Währung, die nicht die Abrechnungswährung ist. */
+function firstOtherCurrency(settlement: string): string {
+  return COMMON_CURRENCIES.find((c) => c !== settlement) ?? 'CHF';
+}
 
 interface Props {
   ledger: Ledger;
@@ -37,24 +43,33 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
   const [split, setSplit] = useState<SplitState>(initialSplit);
   const [showSplit, setShowSplit] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [foreign, setForeign] = useState<string | null>(null);
+  const [rateText, setRateText] = useState('');
   const amountRef = useRef<HTMLInputElement>(null);
 
   const people = ledger.people;
   const effectivePayer = payerId ?? meId ?? people[0]?.id ?? null;
   const parsed = parseAmount(amountText);
 
+  // Bei Fremdwährung ist der eingetippte Betrag der Fremdbetrag; verbindlich ist
+  // der umgerechnete. Der Kurs wird mitgespeichert, damit die Zahl nachvollziehbar
+  // bleibt und keine Genauigkeit behauptet, die es nicht gibt (F16).
+  const conversion = foreign !== null && parsed !== null ? convert(parsed.cents, rateText) : null;
+  const finalCents = foreign === null ? (parsed?.cents ?? 0) : (conversion?.cents ?? 0);
+  const activeCurrency = foreign ?? ledger.currency;
+
   // Verschwindet eine Person, darf kein Verweis auf sie hängen bleiben.
   useEffect(() => {
     if (payerId && !people.some((p) => p.id === payerId)) setPayerId(null);
   }, [people, payerId]);
 
-  const canSubmit = parsed !== null && effectivePayer !== null;
+  const canSubmit = parsed !== null && effectivePayer !== null && finalCents > 0;
 
   function submit(event: Event): void {
     event.preventDefault();
     if (!canSubmit || !parsed || !effectivePayer) return;
 
-    const result = toWeights(split, people, parsed.cents, t, ledger.currency);
+    const result = toWeights(split, people, finalCents, t, ledger.currency);
     if ('error' in result) {
       // Aufteilung geht nicht auf — Feld offen lassen und sagen, was fehlt,
       // statt still etwas anderes einzutragen, als der Nutzer meinte.
@@ -64,11 +79,14 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
     }
 
     onAdd({
-      amount: parsed.cents,
+      amount: finalCents,
       payerId: effectivePayer,
       weights: result.weights,
       description,
       mode: split.mode,
+      ...(foreign !== null && conversion !== null
+        ? { fx: { currency: foreign, foreignAmount: parsed.cents, rate: rateText.trim() } }
+        : {}),
     });
 
     setAmountText('');
@@ -93,7 +111,7 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
             inputMode="decimal"
             enterKeyHint="done"
             autocomplete="off"
-            aria-label={t.t('a11y.amountField', { currency: ledger.currency })}
+            aria-label={t.t('a11y.amountField', { currency: activeCurrency })}
             placeholder={t.t('entry.amountPlaceholder')}
             value={amountText}
             onInput={(e) => setAmountText((e.target as HTMLInputElement).value)}
@@ -116,14 +134,65 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
             Schutz gegen Zahlendreher und missverstandene Trennzeichen (F18).
             Teilt sich die Zeile mit dem Zugang zur Aufteilung, damit die Leiste
             auf einem Handy nicht die halbe Höhe frisst. */}
+        {foreign !== null && (
+          <div class="line">
+            <select
+              aria-label={t.t('currency.foreign')}
+              value={foreign}
+              onChange={(e) => setForeign((e.target as HTMLSelectElement).value)}
+            >
+              {COMMON_CURRENCIES.filter((c) => c !== ledger.currency).map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+            <input
+              class="num grow"
+              type="text"
+              inputMode="decimal"
+              autocomplete="off"
+              aria-label={t.t('currency.rate')}
+              placeholder={`1 ${foreign} = ? ${ledger.currency}`}
+              value={rateText}
+              onInput={(e) => setRateText((e.target as HTMLInputElement).value)}
+            />
+            <button
+              type="button"
+              class="link small"
+              /* „×" allein sagt einem Vorleseprogramm nichts. */
+              aria-label={`${t.t('currency.foreign')} — ${t.t('entry.delete')}`}
+              onClick={() => {
+                setForeign(null);
+                setRateText('');
+              }}
+            >
+              ×
+            </button>
+          </div>
+        )}
+
         <div class="line">
           <span class="hint num grow" aria-live="polite">
-            {parsed
-              ? t.t('entry.understoodAs', {
-                  amount: formatAmount(parsed.cents, t.locale, ledger.currency),
-                })
-              : ''}
+            {foreign !== null
+              ? conversion !== null && parsed !== null
+                ? t.t('currency.converted', {
+                    foreign: formatAmount(parsed.cents, t.locale, foreign),
+                    rate: conversion.rate.toLocaleString(t.locale, { maximumFractionDigits: 6 }),
+                    amount: formatAmount(conversion.cents, t.locale, ledger.currency),
+                  })
+                : ''
+              : parsed
+                ? t.t('entry.understoodAs', {
+                    amount: formatAmount(parsed.cents, t.locale, ledger.currency),
+                  })
+                : ''}
           </span>
+          {foreign === null && (
+            <button type="button" class="link small" onClick={() => setForeign(firstOtherCurrency(ledger.currency))}>
+              {t.t('currency.foreign')}
+            </button>
+          )}
           <button
             type="button"
             class={'link small' + (splitChanged ? ' marked' : '')}
@@ -165,7 +234,7 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
             }}
             t={t}
             currency={ledger.currency}
-            amountCents={parsed?.cents ?? 0}
+            amountCents={finalCents}
             error={error}
           />
         )}

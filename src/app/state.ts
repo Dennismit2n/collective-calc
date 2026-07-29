@@ -9,7 +9,7 @@
  * der Ablage.
  */
 
-import type { Entry, Ledger, Person, SplitMode } from '../core/types.js';
+import type { Entry, Fx, Ledger, Person, SplitMode } from '../core/types.js';
 import { LEDGER_VERSION } from '../core/types.js';
 import { Store } from '../core/storage.js';
 import type { Settings } from '../core/storage.js';
@@ -75,6 +75,8 @@ export interface NewEntry {
   description: string;
   mode: SplitMode;
   kind?: Entry['kind'];
+  /** Fremdwährungsangabe samt Kurs, falls in einer anderen Währung erfasst wurde. */
+  fx?: Fx;
 }
 
 export function addEntry(ledger: Ledger, input: NewEntry): Ledger {
@@ -87,6 +89,7 @@ export function addEntry(ledger: Ledger, input: NewEntry): Ledger {
     mode: input.mode,
     description: input.description.trim(),
     at: new Date().toISOString(),
+    ...(input.fx ? { fx: input.fx } : {}),
   };
   return { ...ledger, entries: [...ledger.entries, entry] };
 }
