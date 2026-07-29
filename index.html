@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Collective-Calc · Wer schuldet wem was?</title>
+    <meta
+      name="description"
+      content="Gruppenausgaben teilen — ohne Konto, ohne App, ohne Server. Collective-Calc rechnet aus, wer wem wie viel schuldet, und teilt das Ergebnis als Link."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#0D1226" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <script>
+      // Vor dem ersten Malen anwenden, damit es beim Laden nicht kurz aufblitzt.
+      try {
+        var s = JSON.parse(localStorage.getItem('cc.v1.settings') || '{}');
+        if (s.theme === 'light' || s.theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', s.theme);
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

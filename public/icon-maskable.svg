@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Collective-Calc">
+  <title>Collective-Calc</title>
+  <!-- Maskierbare Fassung: Das Motiv bleibt in der sicheren Zone (80 % Durchmesser),
+       damit Android es beliebig beschneiden kann, ohne es anzuschneiden. -->
+  <rect width="64" height="64" fill="#0d1226" />
+  <circle cx="32" cy="32" r="18" fill="#4ade80" />
+  <g stroke="#0d1226" stroke-width="3.6" stroke-linecap="round">
+    <path d="M32 32 L32 14" />
+    <path d="M32 32 L47.6 41" />
+    <path d="M32 32 L16.4 41" />
+  </g>
+  <circle cx="32" cy="32" r="3.2" fill="#0d1226" />
+</svg>
