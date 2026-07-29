@@ -1,0 +1,26 @@
+{
+  "name": "collective-calc",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Wer schuldet wem was? Gruppenausgaben teilen — ohne Konto, ohne App, ohne Server.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 8618",
+    "build": "tsc -b --noEmit && vite build",
+    "preview": "vite preview --port 8618",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b --noEmit"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.6",
+    "fast-check": "^4.9.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "preact": "^10.29.7"
+  }
+}
