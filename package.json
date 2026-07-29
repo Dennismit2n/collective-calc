@@ -21,6 +21,7 @@
     "vitest": "^4.1.10"
   },
   "dependencies": {
-    "preact": "^10.29.7"
+    "preact": "^10.29.7",
+    "qrcode-generator": "^2.0.4"
   }
 }

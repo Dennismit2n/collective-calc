@@ -24,8 +24,19 @@ import { formatAmount } from '../core/amount.js';
 import { createTranslator, resolveLanguage, SUPPORTED } from '../i18n/index.js';
 import { CaptureBar } from '../ui/CaptureBar.js';
 import { ResultScreen } from '../ui/ResultScreen.js';
+import { ShareSheet } from '../ui/ShareSheet.js';
+import { SharedLedger, SharedResult } from '../ui/SharedView.js';
+import type { DecodedLink } from '../core/codec.js';
+import { CodecError, decodeLink } from '../core/codec.js';
 
 type View = 'event' | 'result' | 'list';
+
+/** Was beim Öffnen im Anker der Adresse stand — ein geteilter Link, oder nichts. */
+type Incoming =
+  | { status: 'none' }
+  | { status: 'loading' }
+  | { status: 'ok'; link: DecodedLink }
+  | { status: 'error'; message: string };
 
 /** Erzwingt ein Neuzeichnen, wenn sich der Zustand ändert. */
 function useStore(store: AppStore): void {
@@ -38,6 +49,46 @@ export function App({ store }: { store: AppStore }) {
   const [view, setView] = useState<View>('event');
   const [newName, setNewName] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [incoming, setIncoming] = useState<Incoming>(() =>
+    window.location.hash.length > 1 ? { status: 'loading' } : { status: 'none' },
+  );
+
+  /*
+   * Auf Ankerwechsel horchen.
+   *
+   * Ein Wechsel des Ankers lädt die Seite **nicht** neu. Wer also einen geteilten
+   * Link in eine bereits geöffnete Fassung einfügt — oder ihn anklickt, während
+   * der Browser schon einen Tab damit offen hat —, bekäme sonst schlicht nichts
+   * zu sehen. Das ist ein realistischer Weg, keine Ausnahme.
+   */
+  useEffect(() => {
+    const onHashChange = (): void => {
+      setIncoming(window.location.hash.length > 1 ? { status: 'loading' } : { status: 'none' });
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  // Einen geteilten Link lesen. Das Entpacken ist asynchron, deshalb erst hier.
+  useEffect(() => {
+    if (incoming.status !== 'loading') return;
+    let cancelled = false;
+    void decodeLink(window.location.hash).then(
+      (link) => {
+        if (!cancelled) setIncoming({ status: 'ok', link });
+      },
+      (err: unknown) => {
+        if (cancelled) return;
+        setIncoming({
+          status: 'error',
+          message: err instanceof CodecError ? err.message : String(err),
+        });
+      },
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [incoming.status]);
 
   const settings = store.state.settings;
   const lang = resolveLanguage(settings.lang, navigator.languages ?? [navigator.language]);
@@ -128,10 +179,31 @@ export function App({ store }: { store: AppStore }) {
       </header>
 
       <main id="main">
-        {ledger === null ? (
+        {incoming.status === 'loading' ? (
+          <p class="muted">…</p>
+        ) : incoming.status === 'error' ? (
+          <section class="notice warn">
+            <h2 class="plain">{t.t('error.brokenLinkTitle')}</h2>
+            <p>{incoming.message}</p>
+            <button type="button" onClick={() => leaveSharedLink(setIncoming)}>
+              {t.t('nav.back')}
+            </button>
+          </section>
+        ) : incoming.status === 'ok' ? (
+          <IncomingLink
+            link={incoming.link}
+            t={t}
+            onAdopt={(adopted) => {
+              store.add(adopted);
+              leaveSharedLink(setIncoming);
+              setView('event');
+            }}
+            onLeave={() => leaveSharedLink(setIncoming)}
+          />
+        ) : ledger === null ? (
           <p class="muted">…</p>
         ) : view === 'result' ? (
-          <ResultView ledger={ledger} t={t} onBack={() => setView('event')} />
+          <ResultView ledger={ledger} t={t} store={store} onBack={() => setView('event')} />
         ) : (
           <EventView
             store={store}
@@ -152,7 +224,7 @@ export function App({ store }: { store: AppStore }) {
       {/* Rückgängig-Streifen und Erfassungszeile teilen sich einen festen Bereich am
           unteren Rand. Vorher schwebte der Streifen frei über dem Inhalt und verdeckte
           dabei ausgerechnet den Ergebnis-Knopf. */}
-      {ledger !== null && view === 'event' && (
+      {ledger !== null && view === 'event' && incoming.status === 'none' && (
         <div class="bottom" ref={bottomRef}>
           {store.state.undo && (
             <div class="toast" role="status">
@@ -190,6 +262,78 @@ export function App({ store }: { store: AppStore }) {
 }
 
 // ---------------------------------------------------------------------------
+
+/**
+ * Zurück aus einer geteilten Ansicht in die eigene App.
+ *
+ * Der Anker wird dabei geleert, ohne einen Eintrag in der Rückwärts-Geschichte
+ * anzulegen — sonst landet man beim Zurück-Knopf des Browsers wieder in derselben
+ * geteilten Abrechnung und kommt nicht heraus.
+ */
+function leaveSharedLink(setIncoming: (value: Incoming) => void): void {
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+  setIncoming({ status: 'none' });
+}
+
+function IncomingLink({
+  link,
+  t,
+  onAdopt,
+  onLeave,
+}: {
+  link: DecodedLink;
+  t: ReturnType<typeof createTranslator>;
+  onAdopt: (ledger: Ledger) => void;
+  onLeave: () => void;
+}) {
+  if (link.kind === 'result') {
+    return (
+      <>
+        <SharedResult result={link.result} t={t} />
+        <button type="button" class="ghost no-print" style="margin-top:12px" onClick={onLeave}>
+          {t.t('nav.back')}
+        </button>
+      </>
+    );
+  }
+
+  let settlement: Settlement | null = null;
+  let problems: string[] = [];
+  try {
+    settlement = settle(link.ledger);
+    problems = checkSettlement(link.ledger, settlement).problems;
+  } catch (err) {
+    problems = [err instanceof Error ? err.message : String(err)];
+  }
+
+  if (settlement === null || problems.length > 0) {
+    return (
+      <section class="notice warn">
+        <h2 style="margin-bottom:6px">{t.t('error.heading')}</h2>
+        <p>{t.t('error.body')}</p>
+        <details>
+          <summary>{t.t('error.details')}</summary>
+          <ul>
+            {problems.map((p, i) => (
+              <li key={i} class="small">
+                {p}
+              </li>
+            ))}
+          </ul>
+        </details>
+      </section>
+    );
+  }
+
+  return (
+    <SharedLedger
+      ledger={link.ledger}
+      settlement={settlement}
+      t={t}
+      onAdopt={() => onAdopt({ ...link.ledger, id: `${link.ledger.id}-kopie` })}
+    />
+  );
+}
 
 /**
  * Der anzuzeigende Name eines Anlasses.
@@ -364,10 +508,12 @@ function EventView({ store, ledger, t, newName, setNewName, onShowResult }: Even
 function ResultView({
   ledger,
   t,
+  store,
   onBack,
 }: {
   ledger: Ledger;
   t: ReturnType<typeof createTranslator>;
+  store: AppStore;
   onBack: () => void;
 }) {
   // Die Laufzeitprüfung aus F15: Schlägt eine Invariante an, werden **keine Zahlen**
@@ -404,7 +550,16 @@ function ResultView({
           </details>
         </section>
       ) : (
-        <ResultScreen ledger={ledger} settlement={settlement} t={t} />
+        <>
+          <ResultScreen ledger={ledger} settlement={settlement} t={t} />
+          <ShareSheet
+            ledger={ledger}
+            settlement={settlement}
+            t={t}
+            title={displayTitle(ledger, t)}
+            onShared={() => store.markShared(ledger.id)}
+          />
+        </>
       )}
     </>
   );

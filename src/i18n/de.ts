@@ -155,6 +155,7 @@ export const de = {
     'Damit keine falschen Beträge angezeigt werden, zeigt Collective-Calc hier lieber gar keine Zahlen. Deine Daten sind nicht verloren — du kannst sie herunterladen.',
   'error.exportRaw': 'Rohdaten herunterladen',
   'error.details': 'Was genau nicht stimmt',
+  'error.brokenLinkTitle': 'Der Link ließ sich nicht lesen',
   'error.brokenLink':
     'Dieser Link ließ sich nicht lesen. Vermutlich wurde er beim Verschicken abgeschnitten — lass ihn dir noch einmal schicken.',
 

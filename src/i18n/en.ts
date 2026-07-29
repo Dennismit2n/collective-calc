@@ -127,6 +127,7 @@ export const en: Messages = {
     'To avoid showing wrong amounts, Collective-Calc shows no figures at all here. Your data is not lost — you can download it.',
   'error.exportRaw': 'Download raw data',
   'error.details': 'What exactly is wrong',
+  'error.brokenLinkTitle': 'The link could not be read',
   'error.brokenLink':
     'This link could not be read. It was probably cut short when it was sent — ask for it again.',
 
