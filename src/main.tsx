@@ -16,3 +16,17 @@ const store = new AppStore(new Store(window.localStorage));
 void requestPersistentStorage();
 
 render(<App store={store} />, root);
+
+/*
+ * Service Worker nur im Auslieferungsstand (F22).
+ *
+ * Im Entwicklungsbetrieb würde er dem Nachladen von Änderungen in die Quere kommen
+ * und Fehler vortäuschen, die es gar nicht gibt.
+ */
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    void navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`, {
+      scope: import.meta.env.BASE_URL,
+    });
+  });
+}

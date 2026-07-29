@@ -318,13 +318,18 @@ li.repay {
   flex: 1;
   min-width: 0;
 }
+/* Beide sind Blöcke — als Inline-Elemente liefen Beschreibung und Zusatzzeile
+   in einer einzigen Zeile zusammen. */
 .entry-desc {
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .entry-meta {
+  display: block;
   font-size: 13px;
+  line-height: 1.35;
   color: var(--text-soft);
 }
 .entry-amount {

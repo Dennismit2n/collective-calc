@@ -13,10 +13,12 @@ import {
   addEntry,
   addPerson,
   canRemovePerson,
+  createLedger,
   removeEntry,
   removePerson,
   renamePerson,
 } from './state.js';
+import { EventList } from '../ui/EventList.js';
 import type { Ledger, Settlement } from '../core/types.js';
 import { settle } from '../core/settle.js';
 import { checkSettlement } from '../core/invariants.js';
@@ -144,6 +146,20 @@ export function App({ store }: { store: AppStore }) {
         </div>
         <span class="spacer" />
 
+        {incoming.status === 'none' && (
+          <button
+            type="button"
+            class="ghost"
+            aria-current={view === 'list' ? 'page' : undefined}
+            onClick={() => {
+              store.clearUndo();
+              setView(view === 'list' ? 'event' : 'list');
+            }}
+          >
+            {t.t('nav.events')}
+          </button>
+        )}
+
         <label class="skip" for="theme">
           {t.t('settings.theme')}
         </label>
@@ -202,6 +218,25 @@ export function App({ store }: { store: AppStore }) {
               setView('event');
             }}
             onLeave={() => leaveSharedLink(setIncoming)}
+          />
+        ) : view === 'list' ? (
+          <EventList
+            ledgers={store.state.ledgers}
+            currentId={store.state.currentId}
+            t={t}
+            displayTitle={(l) => displayTitle(l, t)}
+            broken={store.state.broken}
+            onOpen={(id) => {
+              store.open(id);
+              setView('event');
+            }}
+            onCreate={() => {
+              store.add(createLedger());
+              setView('event');
+            }}
+            onDelete={(id) => store.destroy(id)}
+            onBack={() => setView('event')}
+            onExportBroken={(raw, key) => downloadFile(`${key}.json`, raw, 'application/json')}
           />
         ) : ledger === null ? (
           <p class="muted">…</p>
