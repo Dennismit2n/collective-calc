@@ -116,6 +116,34 @@ npm run typecheck  # TypeScript ohne Ausgabe
 npm run build      # Auslieferungsstand nach dist/
 ```
 
+## Was gezählt wird
+
+Die Zählung läuft über [GoatCounter](https://www.goatcounter.com/) — ohne Kekse, ohne
+Kennung, ohne Wiedererkennung über Besuche hinweg.
+
+**Gesendet wird:** ein Seitenaufruf mit dem festen Pfad `/`, und vier benannte Zähler:
+
+| Zähler | wann |
+|---|---|
+| `erste-ausgabe` | in einem Anlass wurde zum ersten Mal etwas erfasst |
+| `geteilt` | ein Link wurde geteilt oder kopiert |
+| `ergebnis-geoeffnet` | ein geteilter Link wurde geöffnet |
+| `mehrtaegig` | ein Anlass hat an einem **späteren Kalendertag** eine weitere Ausgabe bekommen |
+
+**Nicht gesendet wird:** Beträge, Namen, Beschreibungen, Währungen, Personenzahl, die
+Kennung eines Anlasses — und vor allem nicht der Anker der Adresse, in dem bei diesem
+Werkzeug die vollständige Abrechnung steckt. Die automatische Zählung des Skripts ist
+deshalb abgeschaltet; der eine Aufruf wird von Hand mit einem festen Pfad ausgelöst.
+
+Die Entscheidung, ob etwas zählenswert ist, fällt **auf dem Gerät**. Ob ein Anlass
+mehrtägig ist, weiß nur der Browser des Nutzers; nach draußen geht ein Zähler ohne Inhalt.
+
+`mehrtaegig` ist die Leitkennzahl. Sie unterscheidet „ausprobiert" von „im Urlaub
+tatsächlich benutzt": Wer neugierig zwei Beispielausgaben eintippt, erzeugt Aufrufe, eine
+Erfassung und vielleicht sogar einen geteilten Link — aber er kommt am nächsten Tag nicht
+wieder. Rückzahlungen zählen bewusst nicht mit, sonst würde ein Abhaken am Folgetag als
+mehrtägige Nutzung durchgehen, obwohl niemand unterwegs etwas erfasst hat.
+
 ## Was bewusst nicht getestet wird
 
 Es gibt **keine Komponententests der Oberfläche**. Bei einer App dieser Größe würden sie

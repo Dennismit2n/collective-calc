@@ -31,6 +31,7 @@ import { SharedLedger, SharedResult } from '../ui/SharedView.js';
 import type { DecodedLink } from '../core/codec.js';
 import { decodeLink } from '../core/codec.js';
 import { describeError } from '../i18n/errors.js';
+import { count, countersForNewEntry } from '../core/counters.js';
 import { shouldAskForBackup } from '../core/storage.js';
 import { downloadFile, safeFileName, toJson } from '../core/exportFile.js';
 import { CurrencyPicker } from '../ui/CurrencyPicker.js';
@@ -331,6 +332,9 @@ export function App({ store }: { store: AppStore }) {
               const before = ledger;
               const next = addEntry(ledger, entry);
               const created = next.entries[next.entries.length - 1]!;
+              // Die Entscheidung, ob etwas zählenswert ist, fällt hier auf dem
+              // Gerät — gesendet wird nur der nackte Name (F27).
+              for (const name of countersForNewEntry(before, next)) count(name);
               const payer = ledger.people.find((p) => p.id === entry.payerId)?.name ?? '';
               const amount = formatAmount(entry.amount, t.locale, ledger.currency);
               store.write(next, {
@@ -749,7 +753,10 @@ function ResultView({
             settlement={settlement}
             t={t}
             title={displayTitle(ledger, t)}
-            onShared={() => store.markShared(ledger.id)}
+            onShared={() => {
+              store.markShared(ledger.id);
+              count('geteilt');
+            }}
           />
         </>
       )}

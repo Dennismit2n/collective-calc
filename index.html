@@ -25,5 +25,20 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!--
+      Zählung (F27): GoatCounter, ohne Kekse und ohne Kennung. Gesendet werden
+      Seitenaufrufe und vier benannte Zähler — nie Beträge, Namen oder
+      Anlassinhalte. Was gezählt wird, steht offen im README.
+
+      Der Anker der Adresse enthält bei diesem Werkzeug die ganze Abrechnung und
+      darf deshalb unter keinen Umständen mitgesendet werden. `data-goatcounter-
+      settings` schneidet ihn ab, bevor irgendetwas das Gerät verlässt.
+    -->
+    <script
+      data-goatcounter="https://dennis-mit-2n.goatcounter.com/count"
+      data-goatcounter-settings='{"no_onload": true}'
+      async
+      src="https://gc.zgo.at/count.js"
+    ></script>
   </body>
 </html>

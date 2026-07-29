@@ -5,6 +5,7 @@ import { App } from './app/App.js';
 import { Store } from './core/storage.js';
 import { AppStore } from './app/state.js';
 import { requestPersistentStorage } from './core/storage.js';
+import { countPageview } from './core/counters.js';
 
 const root = document.getElementById('app');
 if (!root) throw new Error('Kein Wurzelelement gefunden.');
@@ -16,6 +17,25 @@ const store = new AppStore(new Store(window.localStorage));
 void requestPersistentStorage();
 
 render(<App store={store} />, root);
+
+/*
+ * Zählung (F27). Wir lösen den Seitenaufruf selbst aus, damit hier ausdrücklich
+ * steht, was gesendet wird. Der Anker der Adresse — die vollständige Abrechnung —
+ * bleibt dabei außen vor. Das Skript lädt asynchron; ist es noch nicht da, warten
+ * wir kurz und geben danach auf.
+ */
+{
+  const viaLink = window.location.hash.length > 1;
+  let versuche = 0;
+  const senden = (): void => {
+    if (window.goatcounter) {
+      countPageview(viaLink);
+    } else if (versuche++ < 20) {
+      window.setTimeout(senden, 250);
+    }
+  };
+  window.setTimeout(senden, 0);
+}
 
 /*
  * Service Worker nur im Auslieferungsstand (F22).
