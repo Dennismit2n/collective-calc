@@ -36,7 +36,7 @@ Alles andere unter „übernommen" ist Wort für Wort die von Dennis abgenommene
 >
 > #ausgabenteilen #urlaubmitfreunden #wgleben #reisen #kostenlosetools #opensource #datenschutz #webdev #kleinetools #madeingermany
 
-(816 Zeichen von 2 200)
+(808 Zeichen von 2 200)
 
 ---
 
@@ -54,7 +54,7 @@ Alles andere unter „übernommen" ist Wort für Wort die von Dennis abgenommene
 >
 > #ausgabenteilen #urlaubmitfreunden #wgleben #kostenlosetools #opensource #datenschutz
 
-(368 Zeichen von 600)
+(364 Zeichen von 600)
 
 ---
 
@@ -170,7 +170,7 @@ Gesprochen: Und der Cent, der nicht aufgeht, wird nicht heimlich verteilt,
 >
 > #WebDevelopment #TypeScript #OpenSource #Testing #Accessibility
 
-(2 143 Zeichen von 3 000)
+(2 137 Zeichen von 3 000)
 
 Der frühere Nachtrag-Absatz mit den beiden Grenzen ist entfallen: Grenze des Ausgleichs und Fließkomma-Ausnahme stehen jetzt im Beitrag selbst. Als Wahlmöglichkeit taugte das nicht — wer den Nachtrag weglässt, postet einen widerlegbaren Satz.
 
@@ -226,7 +226,7 @@ Neu, vier Beiträge. Jeder einzeln gezählt.
 > Quelloffen, 28,5 kB, zwölf Sprachen.
 > 🔗 dennismit2n.github.io/collective-calc
 
-(413 Zeichen von 500)
+(409 Zeichen von 500)
 
 ---
 
@@ -278,7 +278,7 @@ Neu. Passend sind Gruppen, in denen ohnehin geplant und abgerechnet wird: WG-Zim
 >
 > Probiert's beim nächsten Mal aus — und sagt mir, wenn was blöd ist.
 
-(333 Zeichen von 400)
+(329 Zeichen von 400)
 
 ---
 
@@ -309,7 +309,7 @@ Neu. Passend sind Gruppen, in denen ohnehin geplant und abgerechnet wird: WG-Zim
 >
 > Über Rückmeldungen freue ich mich — besonders, wenn jemand einen Rechenfehler findet.
 
-(1 043 Zeichen)
+(1 041 Zeichen)
 
 ---
 
@@ -349,7 +349,7 @@ Neu. `r/InternetIsBeautiful` (Titel ohne Eigenlob, dort zählt die Sache), `r/se
 >
 > Happy to hear where it breaks, and especially happy if someone finds a miscalculation.
 
-(2 392 Zeichen)
+(2 390 Zeichen)
 
 ---
 
@@ -461,7 +461,7 @@ Neu, englisch.
 >
 > MIT licence, 28.5 kB gzipped, works offline after the first visit. I would love to hear where it breaks.
 
-(1 511 Zeichen)
+(1 509 Zeichen)
 
 ---
 
@@ -523,7 +523,7 @@ Neu. Passend ist ein Forum mit Entwicklungs-Unterbereich statt eines Windows-For
 >
 > Falls jemand dieselbe Bauart produktiv hatte: Woran ist sie euch gerissen?
 
-(1 489 Zeichen von 1 500)
+(1 487 Zeichen von 1 500)
 
 ---
 
