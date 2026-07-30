@@ -69,8 +69,8 @@ und bietet den Export der Rohdaten an. Halb richtige Beträge wären schlimmer a
 | Offener Rest bei 6 Personen / 40 Ausgaben (2.000 Durchläufe) | in 62,5 % der Fälle, ⌀ 0,76 Cent, max. 3 Cent |
 | Exakter Ausgleich, 16 Personen, Zufallsdaten | 0,9 ms |
 | Exakter Ausgleich, 16 Personen, ungünstigster Fall | 5,5 ms |
-| Linklänge Urlaubswoche (6 Personen, 40 Ausgaben) | 779 Zeichen vollständig · 284 Zeichen als Ergebnis |
-| Linklänge Großgruppe (15 Personen, 200 Ausgaben) | 3.238 Zeichen vollständig · 492 Zeichen als Ergebnis |
+| Linklänge Urlaubswoche (6 Personen, 40 Ausgaben) | 779 Zeichen vollständig · 291 Zeichen als Ergebnis |
+| Linklänge Großgruppe (15 Personen, 200 Ausgaben) | 3.238 Zeichen vollständig · 506 Zeichen als Ergebnis |
 
 Die Messungen laufen als Test mit (`src/core/measurements.test.ts`, `src/core/codec.test.ts`),
 damit sie nicht irgendwann still nicht mehr stimmen.
