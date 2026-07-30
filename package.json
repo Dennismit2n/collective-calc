@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Wer schuldet wem was? Gruppenausgaben teilen — ohne Konto, ohne App, ohne Server.",
+  "description": "Wer schuldet wem was? Gruppenausgaben teilen — ohne Konto, ohne App, ohne eigenen Server.",
   "license": "MIT",
   "scripts": {
     "dev": "vite --port 8618",

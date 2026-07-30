@@ -20,7 +20,7 @@
  * Server geschickt, taucht also in keiner Anfrage auf.
  */
 
-const SHELL = 'cc-shell-v1';
+const SHELL = 'cc-shell-v2';
 const ASSETS = 'cc-assets-v1';
 const KEEP = [SHELL, ASSETS];
 
