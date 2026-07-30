@@ -214,4 +214,9 @@ irgendwann ignoriert, und ein ignoriertes rotes Prüfergebnis ist schlechter als
 
 ## Lizenz
 
-MIT — siehe [LICENSE](LICENSE).
+MIT — siehe [LICENSE](LICENSE). Im ausgelieferten Bündel stecken zwei Fremdpakete, beide
+ebenfalls MIT: [Preact](https://preactjs.com) und
+[qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) von Kazuhiko Arase.
+Das Zählskript von GoatCounter wird zur Laufzeit von `gc.zgo.at` geladen und liegt damit
+nicht in diesem Repository; es steht unter der ISC-Lizenz. „QR Code“ ist eine eingetragene
+Marke von DENSO WAVE INCORPORATED.
