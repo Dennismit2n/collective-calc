@@ -1,6 +1,6 @@
 # Collective-Calc
 
-**Wer schuldet wem was?** — Gruppenausgaben teilen, ohne Konto, ohne App, ohne Server.
+**Wer schuldet wem was?** — Gruppenausgaben teilen, ohne Konto, ohne App, ohne eigenen Server.
 
 Eine Gruppe gibt gemeinsam Geld aus: Urlaub, Ferienhaus, Junggesellenabschied, Festival,
 Restaurantabend. Collective-Calc rechnet aus, wer wem wie viel schuldet, und schickt das
@@ -11,12 +11,17 @@ Ergebnis als Link an alle — die brauchen weder ein Konto noch eine Installatio
 ## Was dieses Tool anders macht
 
 - **Kein Konto, keine App.** Die Mitreisenden öffnen einen Link. Das war's.
-- **Kein Server.** Die Abrechnung steckt komprimiert hinter dem `#` im Link und erreicht
-  deshalb technisch nie einen Server — weder GitHub noch die Vorschau-Roboter der Messenger.
+- **Kein eigener Server.** Die Abrechnung steckt komprimiert hinter dem `#` im Link und
+  erreicht deshalb technisch nie einen Server — weder GitHub noch die Vorschau-Roboter der
+  Messenger. Ausgeliefert wird die Seite selbst von GitHub Pages; verarbeitet wird dort nichts.
 - **Fragt nie nach Kontodaten.** Kein IBAN-Feld, kein PayPal, kein Überweisungs-QR.
-- **Läuft offline.** Im Ferienhaus ohne Empfang, in der Berghütte, im Ausland ohne Roaming.
+- **Läuft offline — nach dem ersten Aufruf.** Der erste Besuch braucht Netz, damit der Service
+  Worker die Dateien einlagern kann. Danach: Ferienhaus ohne Empfang, Berghütte, Ausland ohne
+  Roaming.
 - **Selbsttragende Links.** Ein geteilter Link funktioniert auch dann noch, wenn dieses
-  Projekt längst nicht mehr gepflegt wird. Es gibt keinen Dienst, der abgeschaltet werden kann.
+  Projekt längst nicht mehr gepflegt wird: es gibt kein Konto und keine Datenbank, die vorher
+  verschwinden könnten. Er braucht nur die ausgelieferte Seite — und die ist quelloffen und
+  ohne Bauschritt, lässt sich also notfalls überall sonst hinstellen.
 
 ## Die Rechnung
 

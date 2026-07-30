@@ -4,12 +4,13 @@ Stand 30.07.2026 · Live: dennismit2n.github.io/collective-calc · Repo: github.
 
 **Zahlenkorrektur, im README bereits nachgezogen:** Der Ergebnis-Link einer Urlaubswoche (6 Personen, 40 Ausgaben) ist **291 Zeichen** lang, nicht 284; die Großgruppe (15 Personen, 200 Ausgaben) ergibt als Ergebnis-Link **506 Zeichen**, nicht 492. Die beiden falschen Werte standen in `README.md` Zeile 72 und 73 und sind dort am 30.07.2026 berichtigt. In den übernommenen Abschnitten dieser Datei kamen sie nie vor — dort steht nur die bestätigte 779. Alle neuen Texte hier nennen 291 und 506.
 
-**Vier Korrekturen am übernommenen Bestand — nichts zu tun.** Diese Sätze standen so in der abgenommenen Fassung und sind hier ausgebessert, weil jeder einzelne widerlegbar ist. Die Datei `LAUNCH.md` im Repo (lokal `C:\Users\danyr\source\repos\collective-calc\LAUNCH.md`) **ist** seit dem 30.07.2026 diese berichtigte Fassung; die alte liegt nur noch in der Git-Historie. Falls du einen der alten Sätze irgendwo außerhalb des Repos kopiert hast — in einer Notiz, einem Entwurf, einem Chat —, gilt dort das Folgende:
+**Fünf Korrekturen am übernommenen Bestand — nichts zu tun.** Diese Sätze standen so in der abgenommenen Fassung und sind hier ausgebessert, weil jeder einzelne widerlegbar ist. Die Datei `LAUNCH.md` im Repo (lokal `C:\Users\danyr\source\repos\collective-calc\LAUNCH.md`) **ist** seit dem 30.07.2026 diese berichtigte Fassung; die alte liegt nur noch in der Git-Historie. Falls du einen der alten Sätze irgendwo außerhalb des Repos kopiert hast — in einer Notiz, einem Entwurf, einem Chat —, gilt dort das Folgende:
 
 - **„läuft offline" / „Auch offline" / „funktioniert es auch im Ferienhaus ohne Empfang"** (Instagram lang, Instagram kurz, Mastodon, LinkedIn, Reddit DE) → „nach dem ersten Aufruf auch ohne Netz". Der erste Aufruf braucht Netz, der Service Worker muss die Dateien einmal holen.
 - **„der Ausgleich sucht die beweisbar kleinste Zahl an Überweisungen"** (LinkedIn) → jetzt mit Grenze. Beweisbar minimal ist er bis 16 offene Salden, darüber löst ein gieriges Verfahren auf und braucht höchstens eine Überweisung mehr.
 - **„Sie läuft durchgehend in ganzen Cent" / „Gerechnet wird durchgehend in ganzen Cent"** (LinkedIn, Reddit DE) → „Aufteilung und Ausgleich laufen ausschließlich in ganzen Cent". Die Währungsumrechnung mit selbst eingetragenem Kurs geht durch eine Fließkommazahl.
 - **„28 KB gepackt", „86 % insgesamt", „95 %"** (LinkedIn, Mastodon, Reddit DE) → 28,5 kB, 86,35 % über die Geldlogik, 95,2 % im Ausgleich. Gerundete Zahlen haben keinen Grund, wenn die gemessenen vorliegen — und „86 % insgesamt" wäre zusätzlich falsch, gemessen ist die Geldlogik, nicht das ganze Projekt.
+- **„ohne Server"** (LinkedIn-Titelzeile, Reddit-Titel) → **„ohne eigenen Server"**. Von Dennis entschieden am 30.07.2026. Ausgeliefert wird die Seite von GitHub Pages, das ist ein Server; gemeint und wahr ist, dass es keinen von ihm betriebenen gibt. Ein Wort mehr, und die Aussage hält jeder Nachfrage stand. Aus demselben Grund heißt der Aufhänger für `r/selfhosted` jetzt „kein eigener Server nötig".
 
 Dazu zwei kleinere Eingriffe an derselben Stelle im Denken: „Es gibt keinen Dienst, der abgeschaltet werden kann" (LinkedIn) und „nichts, was abgeschaltet werden kann" (Twitch) sind heraus. Ausgeliefert wird die Seite von GitHub Pages, und das ist ein Dienst. Belegbar ist: kein eigener Server, kein Backend, kein Konto, und ein Link ohne Verfallsdatum.
 
@@ -148,7 +149,7 @@ Gesprochen: Und der Cent, der nicht aufgeht, wird nicht heimlich verteilt,
 
 Übernommen, mit vier Korrekturen von oben (Offline, Grenze des Ausgleichs, ganze Cent, gemessene Zahlen). Die ersten 140 Zeichen vor dem „mehr sehen" enthalten Titelzeile und die Frage, um die es geht.
 
-> **Collective-Calc — Gruppenausgaben teilen, ohne Server**
+> **Collective-Calc — Gruppenausgaben teilen, ohne eigenen Server**
 >
 > Ein kleines Werkzeug, das eine alltägliche Frage beantwortet: Wer schuldet nach dem gemeinsamen Urlaub wem wie viel?
 >
@@ -170,7 +171,7 @@ Gesprochen: Und der Cent, der nicht aufgeht, wird nicht heimlich verteilt,
 >
 > #WebDevelopment #TypeScript #OpenSource #Testing #Accessibility
 
-(2 137 Zeichen von 3 000)
+(2 145 Zeichen von 3 000)
 
 Der frühere Nachtrag-Absatz mit den beiden Grenzen ist entfallen: Grenze des Ausgleichs und Fließkomma-Ausnahme stehen jetzt im Beitrag selbst. Als Wahlmöglichkeit taugte das nicht — wer den Nachtrag weglässt, postet einen widerlegbaren Satz.
 
@@ -284,13 +285,13 @@ Neu. Passend sind Gruppen, in denen ohnehin geplant und abgerechnet wird: WG-Zim
 
 ## Reddit DE
 
-Übernommen, mit Offline-, Cent- und Zahlenkorrektur. Samt Vorbehalt: **Bitte vorher die Regeln des jeweiligen Subs lesen.** Viele deutsche Subs verbieten Eigenwerbung oder verlangen eine Kennzeichnung. Ein Beitrag, der wie Werbung riecht, wird entfernt und schadet mehr, als er bringt. Am ehesten passen `r/de`, `r/Finanzen` oder `r/selfhosted`; bei letzterem ist der Aufhänger „kein Server nötig" der richtige.
+Übernommen, mit Offline-, Cent- und Zahlenkorrektur. Samt Vorbehalt: **Bitte vorher die Regeln des jeweiligen Subs lesen.** Viele deutsche Subs verbieten Eigenwerbung oder verlangen eine Kennzeichnung. Ein Beitrag, der wie Werbung riecht, wird entfernt und schadet mehr, als er bringt. Am ehesten passen `r/de`, `r/Finanzen` oder `r/selfhosted`; bei letzterem ist der Aufhänger „kein eigener Server nötig" der richtige.
 
 **Titel**
 
-> Ich habe ein Werkzeug gebaut, das Gruppenausgaben ohne Server aufteilt
+> Ich habe ein Werkzeug gebaut, das Gruppenausgaben ohne eigenen Server aufteilt
 
-(70 Zeichen von 300)
+(78 Zeichen von 300)
 
 **Text**
 

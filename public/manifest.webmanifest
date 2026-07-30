@@ -1,7 +1,7 @@
 {
   "name": "Collective-Calc",
   "short_name": "Collective-Calc",
-  "description": "Wer schuldet wem was? Gruppenausgaben teilen — ohne Konto, ohne App, ohne Server.",
+  "description": "Wer schuldet wem was? Gruppenausgaben teilen — ohne Konto, ohne App, ohne eigenen Server.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
