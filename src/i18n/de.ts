@@ -118,7 +118,7 @@ export const de = {
 
   // --- Offener Rest ⚠️ ---
   'remainder.heading': 'Ein Rest bleibt offen',
-  'remainder.receivesLess': 'Bei {name} bleibt {amount} offen.', // ⚠️
+  'remainder.receivesLess': '{name} bekommt {amount} weniger, als rechnerisch zusteht.', // ⚠️
   'remainder.paysLess': '{name} zahlt {amount} weniger, als rechnerisch anfällt.', // ⚠️
   'remainder.explain':
     'Beträge lassen sich nicht immer auf ganze Cent aufteilen. Dieser Rest wird niemandem zugeschlagen — macht das unter euch aus 😉',

@@ -1,7 +1,7 @@
 /**
  * Betrag eingeben und anzeigen.
  *
- * Die Anzeige ist der leichte Teil — `Intl.NumberFormat` kann das in allen zwölf
+ * Die Anzeige ist der leichte Teil — `Intl.NumberFormat` kann das in allen vierzehn
  * Sprachen ohne eigene Logik. Der schwierige Teil ist die **Eingabe** (F18):
  * Auf deutschen Handytastaturen liefert der Ziffernblock je nach Gerät mal ein
  * Komma, mal einen Punkt. Ein Feld, das „12.50" als Tausenderangabe missversteht,
