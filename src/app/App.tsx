@@ -261,7 +261,7 @@ export function App({ store }: { store: AppStore }) {
       {/*
        * Kennzeichnung nicht gegengelesener Sprachen (F25).
        *
-       * Deutsch und Englisch sind von Hand geschrieben, die übrigen zehn nicht.
+       * Deutsch und Englisch sind von Hand geschrieben, die übrigen zwölf nicht.
        * Die geldkritischen Beschriftungen wurden überall rückübersetzt geprüft;
        * für den Rest steht hier ehrlich, woran man ist — samt einem Weg, es
        * besser zu machen.
