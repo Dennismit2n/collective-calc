@@ -5,14 +5,14 @@
  *  - Die **Sprache richtet sich nach dem Leser**, die **Währung nach dem Anlass**.
  *    Ein geteilter Link transportiert keine Sprache mit: Wer einen Euro-Anlass mit
  *    englischer Oberfläche öffnet, sieht englische Texte und trotzdem Euro-Beträge.
- *  - Zwölf Sprachen wie auf der Startseite. Deutsch und Englisch sind von Hand
- *    geschrieben; die übrigen zehn nicht und tragen deshalb einen Hinweis.
+ *  - Vierzehn Sprachen wie auf der Startseite. Deutsch und Englisch sind von Hand
+ *    geschrieben; die übrigen zwölf nicht und tragen deshalb einen Hinweis.
  *
- * **Nur Deutsch und Englisch stecken im ersten Ladevorgang.** Die übrigen zehn
- * werden bei Bedarf nachgeladen. Alle zwölf mitzuliefern kostete 24 KB gepackt —
- * fast eine Verdopplung, für Texte, die elf von zwölf Lesern nie zu Gesicht
- * bekommen. Bei einem Werkzeug, das an der Supermarktkasse aufgemacht wird,
- * zählt das.
+ * **Nur Deutsch und Englisch stecken im ersten Ladevorgang.** Die übrigen zwölf
+ * werden bei Bedarf nachgeladen. Alle mitzuliefern kostete 36 KB gepackt und
+ * würde den Rumpf (28 KB) mehr als verdoppeln — für Texte, die dreizehn von
+ * vierzehn Lesern nie zu Gesicht bekommen. Bei einem Werkzeug, das an der
+ * Supermarktkasse aufgemacht wird, zählt das.
  */
 
 import { de } from './de.js';
@@ -28,6 +28,8 @@ export const SUPPORTED = [
   { code: 'es', label: 'Español' },
   { code: 'fr', label: 'Français' },
   { code: 'it', label: 'Italiano' },
+  { code: 'nl', label: 'Nederlands' },
+  { code: 'pl', label: 'Polski' },
   { code: 'pt', label: 'Português' },
   { code: 'tr', label: 'Türkçe' },
   { code: 'ru', label: 'Русский' },
@@ -47,6 +49,8 @@ const LAZY: Record<string, () => Promise<Messages>> = {
   es: async () => (await import('./es.js')).es,
   fr: async () => (await import('./fr.js')).fr,
   it: async () => (await import('./it.js')).it,
+  nl: async () => (await import('./nl.js')).nl,
+  pl: async () => (await import('./pl.js')).pl,
   pt: async () => (await import('./pt.js')).pt,
   tr: async () => (await import('./tr.js')).tr,
   ru: async () => (await import('./ru.js')).ru,

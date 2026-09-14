@@ -17,6 +17,8 @@ import { hi } from './hi.js';
 import { it as italiano } from './it.js';
 import { ja } from './ja.js';
 import { ko } from './ko.js';
+import { nl } from './nl.js';
+import { pl } from './pl.js';
 import { pt } from './pt.js';
 import { ru } from './ru.js';
 import { tr } from './tr.js';
@@ -27,6 +29,8 @@ const ALLE: Array<[string, Messages]> = [
   ['es', es],
   ['fr', fr],
   ['it', italiano],
+  ['nl', nl],
+  ['pl', pl],
   ['pt', pt],
   ['tr', tr],
   ['ru', ru],
@@ -105,20 +109,20 @@ describe('Sprachwahl', () => {
     expect(detectLanguage(['en-GB'])).toBe('en');
   });
 
-  it('erkennt jede der zwölf Sprachen an ihrem Gebietsschema', () => {
+  it('erkennt jede der vierzehn Sprachen an ihrem Gebietsschema', () => {
     for (const { code } of SUPPORTED) {
       expect(detectLanguage([`${code}-XX`])).toBe(code);
     }
   });
 
   it('fällt auf Englisch zurück, wenn die Sprache nicht dabei ist', () => {
-    expect(detectLanguage(['nl-NL'])).toBe('en'); // Niederländisch fehlt bewusst
+    expect(detectLanguage(['da-DK'])).toBe('en'); // Dänisch fehlt bewusst
     expect(detectLanguage(['sv'])).toBe('en');
     expect(detectLanguage([])).toBe('en');
   });
 
   it('nimmt die erste Sprache der Liste, die wir haben', () => {
-    expect(detectLanguage(['nl', 'fr-BE', 'en'])).toBe('fr');
+    expect(detectLanguage(['da', 'fr-BE', 'en'])).toBe('fr');
   });
 
   it('eine ausdrückliche Wahl schlägt die Browsereinstellung', () => {
@@ -126,9 +130,9 @@ describe('Sprachwahl', () => {
     expect(resolveLanguage('auto', ['de-DE'])).toBe('de');
   });
 
-  it('kennt die zwölf Sprachen der Startseite', () => {
+  it('kennt die vierzehn Sprachen der Startseite', () => {
     expect(SUPPORTED.map((s) => s.code)).toEqual([
-      'de', 'en', 'es', 'fr', 'it', 'pt', 'tr', 'ru', 'hi', 'zh', 'ja', 'ko',
+      'de', 'en', 'es', 'fr', 'it', 'nl', 'pl', 'pt', 'tr', 'ru', 'hi', 'zh', 'ja', 'ko',
     ]);
   });
 });

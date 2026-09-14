@@ -20,7 +20,7 @@ void requestPersistentStorage();
 /*
  * Die Sprache des Lesers holen, **bevor** zum ersten Mal gezeichnet wird.
  *
- * Nur Deutsch und Englisch stecken im ersten Ladevorgang; die übrigen zehn
+ * Nur Deutsch und Englisch stecken im ersten Ladevorgang; die übrigen zwölf
  * kommen bei Bedarf. Ohne dieses Warten sähe ein türkischer Leser für einen
  * Wimpernschlag Englisch. Schlägt das Laden fehl — kein Netz, noch nicht im
  * Zwischenspeicher —, geht es trotzdem weiter.
