@@ -8,6 +8,8 @@ Ergebnis als Link an alle — die brauchen weder ein Konto noch eine Installatio
 
 **→ [dennismit2n.github.io/collective-calc](https://dennismit2n.github.io/collective-calc/)**
 
+<img src="docs/screenshot-en.webp" alt="Collective-Calc mit einer eingetragenen Ausgabe: oben die Personen der Runde, darunter die Liste der Ausgaben, unten die Eingabezeile, die „1234,50“ als 1.234,50 € liest." width="640">
+
 ## Was dieses Tool anders macht
 
 - **Kein Konto, keine App.** Die Mitreisenden öffnen einen Link. Das war's.
