@@ -17,7 +17,7 @@ export const it: Messages = {
   'event.new': 'Nuova occasione',
   'event.untitled': 'Conti del {date}',
   'event.rename': 'Rinomina',
-  'event.delete': "Elimina l'occasione",
+  'event.delete': "Elimina l’occasione",
   'event.deleteConfirm': 'Eliminare questa occasione con tutte le spese? Non si può annullare.',
   'event.empty.title': 'Ancora nessuna spesa',
   'event.empty.hint': 'Segna qui sotto quanto ha pagato qualcuno. Il resto viene da sé.',
@@ -49,7 +49,7 @@ export const it: Messages = {
 
   'split.change': 'Cambia la divisione',
   'split.equal': 'Parti uguali',
-  'split.participants': "C'era",
+  'split.participants': "C’era",
   'split.exact': 'Importi esatti',
   'split.shares': 'Quote',
   'split.percent': 'Percentuale',
@@ -65,7 +65,7 @@ export const it: Messages = {
   'repayment.hint': 'I rimborsi non contano nel totale delle spese.',
 
   'currency.label': 'Valuta',
-  'currency.foreign': "In un'altra valuta",
+  'currency.foreign': "In un’altra valuta",
   'currency.rate': 'Cambio',
   'currency.converted': '{foreign} al cambio {rate} = {amount}',
   'currency.changeWarning': 'Cambiare valuta non converte nulla: cambia solo il simbolo mostrato.',
@@ -104,13 +104,13 @@ export const it: Messages = {
   'share.result': 'Condividi il risultato',
   'share.resultHint': 'Solo nomi, saldi e versamenti. Nessuna spesa singola.',
   'share.full': 'Consegna i conti',
-  'share.fullHint': "L'occasione completa, per proseguire su un altro dispositivo.",
+  'share.fullHint': "L’occasione completa, per proseguire su un altro dispositivo.",
   'share.copy': 'Copia il link',
   'share.copied': 'Link copiato.',
   'share.qr': 'Codice QR',
   'share.qrAlt': 'Codice QR con il link: {url}',
   'share.tooLarge':
-    "Questi conti sono troppo grandi per un link. Usa l'esportazione su file per consegnarli.",
+    "Questi conti sono troppo grandi per un link. Usa l’esportazione su file per consegnarli.",
   'share.readOnlyNotice':
     'Stai guardando dei conti condivisi. Le modifiche fatte qui non toccano l’originale.',
   'share.openCopy': 'Apri come copia personale',
@@ -139,11 +139,11 @@ export const it: Messages = {
   'error.details': 'Che cosa non va di preciso',
   'error.brokenLinkTitle': 'Il link non si è potuto leggere',
   'error.brokenLink':
-    "Questo link non si è potuto leggere. Probabilmente è stato tagliato durante l'invio — fattelo mandare di nuovo.",
+    "Questo link non si è potuto leggere. Probabilmente è stato tagliato durante l’invio — fattelo mandare di nuovo.",
   'error.link.empty': 'In questo link non c’è nessun conto.',
   'error.link.notOurs': 'Questo link non appartiene a Collective-Calc.',
   'error.link.truncated':
-    "Il link è incompleto — probabilmente è stato tagliato durante l'invio. Fattelo mandare di nuovo.",
+    "Il link è incompleto — probabilmente è stato tagliato durante l’invio. Fattelo mandare di nuovo.",
   'error.link.garbled':
     'Il contenuto del link non forma dei conti validi. Fattelo mandare di nuovo.',
   'error.link.newerFormat':
