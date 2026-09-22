@@ -17,11 +17,11 @@ export const fr: Messages = {
   'event.new': 'Nouvelle occasion',
   'event.untitled': 'Comptes du {date}',
   'event.rename': 'Renommer',
-  'event.delete': "Supprimer l'occasion",
+  'event.delete': "Supprimer l’occasion",
   'event.deleteConfirm':
     'Supprimer cette occasion et toutes ses dépenses ? Cela ne pourra pas être annulé.',
   'event.empty.title': 'Pas encore de dépense',
-  'event.empty.hint': "Note ci-dessous ce que quelqu'un a payé. Le reste suit tout seul.",
+  'event.empty.hint': "Note ci-dessous ce que quelqu’un a payé. Le reste suit tout seul.",
   'event.total': 'Dépenses au total',
   'event.count': { one: '{count} dépense', other: '{count} dépenses' },
 
@@ -100,21 +100,21 @@ export const fr: Messages = {
   'remainder.receivesLess': 'Il reste {amount} non versés à {name}.',
   'remainder.paysLess': '{name} paie {amount} de moins que ce que donne le calcul.',
   'remainder.explain':
-    "Les montants ne se divisent pas toujours en centimes entiers. Ce reste n'est attribué à personne — arrangez-vous entre vous 😉",
-  'remainder.wheel': "Pas d'accord ? Fais tourner la roue.",
+    "Les montants ne se divisent pas toujours en centimes entiers. Ce reste n’est attribué à personne — arrangez-vous entre vous 😉",
+  'remainder.wheel': "Pas d’accord ? Fais tourner la roue.",
 
   'share.result': 'Partager le résultat',
   'share.resultHint': 'Uniquement les noms, les soldes et les virements. Aucune dépense détaillée.',
   'share.full': 'Transmettre les comptes',
-  'share.fullHint': "L'occasion complète, pour continuer sur un autre appareil.",
+  'share.fullHint': "L’occasion complète, pour continuer sur un autre appareil.",
   'share.copy': 'Copier le lien',
   'share.copied': 'Lien copié.',
   'share.qr': 'Code QR',
   'share.qrAlt': 'Code QR contenant le lien : {url}',
   'share.tooLarge':
-    "Ces comptes sont trop volumineux pour un lien. Utilise l'export en fichier pour les transmettre.",
+    "Ces comptes sont trop volumineux pour un lien. Utilise l’export en fichier pour les transmettre.",
   'share.readOnlyNotice':
-    "Tu regardes des comptes partagés. Les modifications faites ici n'affectent pas l'original.",
+    "Tu regardes des comptes partagés. Les modifications faites ici n’affectent pas l’original.",
   'share.openCopy': 'Ouvrir comme copie personnelle',
 
   'backup.heading': 'Sauvegarde ces comptes',
@@ -136,18 +136,18 @@ export const fr: Messages = {
 
   'error.heading': 'Ces comptes ne peuvent pas être calculés de façon sûre en ce moment',
   'error.body':
-    "Pour ne pas afficher de montants faux, Collective-Calc préfère n'afficher aucun chiffre. Tes données ne sont pas perdues : tu peux les télécharger.",
+    "Pour ne pas afficher de montants faux, Collective-Calc préfère n’afficher aucun chiffre. Tes données ne sont pas perdues : tu peux les télécharger.",
   'error.exportRaw': 'Télécharger les données brutes',
   'error.details': "Ce qui ne va pas exactement",
-  'error.brokenLinkTitle': "Le lien n'a pas pu être lu",
+  'error.brokenLinkTitle': "Le lien n’a pas pu être lu",
   'error.brokenLink':
-    "Ce lien n'a pas pu être lu. Il a sans doute été coupé à l'envoi — demande qu'on te le renvoie.",
+    "Ce lien n’a pas pu être lu. Il a sans doute été coupé à l’envoi — demande qu’on te le renvoie.",
   'error.link.empty': "Ce lien ne contient aucun compte.",
-  'error.link.notOurs': "Ce lien n'appartient pas à Collective-Calc.",
+  'error.link.notOurs': "Ce lien n’appartient pas à Collective-Calc.",
   'error.link.truncated':
-    "Le lien est incomplet — il a sans doute été coupé à l'envoi. Demande qu'on te le renvoie.",
+    "Le lien est incomplet — il a sans doute été coupé à l’envoi. Demande qu’on te le renvoie.",
   'error.link.garbled':
-    "Le contenu du lien ne forme pas des comptes valides. Demande qu'on te le renvoie.",
+    "Le contenu du lien ne forme pas des comptes valides. Demande qu’on te le renvoie.",
   'error.link.newerFormat':
     'Ce lien a été créé avec une version plus récente de Collective-Calc. Recharge la page pour obtenir la version actuelle.',
   'error.file.notALedger': 'Ce fichier ne contient aucun compte.',
@@ -156,7 +156,7 @@ export const fr: Messages = {
   'error.file.newerFormat':
     'Ce fichier a été créé avec une version plus récente de Collective-Calc. Recharge la page pour obtenir la version actuelle.',
   'error.file.incomplete': 'Ces comptes sont incomplets.',
-  'error.file.noPath': "Aucune mise à jour n'existe pour ce format. Merci de signaler ce cas.",
+  'error.file.noPath': "Aucune mise à jour n’existe pour ce format. Merci de signaler ce cas.",
 
   'a11y.amountField': 'Montant en {currency}',
   'a11y.balancePositive': 'Crédit',

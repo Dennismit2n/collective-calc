@@ -24,7 +24,7 @@ export const en: Messages = {
   'event.total': 'Total expenses',
   'event.count': { one: '{count} expense', other: '{count} expenses' },
 
-  'people.heading': "Who's in?",
+  'people.heading': "Who’s in?",
   'people.add': 'Add person',
   'people.namePlaceholder': 'First name',
   'people.hint': 'First names are enough.',
@@ -99,7 +99,7 @@ export const en: Messages = {
   'remainder.paysLess': '{name} pays {amount} less than the calculation says.',
   'remainder.explain':
     'Amounts cannot always be split into whole cents. This remainder is not assigned to anyone — sort it out among yourselves 😉',
-  'remainder.wheel': "Can't agree? Spin the wheel.",
+  'remainder.wheel': "Can’t agree? Spin the wheel.",
 
   'share.result': 'Share result',
   'share.resultHint': 'Names, balances and transfers only. No individual expenses.',

@@ -128,7 +128,7 @@ export const tr: Messages = {
   'export.json': 'Dosya (JSON)',
   'export.jsonHint': 'Eksiksiz ve yeniden okunabilir.',
   'export.csv': 'Tablo (CSV)',
-  'export.csvHint': "Excel veya LibreOffice'te kontrol etmek için.",
+  'export.csvHint': "Excel veya LibreOffice’te kontrol etmek için.",
   'export.print': 'Yazdır veya PDF olarak kaydet',
   'import.heading': 'Dosya oku',
   'import.button': 'Dosya seç',

@@ -12,7 +12,7 @@ Ergebnis als Link an alle — die brauchen weder ein Konto noch eine Installatio
 
 ## Was dieses Tool anders macht
 
-- **Kein Konto, keine App.** Die Mitreisenden öffnen einen Link. Das war's.
+- **Kein Konto, keine App.** Die Mitreisenden öffnen einen Link. Das war’s.
 - **Kein eigener Server.** Die Abrechnung steckt komprimiert hinter dem `#` im Link und
   erreicht deshalb technisch nie einen Server — weder GitHub noch die Vorschau-Roboter der
   Messenger. Ausgeliefert wird die Seite selbst von GitHub Pages; verarbeitet wird dort nichts.
