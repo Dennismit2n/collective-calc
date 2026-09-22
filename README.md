@@ -185,7 +185,8 @@ Mutationstest läuft wöchentlich und auf Zuruf — er ist eine Messung, kein W�
 ## Was gezählt wird
 
 Die Zählung läuft über [GoatCounter](https://www.goatcounter.com/) — ohne Kekse, ohne
-Kennung, ohne Wiedererkennung über Besuche hinweg.
+Kennung, ohne Wiedererkennung über Besuche hinweg. Das Zählskript kommt vom eigenen Server
+(`public/js/vendor/count.js`); nach draußen geht nur der Zählaufruf selbst.
 
 **Gesendet wird:** ein Seitenaufruf mit dem festen Pfad `/`, und vier benannte Zähler:
 
@@ -224,6 +225,6 @@ irgendwann ignoriert, und ein ignoriertes rotes Prüfergebnis ist schlechter als
 MIT — siehe [LICENSE](LICENSE). Im ausgelieferten Bündel stecken zwei Fremdpakete, beide
 ebenfalls MIT: [Preact](https://preactjs.com) und
 [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) von Kazuhiko Arase.
-Das Zählskript von GoatCounter wird zur Laufzeit von `gc.zgo.at` geladen und liegt damit
-nicht in diesem Repository; es steht unter der ISC-Lizenz. „QR Code“ ist eine eingetragene
+Das Zählskript von GoatCounter liegt als Kopie in `public/js/vendor/count.js` und steht
+unter der ISC-Lizenz (im Dateikopf genannt). „QR Code“ ist eine eingetragene
 Marke von DENSO WAVE INCORPORATED.
