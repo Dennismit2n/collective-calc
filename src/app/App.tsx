@@ -335,6 +335,14 @@ export function App({ store }: { store: AppStore }) {
             }}
           />
         )}
+
+        {/* Reine Rechtszeile, keine Übersetzung nötig (Name + Jahr + Zeichen).
+            Steht als letztes Kind in <main>, nicht als Geschwister von .app —
+            so bleibt sie immer im Fluss vor dem für die feste Leiste
+            reservierten unteren Abstand (--bottom-h) und wird nie verdeckt. */}
+        <p class="small muted" style="margin:24px 0 0;text-align:center">
+          © 2026 Dennis_mit_2n
+        </p>
       </main>
 
       {/* Rückgängig-Streifen und Erfassungszeile teilen sich einen festen Bereich am
