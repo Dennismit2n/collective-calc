@@ -1,6 +1,6 @@
 # Mutationstest — nicht bei jedem Push.
 #
-# Der Lauf dauert rund zwei Minuten und ist eine Messung, kein Wächter: Er sagt,
+# Der Lauf dauert rund zehn Minuten und ist eine Messung, kein Wächter: Er sagt,
 # ob die Tests überhaupt etwas merken. Ihn an jeden Push zu hängen würde die
 # Rückmeldung verlangsamen, ohne mehr auszusagen. Einmal in der Woche und auf
 # Zuruf genügt.

@@ -34,11 +34,17 @@
     "src/core/invariants.ts"
   ],
   "_comment_thresholds": [
-    "Gemessen wurden 86,35 %. Die Bruchgrenze liegt knapp darunter: Sie soll einen",
+    "Gemessen wurden 65,70 % (30.10.2026). Die Bruchgrenze liegt knapp darunter: Sie soll einen",
     "Rueckschritt melden, aber nicht bei jeder Kleinigkeit rot werden. Ein rotes",
-    "Ergebnis, das man wegklickt, ist schlechter als gar keins."
+    "Ergebnis, das man wegklickt, ist schlechter als gar keins.",
+    "",
+    "Vorher standen hier 86,35 %. Die Zahl war zu hoch: Unter Stryker lag der",
+    "Zeitmesstest in measurements.test.ts auf GitHub schon an seiner Grenze von",
+    "2 Sekunden, und jeder Mutant, der den Ablauf etwas bremste, galt als erkannt.",
+    "Seit die Zeitgrenzen unter Stryker nicht mehr gelten, zaehlt nur noch, was die",
+    "Tests wirklich bemerken."
   ],
-  "thresholds": { "high": 95, "low": 85, "break": 84 },
+  "thresholds": { "high": 95, "low": 65, "break": 63 },
   "timeoutMS": 20000,
   "tempDirName": ".stryker-tmp",
   "cleanTempDir": true
