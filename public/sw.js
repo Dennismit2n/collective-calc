@@ -20,7 +20,7 @@
  * Server geschickt, taucht also in keiner Anfrage auf.
  */
 
-const SHELL = 'cc-shell-v2';
+const SHELL = 'cc-shell-v3';
 const ASSETS = 'cc-assets-v1';
 const KEEP = [SHELL, ASSETS];
 
@@ -36,7 +36,11 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((names) => Promise.all(names.filter((n) => !KEEP.includes(n)).map((n) => caches.delete(n))))
+      // Nur eigene alte Ablagen: Alle Werkzeuge liegen auf dennismit2n.github.io und teilen sich
+      // den Cache-Speicher, ein fremder Name gehört einer Geschwister-App.
+      .then((names) =>
+        Promise.all(names.filter((n) => n.startsWith('cc-') && !KEEP.includes(n)).map((n) => caches.delete(n))),
+      )
       .then(() => self.clients.claim()),
   );
 });

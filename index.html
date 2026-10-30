@@ -49,6 +49,14 @@
           document.documentElement.setAttribute('data-theme', s.theme);
         }
       } catch (e) {}
+      // Knopf „Installieren“: Chrome, Edge und Samsung Internet melden die
+      // Installierbarkeit mit beforeinstallprompt, manchmal bevor die App läuft.
+      // Das Ereignis bleibt hier liegen, bis die Kopfzeile es abholt (App.tsx).
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        window.deferredInstall = e;
+        if (window.onInstallReady) window.onInstallReady();
+      });
     </script>
   </head>
   <body>

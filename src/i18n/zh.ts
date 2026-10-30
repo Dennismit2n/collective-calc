@@ -8,6 +8,7 @@ export const zh: Messages = {
   'nav.events': '活动',
   'nav.back': '返回',
   'settings.language': '语言',
+  'install.button': '安装',
   'settings.theme': '外观',
   'settings.theme.system': '跟随系统',
   'settings.theme.light': '浅色',

@@ -262,6 +262,24 @@ button.primary {
 button.ghost {
   background: transparent;
 }
+/* Knopf „Installieren“ in der Kopfzeile: die normale Knopfform mit Symbol.
+   Am Telefon bekommt er eine eigene, volle Zeile. */
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.install-btn svg {
+  flex: none;
+}
+@media (max-width: 560px) {
+  .install-btn {
+    flex: 1 1 100%;
+  }
+}
 button.link,
 a {
   color: var(--link);

@@ -7,6 +7,7 @@ export const es: Messages = {
   'nav.events': 'Eventos',
   'nav.back': 'Atrás',
   'settings.language': 'Idioma',
+  'install.button': 'Instalar',
   'settings.theme': 'Apariencia',
   'settings.theme.system': 'Sistema',
   'settings.theme.light': 'Claro',

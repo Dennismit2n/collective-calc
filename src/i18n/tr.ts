@@ -7,6 +7,7 @@ export const tr: Messages = {
   'nav.events': 'Etkinlikler',
   'nav.back': 'Geri',
   'settings.language': 'Dil',
+  'install.button': 'Yükle',
   'settings.theme': 'Görünüm',
   'settings.theme.system': 'Sistem',
   'settings.theme.light': 'Açık',

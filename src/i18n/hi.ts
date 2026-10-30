@@ -7,6 +7,7 @@ export const hi: Messages = {
   'nav.events': 'आयोजन',
   'nav.back': 'वापस',
   'settings.language': 'भाषा',
+  'install.button': 'इंस्टॉल करें',
   'settings.theme': 'रूप',
   'settings.theme.system': 'सिस्टम',
   'settings.theme.light': 'हल्का',
