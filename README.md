@@ -94,13 +94,20 @@ npm run test:mutation
 
 | Datei | erkannt |
 |---|---|
-| `settle.ts` — Rundung, offener Rest, Ausgleich | **95,2 %** |
-| `rational.ts` — exakte Bruchrechnung | 93,1 % |
-| `invariants.ts` | 85,9 % |
-| `balances.ts` | 85,7 % |
 | `amount.ts` — Betragseingabe | 75,7 % |
+| `balances.ts` | 72,4 % |
 | `currency.ts` — Umrechnung | 70,9 % |
-| **gesamt** | **86,4 %** |
+| `settle.ts` — Rundung, offener Rest, Ausgleich | 63,0 % |
+| `rational.ts` — exakte Bruchrechnung | 58,3 % |
+| `invariants.ts` | 55,7 % |
+| **gesamt** | **65,7 %** |
+
+Bis Oktober 2026 stand hier 86,4 %, die Zahl war zu hoch. Schuld war ein Zeitmesstest. Unter
+Stryker läuft der Rechenkern viel langsamer, auf GitHub lag der Test damit schon an seiner Grenze
+von 2 Sekunden. Jeder Mutant, der den Ablauf nur etwas bremste, zählte so als erkannt, obwohl kein
+Test ein falsches Ergebnis bemerkt hatte. Seit dem 30.10.2026 gelten die Zeitgrenzen unter Stryker
+nicht mehr (der normale Testlauf prüft sie weiter), ehrlich gemessen sind es 65,7 %. Die Tests
+schärfe ich nach, bis dahin zeigt die Tabelle den echten Stand.
 
 Der erste Lauf lag bei 82,5 % und hat zwei echte Mängel aufgedeckt: eine Handvoll
 Bruchrechnungs-Funktionen, die nie jemand aufrief und die deshalb gelöscht wurden statt
@@ -173,7 +180,7 @@ npm install
 npm run dev            # Entwicklungsserver auf Port 8618
 npm test               # Einheitentests
 npm run test:e2e       # Browser-Test samt Barrierefreiheitsprüfung
-npm run test:mutation  # misst, ob die Tests etwas merken (~2 Minuten)
+npm run test:mutation  # misst, ob die Tests etwas merken (~10 Minuten)
 npm run typecheck      # TypeScript ohne Ausgabe
 npm run build          # Auslieferungsstand nach dist/
 ```

@@ -14,6 +14,17 @@ import { checkSettlement } from './invariants.js';
 import type { Entry, Ledger } from './types.js';
 import { LEDGER_VERSION } from './types.js';
 
+/**
+ * Unter Stryker läuft der Rechenkern instrumentiert und in mehreren Prozessen
+ * gleichzeitig. Die Uhr misst dann die Messfühler mit, nicht das Verfahren:
+ * Auf GitHub brauchte der ungünstigste Fall so 2,6 s, und der Mutationslauf
+ * brach ab, bevor er einen einzigen Mutanten geprüft hatte. Die Zeitgrenzen
+ * gelten deshalb nur im normalen Testlauf. Die Rechenprüfungen laufen immer,
+ * und Mutanten, die das Verfahren ausbremsen, fängt Stryker mit seinem eigenen
+ * Zeitlimit.
+ */
+const timeLimitsApply = import.meta.env.STRYKER_MUTATOR_WORKER === undefined;
+
 /** Deterministischer Zufall, damit die Messung reproduzierbar bleibt. */
 function makeRng(seed: number): () => number {
   let s = seed >>> 0;
@@ -106,12 +117,13 @@ describe('Messung: exaktes Ausgleichsverfahren', () => {
     // eslint-disable-next-line no-console
     console.log(
       `[Messung] ${active} offene Salden · Verfahren "${s.method}" · ` +
-        `${s.transfers.length} Überweisungen · ${ms.toFixed(1)} ms`,
+        `${s.transfers.length} Überweisungen · ${ms.toFixed(1)} ms` +
+        (timeLimitsApply ? '' : ' · ohne Zeitgrenze (Stryker)'),
     );
 
     expect(checkSettlement(l, s).ok).toBe(true);
     // Obergrenze bewusst großzügig: Der Test soll Ausreißer melden, nicht flackern.
-    expect(ms).toBeLessThan(2000);
+    if (timeLimitsApply) expect(ms).toBeLessThan(2000);
   });
 
   it('hält auch den ungünstigsten Fall aus', () => {
@@ -152,12 +164,13 @@ describe('Messung: exaktes Ausgleichsverfahren', () => {
     // eslint-disable-next-line no-console
     console.log(
       `[Messung] ungünstigster Fall bei ${n} Personen · "${s.method}" · ` +
-        `${s.transfers.length} Überweisungen · ${ms.toFixed(1)} ms`,
+        `${s.transfers.length} Überweisungen · ${ms.toFixed(1)} ms` +
+        (timeLimitsApply ? '' : ' · ohne Zeitgrenze (Stryker)'),
     );
 
     expect(checkSettlement(l, s).ok).toBe(true);
     // n/2 unabhängige Paare → n/2 Gruppen → n − n/2 Überweisungen.
     expect(s.transfers).toHaveLength(n / 2);
-    expect(ms).toBeLessThan(2000);
+    if (timeLimitsApply) expect(ms).toBeLessThan(2000);
   });
 });
