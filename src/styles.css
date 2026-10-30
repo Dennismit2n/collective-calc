@@ -442,12 +442,16 @@ ol.transfers .link:focus-visible {
 }
 
 /* Gleich breite Beschriftungsspalte: „Gezahlt von" und „Zuletzt" stehen
-   dadurch übereinander, und jede Kürzelreihe hat sichtbar eine Zugehörigkeit. */
+   dadurch übereinander, und jede Kürzelreihe hat sichtbar eine Zugehörigkeit.
+   Längere Beschriftungen („Usado hace poco", „Son kullanılanlar") brechen in
+   zwei Zeilen um, statt in die Kürzel zu ragen. Zwei Zeilen sind niedriger als
+   ein Kürzel, die Leiste wird dadurch nicht höher. */
 .rowlabel {
-  white-space: nowrap;
   flex: 0 0 auto;
   width: 6.8em;
+  line-height: 1.2;
   text-align: right;
+  overflow-wrap: break-word;
 }
 @media (max-width: 420px) {
   .rowlabel {
@@ -624,6 +628,12 @@ td.amount {
   text-align: right;
   white-space: nowrap;
   font-weight: 600;
+}
+/* Das Wort vor dem Betrag darf umbrechen, der Betrag selbst nicht: Auf
+   Niederländisch („moet betalen −€ 19,93") war die Zelle am Handy breiter als
+   ihre Spalte und schob die ganze Tabelle über den Rand. */
+td.amount span.small {
+  white-space: normal;
 }
 .credit {
   color: var(--credit);
