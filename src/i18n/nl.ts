@@ -7,6 +7,7 @@ export const nl: Messages = {
   'nav.events': 'Gelegenheden',
   'nav.back': 'Terug',
   'settings.language': 'Taal',
+  'install.button': 'Installeren',
   'settings.theme': 'Weergave',
   'settings.theme.system': 'Systeem',
   'settings.theme.light': 'Licht',

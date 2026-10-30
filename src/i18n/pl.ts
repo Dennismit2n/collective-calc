@@ -11,6 +11,7 @@ export const pl: Messages = {
   'nav.events': 'Wydarzenia',
   'nav.back': 'Wstecz',
   'settings.language': 'Język',
+  'install.button': 'Zainstaluj',
   'settings.theme': 'Wygląd',
   'settings.theme.system': 'Systemowy',
   'settings.theme.light': 'Jasny',

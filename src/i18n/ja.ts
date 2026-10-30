@@ -8,6 +8,7 @@ export const ja: Messages = {
   'nav.events': 'イベント',
   'nav.back': '戻る',
   'settings.language': '言語',
+  'install.button': 'インストール',
   'settings.theme': '表示',
   'settings.theme.system': 'システムに合わせる',
   'settings.theme.light': 'ライト',

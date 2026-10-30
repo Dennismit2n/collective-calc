@@ -11,6 +11,7 @@ export const ru: Messages = {
   'nav.events': 'События',
   'nav.back': 'Назад',
   'settings.language': 'Язык',
+  'install.button': 'Установить',
   'settings.theme': 'Оформление',
   'settings.theme.system': 'Системное',
   'settings.theme.light': 'Светлое',

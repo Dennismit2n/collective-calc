@@ -18,6 +18,7 @@ export const de = {
   'nav.events': 'Anlässe',
   'nav.back': 'Zurück',
   'settings.language': 'Sprache',
+  'install.button': 'Installieren',
   'settings.theme': 'Darstellung',
   'settings.theme.system': 'System',
   'settings.theme.light': 'Hell',

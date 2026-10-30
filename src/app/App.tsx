@@ -85,6 +85,26 @@ function useStore(store: AppStore): void {
   useEffect(() => store.subscribe(() => force((n) => n + 1)), [store]);
 }
 
+/** Der Browser bietet die Installation an, und die Seite läuft nicht schon als App. */
+function kannInstallieren(): boolean {
+  const alsApp =
+    window.matchMedia?.('(display-mode: standalone)').matches === true ||
+    (navigator as Navigator & { standalone?: boolean }).standalone === true;
+  return !!window.deferredInstall && !alsApp;
+}
+
+/** Öffnet den Installationsdialog des Browsers. Ein Ereignis reicht für einen Dialog. */
+function installieren(): void {
+  const evt = window.deferredInstall;
+  window.deferredInstall = null;
+  if (!evt) return;
+  try {
+    void evt.prompt().catch(() => {});
+  } catch {
+    /* kein Dialog verfügbar */
+  }
+}
+
 export function App({ store }: { store: AppStore }) {
   useStore(store);
   const [view, setView] = useState<View>('event');
@@ -127,6 +147,24 @@ export function App({ store }: { store: AppStore }) {
       cancelled = true;
     };
   }, [incoming.status]);
+
+  // Knopf „Installieren“: erscheint erst, wenn der Browser die Installation anbietet
+  // (das Ereignis hebt das Skript im Kopf von index.html auf), nie in der installierten App.
+  const [installierbar, setInstallierbar] = useState(kannInstallieren);
+  useEffect(() => {
+    const pruefen = () => setInstallierbar(kannInstallieren());
+    const installiert = () => {
+      window.deferredInstall = null;
+      pruefen();
+    };
+    window.onInstallReady = pruefen;
+    window.addEventListener('appinstalled', installiert);
+    pruefen();
+    return () => {
+      window.onInstallReady = undefined;
+      window.removeEventListener('appinstalled', installiert);
+    };
+  }, []);
 
   const settings = store.state.settings;
   const lang = resolveLanguage(settings.lang, navigator.languages ?? [navigator.language]);
@@ -218,6 +256,30 @@ export function App({ store }: { store: AppStore }) {
             }}
           >
             {t.t('nav.events')}
+          </button>
+        )}
+
+        {installierbar && (
+          <button
+            type="button"
+            id="installBtn"
+            class="install-btn"
+            onClick={() => {
+              installieren();
+              setInstallierbar(kannInstallieren());
+            }}
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path
+                d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19.5h14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            {t.t('install.button')}
           </button>
         )}
 

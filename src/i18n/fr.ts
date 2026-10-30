@@ -7,6 +7,7 @@ export const fr: Messages = {
   'nav.events': 'Occasions',
   'nav.back': 'Retour',
   'settings.language': 'Langue',
+  'install.button': 'Installer',
   'settings.theme': 'Apparence',
   'settings.theme.system': 'Système',
   'settings.theme.light': 'Clair',

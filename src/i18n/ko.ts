@@ -8,6 +8,7 @@ export const ko: Messages = {
   'nav.events': '모임',
   'nav.back': '뒤로',
   'settings.language': '언어',
+  'install.button': '설치',
   'settings.theme': '화면',
   'settings.theme.system': '시스템 설정',
   'settings.theme.light': '밝게',
