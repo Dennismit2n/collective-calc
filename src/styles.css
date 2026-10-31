@@ -209,6 +209,17 @@ h1 {
   margin: 4px 0 2px;
   letter-spacing: -0.02em;
 }
+/* Der Titel des Anlasses ist ein einzeiliges Eingabefeld und kann nicht
+   umbrechen. Unter etwa 390 px wird er anteilig kleiner, damit der längste
+   Standardtitel (pl „Rozliczenie z dnia 28 października“, 344 px bei 22 px)
+   ganz hineinpasst, bei 320 px sind das knapp 18 px. Ein noch längerer
+   eigener Titel endet mit „…“ statt mitten im Wort. */
+h1.event-title {
+  font-size: clamp(17px, calc((100vw - 32px) * 0.062), 22px);
+}
+h1.event-title input {
+  text-overflow: ellipsis;
+}
 h2 {
   font-size: 15px;
   text-transform: uppercase;
