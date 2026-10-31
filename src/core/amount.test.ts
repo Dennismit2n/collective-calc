@@ -44,6 +44,11 @@ describe('Betrag eingeben', () => {
     expect(parseAmount('1.500')?.interpretation).toBe('grouped');
   });
 
+  it('meldet auch bei beiden Trennzeichen, welches als Komma gelesen wurde', () => {
+    expect(parseAmount('1.234,56')?.interpretation).toBe('decimal-comma');
+    expect(parseAmount('1,234.56')?.interpretation).toBe('decimal-dot');
+  });
+
   it('räumt Währungszeichen und Leerzeichen weg', () => {
     expect(parseAmount(' 12,50 € ')?.cents).toBe(1250);
     expect(parseAmount('€12.50')?.cents).toBe(1250);
@@ -167,6 +172,13 @@ describe('Betrag anzeigen', () => {
     // dort wäre ein sichtbarer Bruch.
     expect(formatExact('1000', '1', 'de-DE')).toBe('10,00');
     expect(formatExact('1000', '2', 'de-DE')).toBe('5,00');
+  });
+
+  it('setzt auch bei glatten negativen Werten das echte Minuszeichen', () => {
+    // Intl schreibt einen Bindestrich, der Saldo daneben ein echtes Minus (formatSigned).
+    // Bis Oktober 2026 stand bei glatten Werten der Bindestrich, bei krummen das Minus.
+    expect(formatExact('-1000', '1', 'de-DE')).toBe('−10,00');
+    expect(formatExact('-2000', '2', 'de-DE')).toBe('−10,00');
   });
 
   it('folgt auch beim Exaktwert der Sprache des Lesers', () => {
