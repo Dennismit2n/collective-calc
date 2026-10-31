@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { MemoryStore, Store, shouldAskForBackup } from './storage.js';
+import { MemoryStore, Store, THEMES, shouldAskForBackup, toTheme } from './storage.js';
 import { migrate, MigrationError } from './migrate.js';
 import { entry, equalWeights, ledger, people } from './testing.js';
 import { LEDGER_VERSION } from './types.js';
@@ -74,6 +74,45 @@ describe('Ablage', () => {
 
     s.setSettings({ theme: 'dark', lang: 'tr' });
     expect(s.getSettings()).toEqual({ theme: 'dark', lang: 'tr' });
+  });
+
+  it('teilt die Darstellung mit allen Werkzeugen der Werkstatt (werkstatt.darstellung, roh)', () => {
+    const backend = new MemoryStore();
+    const s = new Store(backend);
+    // eine Wahl in einem anderen Werkzeug geht vor dem eigenen Rückfall
+    backend.setItem('cc.v1.settings', '{"theme":"light","lang":"de"}');
+    backend.setItem('werkstatt.darstellung', 'hc-dark');
+    expect(s.getSettings()).toEqual({ theme: 'hc-dark', lang: 'de' });
+    // Werte anderer Werkzeuge zählen als ihre Familie, Unbekanntes als System
+    backend.setItem('werkstatt.darstellung', 'soft-dark');
+    expect(s.getSettings().theme).toBe('dark');
+    backend.setItem('werkstatt.darstellung', 'pink');
+    expect(s.getSettings().theme).toBe('system');
+    // eine eigene Wahl landet roh im gemeinsamen Schlüssel
+    s.setSettings({ theme: 'cvd-light', lang: 'de' });
+    expect(backend.getItem('werkstatt.darstellung')).toBe('cvd-light');
+    expect(s.getSettings()).toEqual({ theme: 'cvd-light', lang: 'de' });
+    // ein Sprachwechsel überschreibt keine Darstellung, die ein anderes Werkzeug inzwischen gewählt hat
+    backend.setItem('werkstatt.darstellung', 'invert');
+    s.setSettings({ theme: 'invert', lang: 'fr' });
+    expect(backend.getItem('werkstatt.darstellung')).toBe('invert');
+    expect(s.getSettings()).toEqual({ theme: 'invert', lang: 'fr' });
+    // ohne gemeinsamen Schlüssel gilt das eigene Thema
+    backend.removeItem('werkstatt.darstellung');
+    expect(s.getSettings().theme).toBe('invert');
+    // und ein bloßer Sprachwechsel schreibt gar nichts in den gemeinsamen Schlüssel
+    s.setSettings({ theme: 'invert', lang: 'nl' });
+    expect(backend.getItem('werkstatt.darstellung')).toBeNull();
+    expect(s.getSettings()).toEqual({ theme: 'invert', lang: 'nl' });
+  });
+
+  it('toTheme kennt die acht Darstellungen und ordnet Fremdes zu', () => {
+    for (const t of THEMES) expect(toTheme(t)).toBe(t);
+    expect(toTheme('soft-dark')).toBe('dark');
+    expect(toTheme('extra-light')).toBe('light');
+    expect(toTheme('Dunkel')).toBe('system');
+    expect(toTheme(null)).toBe('system');
+    expect(toTheme(3)).toBe('system');
   });
 
   it('fragt pro Anlass nur einmal nach der Sicherung', () => {

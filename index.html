@@ -43,11 +43,23 @@
     <link rel="manifest" href="./manifest.webmanifest" />
     <script>
       // Vor dem ersten Malen anwenden, damit es beim Laden nicht kurz aufblitzt.
+      // Seit 31.10.2026 zuerst die gemeinsame Darstellung aller Werkzeuge der Werkstatt
+      // (werkstatt.darstellung, roher Text), sonst das Thema aus den Einstellungen.
+      // data-vision trägt Hoher Kontrast, Farbenblind und Umkehr; dieselbe Auflösung
+      // steht in App.tsx (applyTheme).
       try {
-        var s = JSON.parse(localStorage.getItem('cc.v1.settings') || '{}');
-        if (s.theme === 'light' || s.theme === 'dark') {
-          document.documentElement.setAttribute('data-theme', s.theme);
-        }
+        var r = document.documentElement, m = window.matchMedia, t = null, vi = null;
+        var v = localStorage.getItem('werkstatt.darstellung');
+        if (!v) v = JSON.parse(localStorage.getItem('cc.v1.settings') || '{}').theme;
+        if (v === 'light' || v === 'dark') t = v;
+        else if (v === 'hc-dark' || v === 'hc-light') { t = v.slice(3); vi = 'contrast'; }
+        else if (v === 'cvd-dark' || v === 'cvd-light') { t = v.slice(4); vi = 'cvd'; }
+        else if (v === 'invert') vi = 'invert';
+        else if (typeof v === 'string' && /dark/.test(v)) t = 'dark';
+        else if (typeof v === 'string' && /light/.test(v)) t = 'light';
+        else if (m && m('(prefers-contrast: more)').matches) { t = m('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; vi = 'contrast'; }
+        if (t) r.setAttribute('data-theme', t);
+        if (vi) r.setAttribute('data-vision', vi);
       } catch (e) {}
       // Knopf „Installieren“: Chrome, Edge und Samsung Internet melden die
       // Installierbarkeit mit beforeinstallprompt, manchmal bevor die App läuft.

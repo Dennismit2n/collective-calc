@@ -16,6 +16,11 @@ export const pl: Messages = {
   'settings.theme.system': 'Systemowy',
   'settings.theme.light': 'Jasny',
   'settings.theme.dark': 'Ciemny',
+  'settings.theme.hcDark': 'Wysoki kontrast, ciemny',
+  'settings.theme.hcLight': 'Wysoki kontrast, jasny',
+  'settings.theme.cvdDark': 'Dla daltonistów, ciemny',
+  'settings.theme.cvdLight': 'Dla daltonistów, jasny',
+  'settings.theme.invert': 'Odwrócone kolory',
   'settings.machineTranslated': 'To tłumaczenie powstało automatycznie.',
   'settings.improveTranslation': 'Zaproponuj poprawkę',
 

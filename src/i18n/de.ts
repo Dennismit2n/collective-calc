@@ -23,6 +23,11 @@ export const de = {
   'settings.theme.system': 'System',
   'settings.theme.light': 'Hell',
   'settings.theme.dark': 'Dunkel',
+  'settings.theme.hcDark': 'Hoher Kontrast dunkel',
+  'settings.theme.hcLight': 'Hoher Kontrast hell',
+  'settings.theme.cvdDark': 'Farbenblind dunkel',
+  'settings.theme.cvdLight': 'Farbenblind hell',
+  'settings.theme.invert': 'Umgekehrte Farben',
   'settings.machineTranslated': 'Diese Übersetzung ist maschinell erstellt.',
   'settings.improveTranslation': 'Verbesserung vorschlagen',
 

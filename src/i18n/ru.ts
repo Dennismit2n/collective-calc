@@ -16,6 +16,11 @@ export const ru: Messages = {
   'settings.theme.system': 'Системное',
   'settings.theme.light': 'Светлое',
   'settings.theme.dark': 'Тёмное',
+  'settings.theme.hcDark': 'Контрастная тёмная',
+  'settings.theme.hcLight': 'Контрастная светлая',
+  'settings.theme.cvdDark': 'Для дальтоников, тёмная',
+  'settings.theme.cvdLight': 'Для дальтоников, светлая',
+  'settings.theme.invert': 'Инверсия цветов',
   'settings.machineTranslated': 'Этот перевод сделан автоматически.',
   'settings.improveTranslation': 'Предложить улучшение',
 

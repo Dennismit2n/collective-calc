@@ -691,3 +691,75 @@ ol.transfers li:last-child {
     transition: none !important;
   }
 }
+
+/* Sehhilfen der Werkstatt (31.10.2026): Hoher Kontrast, Farbenblind, Umgekehrte
+   Farben. Eine Wahl für alle Werkzeuge (werkstatt.darstellung, siehe storage.ts).
+   data-theme trägt hell/dunkel wie bisher, data-vision contrast, cvd oder invert.
+   Die Farbblöcke oben bleiben, wie sie sind. */
+
+/* Hoher Kontrast dunkel: Schwarz, Schrift #E0E0E0 (15,91:1). Grün, Bernstein und
+   der Hauptknopf (dunkle Schrift auf Grün, 9,69) halten im Dunkeln schon 7:1. */
+:root[data-vision='contrast'][data-theme='dark'] {
+  --bg: #000000;
+  --panel: #000000;
+  --panel-2: #121212;
+  --text: #e0e0e0;
+  --text-soft: #c4c4c4;
+  --border: #a0a0a0;
+  --shadow: none;
+  --brand-soft: #0b2414;
+  --credit-soft: #0b2414;
+  --debit-soft: #2a1f05;
+}
+/* Hoher Kontrast hell: Weiß, Schrift Schwarz, Grün und Bernstein auf 7:1 nachgedunkelt;
+   der Hauptknopf trägt dann weiße Schrift */
+:root[data-vision='contrast'][data-theme='light'] {
+  --bg: #ffffff;
+  --panel: #ffffff;
+  --panel-2: #efefef;
+  --text: #000000;
+  --text-soft: #2b2b2b;
+  --border: #585757;
+  --shadow: none;
+  --brand: #005b24;
+  --link: #005b24;
+  --credit: #005b24;
+  --debit: #823900;
+  --brand-soft: #e8f3eb;
+  --credit-soft: #e8f3eb;
+  --debit-soft: #fbf1e3;
+}
+:root[data-vision='contrast'][data-theme='light'] button.primary { color: #ffffff; }
+:root[data-vision='contrast'] :is(button, input, select, textarea) { border-width: 2px; }
+:root[data-vision='contrast'] a { text-decoration: underline; }
+
+/* Am Handy stehen Darstellung und Sprache wieder in einer Zeile. Ein Auswahlfeld ist so breit wie
+   sein längster Eintrag, und das ist seit den acht Darstellungen „Hoher Kontrast dunkel“; ohne diese
+   Regel rutschte die Sprache bei 320 px in eine eigene Zeile. */
+@media (max-width: 560px) {
+  header.top #theme { flex: 1 1 0; min-width: 0; }
+  header.top #lang { flex: 0 1 auto; min-width: 0; max-width: 45%; }
+}
+
+/* Farbenblind: „bekommt Geld“ und „zahlt“ in Blau und Orange (Okabe-Ito) statt Grün
+   und Bernstein. Beides steht ohnehin als Text da. */
+:root[data-vision='cvd'][data-theme='light'] {
+  --credit: #0071b1;
+  --debit: #926300;
+  --credit-soft: #e3eef7;
+  --debit-soft: #fbf1df;
+}
+:root[data-vision='cvd'][data-theme='dark'] {
+  --credit: #56b4e9;
+  --debit: #e69f00;
+  --credit-soft: #0f2536;
+  --debit-soft: #2a1f05;
+}
+
+/* Umgekehrte Farben wie der Farbfilter von Windows */
+:root[data-vision='invert'] { filter: invert(1); }
+:root[data-vision='invert'] :is(img:not([src*='.svg']), video, [data-echt]):not([data-echt] *) { filter: invert(1); }
+@media print {
+  :root[data-vision='invert'],
+  :root[data-vision='invert'] :is(img:not([src*='.svg']), video, [data-echt]):not([data-echt] *) { filter: none; }
+}

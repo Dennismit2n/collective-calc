@@ -21,10 +21,29 @@ const KEY_LAST = 'cc.v1.lastOpened';
 const KEY_SETTINGS = 'cc.v1.settings';
 /** Merkt sich je Anlass, ob die Sicherungsaufforderung schon gezeigt wurde. */
 const KEY_BACKUP_ASKED = 'cc.v1.backupAsked';
+/**
+ * Die Darstellung gilt seit dem 31.10.2026 in allen Werkzeugen der Werkstatt: Sie liegen
+ * auf einem Ursprung und lesen und schreiben diesen Schlüssel als rohen Text. Er geht vor
+ * dem Thema in den Einstellungen, das nur noch Rückfall ist.
+ */
+export const KEY_SHARED_THEME = 'werkstatt.darstellung';
+
+/** System, Hell, Dunkel und die drei Sehhilfen, je hell oder dunkel (Umkehr folgt dem System). */
+export const THEMES = ['system', 'light', 'dark', 'hc-dark', 'hc-light', 'cvd-dark', 'cvd-light', 'invert'] as const;
+export type Theme = (typeof THEMES)[number];
+
+/** Ein Wert eines anderen Werkzeugs, den es hier nicht gibt (Spectroton „soft-dark“), zählt als seine Familie. */
+export function toTheme(value: unknown): Theme {
+  if (typeof value !== 'string') return 'system';
+  if ((THEMES as readonly string[]).includes(value)) return value as Theme;
+  if (value.includes('dark')) return 'dark';
+  if (value.includes('light')) return 'light';
+  return 'system';
+}
 
 export interface Settings {
   /** 'system' folgt der Betriebssystem-Einstellung — wie auf der Startseite. */
-  theme: 'system' | 'light' | 'dark';
+  theme: Theme;
   /** Sprachkürzel oder 'auto' für die Browsereinstellung. */
   lang: string;
 }
@@ -122,20 +141,25 @@ export class Store {
   }
 
   getSettings(): Settings {
+    const shared = this.backend.getItem(KEY_SHARED_THEME);
     const raw = this.backend.getItem(KEY_SETTINGS);
-    if (raw === null) return { ...DEFAULT_SETTINGS };
-    try {
-      const parsed = JSON.parse(raw) as Partial<Settings>;
-      return {
-        theme: parsed.theme === 'light' || parsed.theme === 'dark' ? parsed.theme : 'system',
-        lang: typeof parsed.lang === 'string' ? parsed.lang : 'auto',
-      };
-    } catch {
-      return { ...DEFAULT_SETTINGS };
+    let own: Settings = { ...DEFAULT_SETTINGS };
+    if (raw !== null) {
+      try {
+        const parsed = JSON.parse(raw) as Partial<Settings>;
+        own = { theme: toTheme(parsed.theme), lang: typeof parsed.lang === 'string' ? parsed.lang : 'auto' };
+      } catch {
+        own = { ...DEFAULT_SETTINGS };
+      }
     }
+    // Die gemeinsame Darstellung der Werkstatt geht vor dem eigenen Rückfall
+    return shared ? { ...own, theme: toTheme(shared) } : own;
   }
 
   setSettings(settings: Settings): void {
+    // Nur eine echte Änderung der Darstellung geht in den gemeinsamen Schlüssel: ein
+    // Sprachwechsel soll keine Wahl überschreiben, die gerade ein anderes Werkzeug traf.
+    if (settings.theme !== this.getSettings().theme) this.backend.setItem(KEY_SHARED_THEME, settings.theme);
     this.backend.setItem(KEY_SETTINGS, JSON.stringify(settings));
   }
 

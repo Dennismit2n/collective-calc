@@ -13,6 +13,11 @@ export const zh: Messages = {
   'settings.theme.system': '跟随系统',
   'settings.theme.light': '浅色',
   'settings.theme.dark': '深色',
+  'settings.theme.hcDark': '高对比度深色',
+  'settings.theme.hcLight': '高对比度浅色',
+  'settings.theme.cvdDark': '色盲友好深色',
+  'settings.theme.cvdLight': '色盲友好浅色',
+  'settings.theme.invert': '反转颜色',
   'settings.machineTranslated': '本译文由机器生成。',
   'settings.improveTranslation': '提出改进建议',
 

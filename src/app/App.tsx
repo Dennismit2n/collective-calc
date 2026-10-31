@@ -38,7 +38,8 @@ import type { DecodedLink } from '../core/codec.js';
 import { decodeLink } from '../core/codec.js';
 import { describeError } from '../i18n/errors.js';
 import { count, countersForNewEntry } from '../core/counters.js';
-import { shouldAskForBackup } from '../core/storage.js';
+import { KEY_SHARED_THEME, shouldAskForBackup, toTheme } from '../core/storage.js';
+import type { Theme } from '../core/storage.js';
 import { downloadFile, safeFileName, toJson } from '../core/exportFile.js';
 import { CurrencyPicker } from '../ui/CurrencyPicker.js';
 
@@ -77,6 +78,34 @@ function focusById(id: string): void {
   }
   el.focus();
   el.scrollIntoView({ block: 'nearest' });
+}
+
+/**
+ * Darstellung → Attribute am Wurzelelement, genau wie das Kopf-Skript in index.html:
+ * data-theme trägt hell/dunkel, data-vision die Sehhilfen der Werkstatt (Hoher Kontrast,
+ * Farbenblind, Umkehr). „System“ folgt auch „Kontrast erhöhen“ am Gerät.
+ */
+function applyTheme(theme: Theme): void {
+  const root = document.documentElement;
+  const media = (q: string): boolean => typeof matchMedia === 'function' && matchMedia(q).matches;
+  let base: 'light' | 'dark' | null = null;
+  let vision: 'contrast' | 'cvd' | 'invert' | null = null;
+  if (theme === 'light' || theme === 'dark') base = theme;
+  else if (theme === 'hc-dark' || theme === 'hc-light') {
+    base = theme === 'hc-dark' ? 'dark' : 'light';
+    vision = 'contrast';
+  } else if (theme === 'cvd-dark' || theme === 'cvd-light') {
+    base = theme === 'cvd-dark' ? 'dark' : 'light';
+    vision = 'cvd';
+  } else if (theme === 'invert') vision = 'invert';
+  else if (media('(prefers-contrast: more)')) {
+    base = media('(prefers-color-scheme: dark)') ? 'dark' : 'light';
+    vision = 'contrast';
+  }
+  if (base) root.setAttribute('data-theme', base);
+  else root.removeAttribute('data-theme');
+  if (vision) root.setAttribute('data-vision', vision);
+  else root.removeAttribute('data-vision');
 }
 
 /** Erzwingt ein Neuzeichnen, wenn sich der Zustand ändert. */
@@ -182,9 +211,24 @@ export function App({ store }: { store: AppStore }) {
   // Vorleseprogramme richtig aussprechen (F18/F26).
   useEffect(() => {
     document.documentElement.lang = lang;
-    if (settings.theme === 'system') document.documentElement.removeAttribute('data-theme');
-    else document.documentElement.setAttribute('data-theme', settings.theme);
+    applyTheme(settings.theme);
+    // „System“ folgt dem Gerät live, auch bei „Kontrast erhöhen“
+    if (settings.theme !== 'system' || typeof matchMedia !== 'function') return undefined;
+    const lists = ['(prefers-color-scheme: dark)', '(prefers-contrast: more)'].map((q) => matchMedia(q));
+    const follow = (): void => applyTheme('system');
+    lists.forEach((l) => l.addEventListener('change', follow));
+    return () => lists.forEach((l) => l.removeEventListener('change', follow));
   }, [lang, settings.theme]);
+
+  // Eine Darstellung, die ein anderes Werkzeug der Werkstatt wählt (anderer Tab), gilt auch hier
+  useEffect(() => {
+    const onStorage = (e: StorageEvent): void => {
+      if (e.key !== KEY_SHARED_THEME) return;
+      store.setSettings({ ...store.state.settings, theme: toTheme(e.newValue) });
+    };
+    addEventListener('storage', onStorage);
+    return () => removeEventListener('storage', onStorage);
+  }, [store]);
 
   const ledger = store.current;
 
@@ -299,6 +343,11 @@ export function App({ store }: { store: AppStore }) {
           <option value="system">{t.t('settings.theme.system')}</option>
           <option value="light">{t.t('settings.theme.light')}</option>
           <option value="dark">{t.t('settings.theme.dark')}</option>
+          <option value="hc-dark">{t.t('settings.theme.hcDark')}</option>
+          <option value="hc-light">{t.t('settings.theme.hcLight')}</option>
+          <option value="cvd-dark">{t.t('settings.theme.cvdDark')}</option>
+          <option value="cvd-light">{t.t('settings.theme.cvdLight')}</option>
+          <option value="invert">{t.t('settings.theme.invert')}</option>
         </select>
 
         <label class="skip" for="lang">
