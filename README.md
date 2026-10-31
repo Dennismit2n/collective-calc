@@ -94,13 +94,13 @@ npm run test:mutation
 
 | Datei | erkannt |
 |---|---|
-| `amount.ts` — Betragseingabe | 75,7 % |
-| `balances.ts` | 72,4 % |
+| `balances.ts` — Eingangskontrolle, Salden | 98,0 % |
+| `invariants.ts` | 89,3 % |
+| `rational.ts` — exakte Bruchrechnung | 88,9 % |
+| `settle.ts` — Rundung, offener Rest, Ausgleich | 82,4 % |
+| `amount.ts` — Betragseingabe | 79,6 % |
 | `currency.ts` — Umrechnung | 70,9 % |
-| `settle.ts` — Rundung, offener Rest, Ausgleich | 63,0 % |
-| `rational.ts` — exakte Bruchrechnung | 58,3 % |
-| `invariants.ts` | 55,7 % |
-| **gesamt** | **65,7 %** |
+| **gesamt** | **84,7 %** |
 
 Bis Oktober 2026 stand hier 86,4 %, die Zahl war zu hoch. Schuld waren die Zeitgrenzen der
 Messtests. Unter Stryker läuft der Rechenkern viel langsamer, auf GitHub lag der Test mit 2000
@@ -108,7 +108,15 @@ Abrechnungen damit knapp unter dem 5-Sekunden-Limit von Vitest. Jeder Mutant, de
 etwas bremste, riss das Limit und zählte als erkannt, auch wenn das Ergebnis stimmte (im Lauf vom
 31.10.2026 galten so 237 von 828 als erkannt, ohne Limit überleben 172 davon). Seit dem 31.10.2026
 gelten unter Stryker keine Zeitgrenzen mehr, der normale Testlauf prüft sie weiter. Ehrlich
-gemessen sind es 65,7 %. Die Tests schärfe ich nach, bis dahin zeigt die Tabelle den echten Stand.
+gemessen waren es 65,7 %.
+
+Danach habe ich die Tests nachgeschärft, seitdem sind es 84,7 %. Dabei kam raus, dass ein ganzer
+Teil der Rechnung nie geprüft war, und zwar wer den Rest-Cent trägt. Man konnte den Vergleich, der
+das entscheidet, komplett leeren, und kein Test wurde rot. Jetzt gibt es dafür Fälle, die sich im
+Kopf nachrechnen lassen (zwei Leute zahlen je 1,00 € für drei andere, zwei Cent bleiben offen,
+und die landen bei beiden statt zweimal beim selben). Außerdem hat die Nachschärfung einen kleinen
+Fehler gefunden: Beim antippbaren Exaktwert stand bei glatten negativen Beträgen ein Bindestrich,
+bei krummen ein echtes Minuszeichen. Jetzt steht überall das Minuszeichen.
 
 Der erste Lauf lag bei 82,5 % und hat zwei echte Mängel aufgedeckt: eine Handvoll
 Bruchrechnungs-Funktionen, die nie jemand aufrief und die deshalb gelöscht wurden statt
@@ -116,10 +124,13 @@ nachträglich getestet zu werden — und die Erkenntnis, dass die Kurzliste der 
 ungarischen Forint enthielt, der keine Untereinheit hat. Jeder Betrag wäre dort um den Faktor
 hundert daneben gewesen. Ein Test prüft die Liste jetzt gegen dieselbe Regel wie das Freifeld.
 
-Die verbleibenden überlebenden Mutanten sind zu einem guten Teil gleichwertig: Änderungen, die
-sich am beobachtbaren Verhalten nicht auswirken, etwa doppelte Absicherungen, bei denen der
-zweite Wächter greift, wenn man den ersten entfernt. Sie ließen sich nur mit Tests „töten", die
-allein dafür geschrieben wären — und solche Tests messen dann sich selbst statt der Software.
+Was jetzt noch überlebt, habe ich einzeln durchgesehen. Fast alles davon ist gleichwertig, also
+eine Änderung, die am Ergebnis nichts ändern kann. Ein Beispiel aus der Bruchrechnung: Aus
+`a < 0n` wird `a <= 0n`, das macht nur bei null einen Unterschied, und dort ist −0 dasselbe wie 0.
+Ein anderes aus der Umrechnung: Ein unbrauchbarer Kurs wird zweimal abgefangen, einmal am Kurs und
+einmal am Ergebnis. Nimmt man die erste Prüfung raus, greift die zweite. Solche Mutanten ließen
+sich nur mit Tests „töten", die allein dafür geschrieben wären, und solche Tests messen dann sich
+selbst statt der Software. Auf 100 % kommt der Wert also nie, und das ist auch richtig so.
 
 ## Barrierefreiheit
 

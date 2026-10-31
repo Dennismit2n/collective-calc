@@ -86,6 +86,139 @@ describe('die Eingangskontrolle schlägt an, wenn Daten verfälscht sind', () =>
   });
 });
 
+/*
+ * Die Meldungen landen wörtlich auf dem Bildschirm, wenn die Kontrolle anschlägt.
+ * Es reicht deshalb nicht, dass irgendeine Regel rot wird: Die richtige muss es sein,
+ * sonst sucht man den Fehler an der falschen Stelle. Jede Verfälschung hier trifft
+ * möglichst nur eine Regel. Ausgangslage: Anna +650, Ben −22, Clara −550, Dora −78,
+ * also Ben → Anna 22, Clara → Anna 550, Dora → Anna 78.
+ */
+describe('jede Regel meldet sich mit ihrer eigenen Nummer', () => {
+  it('(4) vertauschte Absender bei gleicher Summe', () => {
+    const s = corrupt((x) => {
+      x.transfers[0]!.fromId = 'p3';
+      x.transfers[1]!.fromId = 'p2';
+    });
+    expect(checkSettlement(l, s).problems).toEqual([
+      '(4) p2: Überweisungen ergeben -550, erwartet -22.',
+      '(4) p3: Überweisungen ergeben -22, erwartet -550.',
+    ]);
+  });
+
+  it('(6) eine Überweisung über null Cent', () => {
+    const s = corrupt((x) => {
+      x.transfers.push({ fromId: 'p2', toId: 'p1', amount: 0 });
+    });
+    expect(checkSettlement(l, s).problems).toEqual(['(6) Überweisungsbetrag ist keine positive ganze Zahl.']);
+  });
+
+  it('(6) Bruchteile eines Cents, auch wenn die Summe stimmt', () => {
+    const s = corrupt((x) => {
+      x.transfers[0]!.amount = 21.5;
+      x.transfers.push({ fromId: 'p2', toId: 'p1', amount: 0.5 });
+    });
+    expect(checkSettlement(l, s).problems).toEqual([
+      '(6) Überweisungsbetrag ist keine positive ganze Zahl.',
+      '(6) Überweisungsbetrag ist keine positive ganze Zahl.',
+    ]);
+  });
+
+  it('(6) ein unbekannter Empfänger', () => {
+    const s = corrupt((x) => {
+      x.transfers[0]!.toId = 'p9';
+    });
+    expect(checkSettlement(l, s).problems).toEqual([
+      '(6) Überweisung betrifft eine unbekannte Person.',
+      '(4) p1: Überweisungen ergeben 628, erwartet 650.',
+    ]);
+  });
+
+  it('(6) ein unbekannter Absender', () => {
+    const s = corrupt((x) => {
+      x.transfers[0]!.fromId = 'p9';
+    });
+    expect(checkSettlement(l, s).problems).toEqual([
+      '(6) Überweisung betrifft eine unbekannte Person.',
+      '(4) p2: Überweisungen ergeben 0, erwartet -22.',
+    ]);
+  });
+
+  it('(6) und (3) bei einer Überweisung an sich selbst', () => {
+    // Für Anna selbst hebt sie sich auf, deshalb schweigt (4). Bewegt wird trotzdem zu viel.
+    const s = corrupt((x) => {
+      x.transfers.push({ fromId: 'p1', toId: 'p1', amount: 5 });
+    });
+    expect(checkSettlement(l, s).problems).toEqual([
+      '(6) Überweisung an sich selbst.',
+      '(3) Überweisungen (655) + Rest (0) ≠ Gesamtschuld (650).',
+    ]);
+  });
+
+  it('(3) nennt als Gesamtschuld die größere der beiden Seiten', () => {
+    // 1,01 € auf drei: Schuldner 66, Gläubiger 67, ein Cent offen. Die Gesamtschuld
+    // ist 67, denn 66 werden überwiesen und 1 bleibt offen.
+    const q = people('Anna', 'Ben', 'Clara');
+    const m = ledger(q, [entry(101, 'p1', equalWeights(q))]);
+    const s: Settlement = structuredClone(settle(m));
+    s.transfers.push({ fromId: 'p1', toId: 'p1', amount: 5 });
+    expect(checkSettlement(m, s).problems).toEqual([
+      '(6) Überweisung an sich selbst.',
+      '(3) Überweisungen (71) + Rest (1) ≠ Gesamtschuld (67).',
+    ]);
+  });
+
+  it('ein Anlass ohne Personen ist kein Fehler', () => {
+    // So sieht jeder neue Anlass aus, bevor jemand eingetragen ist.
+    const leer = ledger([], []);
+    expect(checkSettlement(leer, settle(leer)).problems).toEqual([]);
+  });
+
+  it('(5) mehr offener Rest als Personen minus eins', () => {
+    const rest = (amount: number) =>
+      checkSettlement(
+        l,
+        corrupt((x) => {
+          x.remainders.push({ personId: 'p1', amount, direction: 'receives-less' });
+        }),
+      ).problems;
+
+    expect(rest(4)).toContain('(5) Offener Rest 4 Cent übersteigt die Grenze von 3 Cent.');
+    // Drei Cent bei vier Personen sind noch erlaubt; die anderen Regeln schlagen
+    // hier trotzdem an, weil der Rest erfunden ist.
+    expect(rest(3).some((p) => p.startsWith('(5)'))).toBe(false);
+  });
+
+  it('(9) angezeigte Zahlen, die im Kopf nicht zum Saldo führen', () => {
+    const paidPlus = (cents: number) =>
+      checkSettlement(
+        l,
+        corrupt((x) => {
+          x.summaries[0]!.paid += cents;
+        }),
+      ).problems;
+
+    expect(paidPlus(2)).toEqual(['(9) p1: angezeigte Zahlen ergeben 652, der Saldo ist aber 650.']);
+    // Ein Cent ist erlaubt: Anteil und Saldo werden getrennt abgeschnitten.
+    expect(paidPlus(1)).toEqual([]);
+  });
+
+  it('(Zusatz) ein Saldo, der einen ganzen Cent neben dem exakten Wert liegt', () => {
+    const plus = corrupt((x) => {
+      x.summaries[0]!.balance = 651;
+    });
+    expect(checkSettlement(l, plus).problems).toContain(
+      '(Zusatz) p1: gerundeter Saldo weicht um mehr als 1 Cent ab.',
+    );
+
+    const minus = corrupt((x) => {
+      x.summaries[2]!.balance = -551;
+    });
+    expect(checkSettlement(l, minus).problems).toContain(
+      '(Zusatz) p3: gerundeter Saldo weicht um mehr als 1 Cent ab.',
+    );
+  });
+});
+
 describe('das exakte Verfahren ist dem gierigen nie unterlegen (F14)', () => {
   it('braucht im Musterfall eine Überweisung weniger', () => {
     // Salden +4 / −1 / −3 / +2 / −2
