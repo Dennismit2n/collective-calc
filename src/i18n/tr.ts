@@ -12,6 +12,11 @@ export const tr: Messages = {
   'settings.theme.system': 'Sistem',
   'settings.theme.light': 'Açık',
   'settings.theme.dark': 'Koyu',
+  'settings.theme.hcDark': 'Yüksek karşıtlık koyu',
+  'settings.theme.hcLight': 'Yüksek karşıtlık açık',
+  'settings.theme.cvdDark': 'Renk körü koyu',
+  'settings.theme.cvdLight': 'Renk körü açık',
+  'settings.theme.invert': 'Ters renkler',
   'settings.machineTranslated': 'Bu çeviri otomatik olarak oluşturuldu.',
   'settings.improveTranslation': 'İyileştirme öner',
 

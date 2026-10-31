@@ -13,6 +13,11 @@ export const ja: Messages = {
   'settings.theme.system': 'システムに合わせる',
   'settings.theme.light': 'ライト',
   'settings.theme.dark': 'ダーク',
+  'settings.theme.hcDark': 'ハイコントラスト（ダーク）',
+  'settings.theme.hcLight': 'ハイコントラスト（ライト）',
+  'settings.theme.cvdDark': '色覚サポート（ダーク）',
+  'settings.theme.cvdLight': '色覚サポート（ライト）',
+  'settings.theme.invert': '色反転',
   'settings.machineTranslated': 'この翻訳は自動生成されたものです。',
   'settings.improveTranslation': '改善を提案する',
 

@@ -12,6 +12,11 @@ export const nl: Messages = {
   'settings.theme.system': 'Systeem',
   'settings.theme.light': 'Licht',
   'settings.theme.dark': 'Donker',
+  'settings.theme.hcDark': 'Hoog contrast donker',
+  'settings.theme.hcLight': 'Hoog contrast licht',
+  'settings.theme.cvdDark': 'Kleurenblind donker',
+  'settings.theme.cvdLight': 'Kleurenblind licht',
+  'settings.theme.invert': 'Omgekeerde kleuren',
   'settings.machineTranslated': 'Deze vertaling is automatisch gemaakt.',
   'settings.improveTranslation': 'Verbetering voorstellen',
 

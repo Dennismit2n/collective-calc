@@ -12,6 +12,11 @@ export const hi: Messages = {
   'settings.theme.system': 'सिस्टम',
   'settings.theme.light': 'हल्का',
   'settings.theme.dark': 'गहरा',
+  'settings.theme.hcDark': 'उच्च कंट्रास्ट गहरी',
+  'settings.theme.hcLight': 'उच्च कंट्रास्ट हल्की',
+  'settings.theme.cvdDark': 'रंगांधता-अनुकूल गहरी',
+  'settings.theme.cvdLight': 'रंगांधता-अनुकूल हल्की',
+  'settings.theme.invert': 'उलटे रंग',
   'settings.machineTranslated': 'यह अनुवाद अपने आप तैयार किया गया है।',
   'settings.improveTranslation': 'सुधार सुझाएँ',
 

@@ -13,6 +13,11 @@ export const ko: Messages = {
   'settings.theme.system': '시스템 설정',
   'settings.theme.light': '밝게',
   'settings.theme.dark': '어둡게',
+  'settings.theme.hcDark': '고대비 다크',
+  'settings.theme.hcLight': '고대비 라이트',
+  'settings.theme.cvdDark': '색각 배려 다크',
+  'settings.theme.cvdLight': '색각 배려 라이트',
+  'settings.theme.invert': '색상 반전',
   'settings.machineTranslated': '이 번역은 자동으로 만들어졌습니다.',
   'settings.improveTranslation': '개선 제안하기',
 

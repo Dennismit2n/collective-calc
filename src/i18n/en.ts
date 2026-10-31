@@ -12,6 +12,11 @@ export const en: Messages = {
   'settings.theme.system': 'System',
   'settings.theme.light': 'Light',
   'settings.theme.dark': 'Dark',
+  'settings.theme.hcDark': 'High contrast dark',
+  'settings.theme.hcLight': 'High contrast light',
+  'settings.theme.cvdDark': 'Colour-blind dark',
+  'settings.theme.cvdLight': 'Colour-blind light',
+  'settings.theme.invert': 'Inverted colours',
   'settings.machineTranslated': 'This translation was generated automatically.',
   'settings.improveTranslation': 'Suggest an improvement',
 
