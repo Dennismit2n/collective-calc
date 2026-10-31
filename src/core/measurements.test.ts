@@ -7,7 +7,7 @@
  *  - Ab welcher Gruppengröße wird das exakte Ausgleichsverfahren spürbar langsam?
  */
 
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { settle, MAX_EXACT_PARTICIPANTS } from './settle.js';
 import { checkSettlement } from './invariants.js';
@@ -16,14 +16,19 @@ import { LEDGER_VERSION } from './types.js';
 
 /**
  * Unter Stryker läuft der Rechenkern instrumentiert und in mehreren Prozessen
- * gleichzeitig. Die Uhr misst dann die Messfühler mit, nicht das Verfahren:
- * Auf GitHub brauchte der ungünstigste Fall so 2,6 s, und der Mutationslauf
- * brach ab, bevor er einen einzigen Mutanten geprüft hatte. Die Zeitgrenzen
- * gelten deshalb nur im normalen Testlauf. Die Rechenprüfungen laufen immer,
- * und Mutanten, die das Verfahren ausbremsen, fängt Stryker mit seinem eigenen
- * Zeitlimit.
+ * gleichzeitig. Die Uhr misst dann die Messfühler mit, nicht das Verfahren.
+ * Auf GitHub hatte das zwei Folgen. Der ungünstigste Fall brauchte 2,6 s, und
+ * der Mutationslauf brach ab, bevor er einen einzigen Mutanten geprüft hatte.
+ * Und die 2000 Abrechnungen lagen knapp unter dem 5-Sekunden-Limit von Vitest:
+ * Jeder etwas langsamere Mutant riss es und galt als erkannt, auch einer, der
+ * am Ergebnis nichts änderte (237 von 828 im Lauf vom 31.10.2026).
+ *
+ * Unter Stryker gelten deshalb weder die eigenen Zeitgrenzen noch das Limit
+ * von Vitest. Die Rechenprüfungen laufen immer, und Mutanten, die das
+ * Verfahren wirklich ausbremsen, fängt Stryker mit seinem eigenen Zeitlimit.
  */
 const timeLimitsApply = import.meta.env.STRYKER_MUTATOR_WORKER === undefined;
+if (!timeLimitsApply) vi.setConfig({ testTimeout: 120_000 });
 
 /** Deterministischer Zufall, damit die Messung reproduzierbar bleibt. */
 function makeRng(seed: number): () => number {

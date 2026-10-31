@@ -102,12 +102,13 @@ npm run test:mutation
 | `invariants.ts` | 55,7 % |
 | **gesamt** | **65,7 %** |
 
-Bis Oktober 2026 stand hier 86,4 %, die Zahl war zu hoch. Schuld war ein Zeitmesstest. Unter
-Stryker läuft der Rechenkern viel langsamer, auf GitHub lag der Test damit schon an seiner Grenze
-von 2 Sekunden. Jeder Mutant, der den Ablauf nur etwas bremste, zählte so als erkannt, obwohl kein
-Test ein falsches Ergebnis bemerkt hatte. Seit dem 30.10.2026 gelten die Zeitgrenzen unter Stryker
-nicht mehr (der normale Testlauf prüft sie weiter), ehrlich gemessen sind es 65,7 %. Die Tests
-schärfe ich nach, bis dahin zeigt die Tabelle den echten Stand.
+Bis Oktober 2026 stand hier 86,4 %, die Zahl war zu hoch. Schuld waren die Zeitgrenzen der
+Messtests. Unter Stryker läuft der Rechenkern viel langsamer, auf GitHub lag der Test mit 2000
+Abrechnungen damit knapp unter dem 5-Sekunden-Limit von Vitest. Jeder Mutant, der den Ablauf nur
+etwas bremste, riss das Limit und zählte als erkannt, auch wenn das Ergebnis stimmte (im Lauf vom
+31.10.2026 galten so 237 von 828 als erkannt, ohne Limit überleben 172 davon). Seit dem 31.10.2026
+gelten unter Stryker keine Zeitgrenzen mehr, der normale Testlauf prüft sie weiter. Ehrlich
+gemessen sind es 65,7 %. Die Tests schärfe ich nach, bis dahin zeigt die Tabelle den echten Stand.
 
 Der erste Lauf lag bei 82,5 % und hat zwei echte Mängel aufgedeckt: eine Handvoll
 Bruchrechnungs-Funktionen, die nie jemand aufrief und die deshalb gelöscht wurden statt
