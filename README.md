@@ -181,7 +181,7 @@ npm install
 npm run dev            # Entwicklungsserver auf Port 8618
 npm test               # Einheitentests
 npm run test:e2e       # Browser-Test samt Barrierefreiheitsprüfung
-npm run test:mutation  # misst, ob die Tests etwas merken (~10 Minuten)
+npm run test:mutation  # misst, ob die Tests etwas merken (~20 Minuten)
 npm run typecheck      # TypeScript ohne Ausgabe
 npm run build          # Auslieferungsstand nach dist/
 ```
