@@ -207,6 +207,11 @@ export function App({ store }: { store: AppStore }) {
     void ensureLanguage(lang).then(() => setLangGeladen((n) => n + 1));
   }, [lang]);
 
+  // Tab-Titel in der aktiven Sprache; im HTML steht nur die deutsche Fassung
+  useEffect(() => {
+    document.title = `${t.t('app.name')} · ${t.t('app.tagline')}`;
+  }, [t]);
+
   // Sprache und Farbschema am Wurzelelement führen — Grundlage dafür, dass
   // Vorleseprogramme richtig aussprechen (F18/F26).
   useEffect(() => {
