@@ -608,7 +608,7 @@ function EventView({ store, ledger, t, newName, setNewName, onShowResult }: Even
 
   return (
     <>
-      <h1>
+      <h1 class="event-title">
         <input
           type="text"
           value={ledger.title}
