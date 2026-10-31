@@ -39,10 +39,11 @@
     "Ergebnis, das man wegklickt, ist schlechter als gar keins.",
     "",
     "Vorher standen hier 86,35 %. Die Zahl war zu hoch: Unter Stryker lag der",
-    "Zeitmesstest in measurements.test.ts auf GitHub schon an seiner Grenze von",
-    "2 Sekunden, und jeder Mutant, der den Ablauf etwas bremste, galt als erkannt.",
-    "Seit die Zeitgrenzen unter Stryker nicht mehr gelten, zaehlt nur noch, was die",
-    "Tests wirklich bemerken."
+    "Messtest mit 2000 Abrechnungen in measurements.test.ts auf GitHub knapp unter",
+    "dem 5-Sekunden-Limit von Vitest, und jeder Mutant, der den Ablauf etwas",
+    "bremste, galt als erkannt (31.10.2026: 237 von 828). Seit unter Stryker keine",
+    "Zeitgrenzen mehr gelten, zaehlt nur noch, was die Tests wirklich bemerken.",
+    "Lokal und auf GitHub sollte der Wert damit gleich sein."
   ],
   "thresholds": { "high": 95, "low": 65, "break": 63 },
   "timeoutMS": 20000,
