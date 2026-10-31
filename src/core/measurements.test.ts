@@ -174,6 +174,8 @@ describe('Messung: exaktes Ausgleichsverfahren', () => {
     );
 
     expect(checkSettlement(l, s).ok).toBe(true);
+    // Genau an der Grenze wird noch exakt gerechnet, erst darüber gierig.
+    expect(s.method).toBe('exact-minimum');
     // n/2 unabhängige Paare → n/2 Gruppen → n − n/2 Überweisungen.
     expect(s.transfers).toHaveLength(n / 2);
     if (timeLimitsApply) expect(ms).toBeLessThan(2000);
