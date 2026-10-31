@@ -34,7 +34,9 @@
     "src/core/invariants.ts"
   ],
   "_comment_thresholds": [
-    "Gemessen wurden 65,70 % (30.10.2026). Die Bruchgrenze liegt knapp darunter: Sie soll einen",
+    "Gemessen wurden 84,66 % (31.10.2026, nach dem Nachschaerfen der Tests, vorher 65,70 %).",
+    "Was noch ueberlebt, ist fast durchweg gleichwertig (README, Abschnitt Mutationstest).",
+    "Die Bruchgrenze liegt knapp darunter: Sie soll einen",
     "Rueckschritt melden, aber nicht bei jeder Kleinigkeit rot werden. Ein rotes",
     "Ergebnis, das man wegklickt, ist schlechter als gar keins.",
     "",
@@ -45,7 +47,7 @@
     "Zeitgrenzen mehr gelten, zaehlt nur noch, was die Tests wirklich bemerken.",
     "Lokal und auf GitHub sollte der Wert damit gleich sein."
   ],
-  "thresholds": { "high": 95, "low": 65, "break": 63 },
+  "thresholds": { "high": 95, "low": 83, "break": 82 },
   "timeoutMS": 20000,
   "tempDirName": ".stryker-tmp",
   "cleanTempDir": true
