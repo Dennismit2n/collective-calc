@@ -314,11 +314,10 @@ describe('Grenze des exakten Verfahrens', () => {
     return ledger(p, entries);
   }
 
-  it(`rechnet bei genau ${MAX_EXACT_PARTICIPANTS} offenen Salden noch exakt`, () => {
-    const s = settle(pairs(MAX_EXACT_PARTICIPANTS));
-    expect(s.summaries.filter((x) => x.balance !== 0)).toHaveLength(MAX_EXACT_PARTICIPANTS);
-    expect(s.method).toBe('exact-minimum');
-  });
+  // Dass bei genau 16 offenen Salden noch exakt gerechnet wird, prüft der
+  // ungünstigste Fall in measurements.test.ts. Dort gilt unter Stryker keine
+  // Zeitgrenze; hier hätte die volle Suche auf GitHub das 5-Sekunden-Limit
+  // gerissen und Mutanten, die nur bremsen, als erkannt gezählt.
 
   it('fällt darüber auf das gierige Verfahren zurück', () => {
     // 16 Personen in Paaren plus X, der 1,00 € für P2 auslegt:
