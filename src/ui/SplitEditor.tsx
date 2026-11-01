@@ -184,7 +184,7 @@ export function SplitEditor({ people, state, onChange, t, currency, amountCents,
                   /* Ohne eigenen Namen hört ein Vorleseprogramm bei allen drei
                      Feldern nur den Platzhalter „0,00" — und weiß nicht, wessen
                      Betrag es gerade eintippt. */
-                  aria-label={`${p.name} — ${t.t(
+                  aria-label={`${p.name}, ${t.t(
                     state.mode === 'shares'
                       ? 'split.shares'
                       : state.mode === 'percent'

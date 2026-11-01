@@ -78,7 +78,7 @@ export const it: Messages = {
   'currency.other': 'Altra …',
   'currency.otherPlaceholder': 'per es. RON',
   'currency.unsupported':
-    'Collective-Calc calcola in centesimi. Le valute senza sottounità — come lo yen o il won — non sono quindi possibili.',
+    'Collective-Calc calcola in centesimi. Le valute senza sottounità (come lo yen o il won) non sono quindi possibili.',
 
   'result.heading': 'Risultato',
   'result.columnPerson': 'Persona',
@@ -92,7 +92,7 @@ export const it: Messages = {
   'result.personOwes': '{name} deve {amount}',
   'result.personGets': '{name} riceve {amount}',
   'result.transfer': '{from} versa {amount} a {to}',
-  'result.noTransfers': 'Tutto in pari — nessuno deve niente a nessuno.',
+  'result.noTransfers': 'Tutto in pari, nessuno deve niente a nessuno.',
   'result.paidAndShare': 'anticipato {paid} · quota {share}',
   'result.repaidOut': 'rimborsato {amount}',
   'result.repaidIn': 'ricevuto {amount}',
@@ -104,7 +104,7 @@ export const it: Messages = {
   'remainder.receivesLess': 'A {name} restano {amount} da incassare.',
   'remainder.paysLess': '{name} paga {amount} in meno di quanto risulta dal calcolo.',
   'remainder.explain':
-    'Gli importi non si dividono sempre in centesimi interi. Questo avanzo non viene addebitato a nessuno — mettetevi d’accordo tra voi 😉',
+    'Gli importi non si dividono sempre in centesimi interi. Questo avanzo non viene addebitato a nessuno, mettiti d’accordo con gli altri 😉',
   'remainder.wheel': 'Non trovate un accordo? Gira la ruota.',
 
   'share.result': 'Condividi il risultato',
@@ -145,11 +145,11 @@ export const it: Messages = {
   'error.details': 'Che cosa non va di preciso',
   'error.brokenLinkTitle': 'Il link non si è potuto leggere',
   'error.brokenLink':
-    "Questo link non si è potuto leggere. Probabilmente è stato tagliato durante l’invio — fattelo mandare di nuovo.",
+    "Questo link non si è potuto leggere. Probabilmente è stato tagliato durante l’invio, fattelo mandare di nuovo.",
   'error.link.empty': 'In questo link non c’è nessun conto.',
   'error.link.notOurs': 'Questo link non appartiene a Collective-Calc.',
   'error.link.truncated':
-    "Il link è incompleto — probabilmente è stato tagliato durante l’invio. Fattelo mandare di nuovo.",
+    "Il link è incompleto, probabilmente è stato tagliato durante l’invio. Fattelo mandare di nuovo.",
   'error.link.garbled':
     'Il contenuto del link non forma dei conti validi. Fattelo mandare di nuovo.',
   'error.link.newerFormat':

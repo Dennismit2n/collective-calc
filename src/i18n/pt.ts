@@ -104,7 +104,7 @@ export const pt: Messages = {
   'remainder.receivesLess': '{name} recebe {amount} a menos do que o cálculo indica.',
   'remainder.paysLess': '{name} paga {amount} a menos do que o cálculo indica.',
   'remainder.explain':
-    'Nem sempre os valores se dividem em centavos inteiros. Este resto não fica com ninguém. Resolvam isso entre vocês 😉',
+    'Nem sempre os valores se dividem em centavos inteiros. Este resto não fica com ninguém. Resolva isso com os outros 😉',
   'remainder.wheel': 'Sem acordo? Gire a roda.',
 
   'share.result': 'Compartilhar o resultado',

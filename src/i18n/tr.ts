@@ -75,7 +75,7 @@ export const tr: Messages = {
   'currency.rate': 'Kur',
   'currency.converted': '{foreign}, {rate} kurundan = {amount}',
   'currency.changeWarning':
-    'Para birimini değiştirmek hiçbir şeyi çevirmez — yalnızca gösterilen simgeyi değiştirir.',
+    'Para birimini değiştirmek hiçbir şeyi çevirmez, yalnızca gösterilen simgeyi değiştirir.',
   'currency.other': 'Diğer …',
   'currency.otherPlaceholder': 'örn. RON',
   'currency.unsupported':
@@ -93,7 +93,7 @@ export const tr: Messages = {
   'result.personOwes': '{name} {amount} borçlu',
   'result.personGets': '{name} {amount} alacaklı',
   'result.transfer': '{from}, {to} kişisine {amount} gönderir',
-  'result.noTransfers': 'Her şey denk — kimsenin kimseye borcu yok.',
+  'result.noTransfers': 'Her şey denk, kimsenin kimseye borcu yok.',
   'result.paidAndShare': 'ödenen {paid} · pay {share}',
   'result.repaidOut': 'geri ödenen {amount}',
   'result.repaidIn': 'alınan {amount}',
@@ -105,7 +105,7 @@ export const tr: Messages = {
   'remainder.receivesLess': '{name} kişisinin {amount} alacağı açık kalıyor.',
   'remainder.paysLess': '{name}, hesapta çıkandan {amount} daha az ödüyor.',
   'remainder.explain':
-    'Tutarlar her zaman tam kuruşlara bölünmez. Bu artık kimseye yüklenmiyor — aranızda halledin 😉',
+    'Tutarlar her zaman tam kuruşlara bölünmez. Bu artık kimseye yüklenmiyor, bunu diğerleriyle hallet 😉',
   'remainder.wheel': 'Anlaşamadınız mı? Çarkı çevir.',
 
   'share.result': 'Sonucu paylaş',
@@ -124,7 +124,7 @@ export const tr: Messages = {
 
   'backup.heading': 'Bu hesabı yedekle',
   'backup.body':
-    'Veriler yalnızca bu tarayıcıda. Tarayıcı temizlenirse kaybolurlar. Bağlantıyı paylaş ya da bir dosya indir — ikisi de eksiksiz bir yedektir.',
+    'Veriler yalnızca bu tarayıcıda. Tarayıcı temizlenirse kaybolurlar. Bağlantıyı paylaş ya da bir dosya indir, ikisi de eksiksiz bir yedektir.',
   'backup.share': 'Bağlantıyı paylaş',
   'backup.download': 'Dosyayı indir',
   'backup.later': 'Sonra',
@@ -141,16 +141,16 @@ export const tr: Messages = {
 
   'error.heading': 'Bu hesap şu anda güvenle hesaplanamıyor',
   'error.body':
-    'Yanlış tutar göstermemek için Collective-Calc burada hiç sayı göstermemeyi tercih ediyor. Verilerin kaybolmadı — indirebilirsin.',
+    'Yanlış tutar göstermemek için Collective-Calc burada hiç sayı göstermemeyi tercih ediyor. Verilerin kaybolmadı, indirebilirsin.',
   'error.exportRaw': 'Ham veriyi indir',
   'error.details': 'Tam olarak neyin yanlış olduğu',
   'error.brokenLinkTitle': 'Bağlantı okunamadı',
   'error.brokenLink':
-    'Bu bağlantı okunamadı. Muhtemelen gönderilirken kesilmiş — yeniden göndermelerini iste.',
+    'Bu bağlantı okunamadı. Muhtemelen gönderilirken kesilmiş, yeniden göndermelerini iste.',
   'error.link.empty': 'Bu bağlantıda hesap yok.',
   'error.link.notOurs': 'Bu bağlantı Collective-Calc’a ait değil.',
   'error.link.truncated':
-    'Bağlantı eksik — muhtemelen gönderilirken kesilmiş. Yeniden göndermelerini iste.',
+    'Bağlantı eksik, muhtemelen gönderilirken kesilmiş. Yeniden göndermelerini iste.',
   'error.link.garbled': 'Bağlantının içeriği geçerli bir hesap oluşturmuyor. Yeniden göndermelerini iste.',
   'error.link.newerFormat':
     'Bu bağlantı Collective-Calc’ın daha yeni bir sürümüyle oluşturulmuş. Güncel sürüm için sayfayı yeniden yükle.',

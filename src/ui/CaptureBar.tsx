@@ -162,7 +162,7 @@ export function CaptureBar({ ledger, t, meId, onAdd }: Props) {
               type="button"
               class="link small"
               /* „×" allein sagt einem Vorleseprogramm nichts. */
-              aria-label={`${t.t('currency.foreign')} — ${t.t('entry.delete')}`}
+              aria-label={`${t.t('currency.foreign')}, ${t.t('entry.delete')}`}
               onClick={() => {
                 setForeign(null);
                 setRateText('');

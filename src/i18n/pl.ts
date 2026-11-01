@@ -44,7 +44,7 @@ export const pl: Messages = {
   'people.add': 'Dodaj osobę',
   'people.namePlaceholder': 'Imię',
   'people.hint': 'Wystarczy imię.',
-  'people.cannotRemove': 'Ta osoba występuje w wydatkach — można tylko zmienić jej imię.',
+  'people.cannotRemove': 'Ta osoba występuje w wydatkach, można tylko zmienić jej imię.',
   'people.you': 'Ja',
   'people.needTwo': 'Dodaj co najmniej dwie osoby, wtedy będzie co liczyć.',
 
@@ -71,7 +71,7 @@ export const pl: Messages = {
   'split.percent': 'Procenty',
   'split.sumMismatch': 'Kwoty dają razem {sum}, a wydatek wynosi {total}.',
   'split.nobody': 'Musi uczestniczyć co najmniej jedna osoba.',
-  'split.sharesHint': 'Kto liczy się podwójnie, dostaje 2. Kto nie brał udziału — 0.',
+  'split.sharesHint': 'Kto liczy się podwójnie, dostaje 2. Kto nie brał udziału, dostaje 0.',
 
   'repayment.add': 'Zapisz spłatę',
   'repayment.from': 'Od kogo',
@@ -85,11 +85,11 @@ export const pl: Messages = {
   'currency.rate': 'Kurs',
   'currency.converted': '{foreign} po kursie {rate} = {amount}',
   'currency.changeWarning':
-    'Zmiana waluty niczego nie przelicza — zmienia tylko wyświetlany symbol.',
+    'Zmiana waluty niczego nie przelicza, zmienia tylko wyświetlany symbol.',
   'currency.other': 'Inna …',
   'currency.otherPlaceholder': 'np. RON',
   'currency.unsupported':
-    'Collective-Calc liczy w setnych częściach jednostki. Waluty bez podjednostki — jak jen czy won — nie są więc obsługiwane.',
+    'Collective-Calc liczy w setnych częściach jednostki. Waluty bez podjednostki (jak jen czy won) nie są więc obsługiwane.',
 
   'result.heading': 'Wynik',
   'result.columnPerson': 'Osoba',
@@ -102,8 +102,8 @@ export const pl: Messages = {
   'result.settled': 'Wyrównane',
   'result.personOwes': '{name} ma oddać {amount}',
   'result.personGets': '{name} ma otrzymać {amount}',
-  'result.transfer': '{from} przelewa {amount} — odbiorca: {to}',
-  'result.noTransfers': 'Wszystko wyrównane — nikt nikomu nic nie jest winien.',
+  'result.transfer': '{from} przelewa {amount}, odbiorca: {to}',
+  'result.noTransfers': 'Wszystko wyrównane, nikt nikomu nic nie jest winien.',
   'result.paidAndShare': 'wyłożone {paid} · udział {share}',
   'result.repaidOut': 'oddane {amount}',
   'result.repaidIn': 'otrzymane {amount}',
@@ -121,7 +121,7 @@ export const pl: Messages = {
   'remainder.receivesLess': '{name} otrzymuje o {amount} mniej, niż wynika z obliczeń.',
   'remainder.paysLess': '{name} płaci o {amount} mniej, niż wynika z obliczeń.',
   'remainder.explain':
-    'Kwot nie zawsze da się podzielić na całe grosze. Ta reszta nie jest nikomu przypisana — dogadajcie się między sobą 😉',
+    'Kwot nie zawsze da się podzielić na całe grosze. Ta reszta nie jest nikomu przypisana, dogadaj się z resztą 😉',
   'remainder.wheel': 'Nie ma zgody? Zakręć kołem.',
 
   'share.result': 'Udostępnij wynik',
@@ -139,7 +139,7 @@ export const pl: Messages = {
 
   'backup.heading': 'Zabezpiecz to rozliczenie',
   'backup.body':
-    'Dane znajdują się tylko w tej przeglądarce. Gdy zostanie wyczyszczona, przepadną. Udostępnij link albo pobierz plik — jedno i drugie jest pełną kopią zapasową.',
+    'Dane znajdują się tylko w tej przeglądarce. Gdy zostanie wyczyszczona, przepadną. Udostępnij link albo pobierz plik, jedno i drugie jest pełną kopią zapasową.',
   'backup.share': 'Udostępnij link',
   'backup.download': 'Pobierz plik',
   'backup.later': 'Później',
@@ -156,16 +156,16 @@ export const pl: Messages = {
 
   'error.heading': 'Tego rozliczenia nie da się teraz bezpiecznie obliczyć',
   'error.body':
-    'Aby nie pokazać błędnych kwot, Collective-Calc woli nie pokazywać tutaj żadnych liczb. Twoje dane nie przepadły — możesz je pobrać.',
+    'Aby nie pokazać błędnych kwot, Collective-Calc woli nie pokazywać tutaj żadnych liczb. Twoje dane nie przepadły, możesz je pobrać.',
   'error.exportRaw': 'Pobierz surowe dane',
   'error.details': 'Co dokładnie się nie zgadza',
   'error.brokenLinkTitle': 'Nie udało się odczytać linku',
   'error.brokenLink':
-    'Tego linku nie udało się odczytać. Prawdopodobnie został ucięty przy wysyłaniu — poproś o przesłanie go jeszcze raz.',
+    'Tego linku nie udało się odczytać. Prawdopodobnie został ucięty przy wysyłaniu, poproś o przesłanie go jeszcze raz.',
   'error.link.empty': 'W tym linku nie ma żadnego rozliczenia.',
   'error.link.notOurs': 'Ten link nie pochodzi z Collective-Calc.',
   'error.link.truncated':
-    'Link jest niepełny — prawdopodobnie został ucięty przy wysyłaniu. Poproś o przesłanie go jeszcze raz.',
+    'Link jest niepełny, prawdopodobnie został ucięty przy wysyłaniu. Poproś o przesłanie go jeszcze raz.',
   'error.link.garbled':
     'Zawartość linku nie tworzy prawidłowego rozliczenia. Poproś o przesłanie go jeszcze raz.',
   'error.link.newerFormat':

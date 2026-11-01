@@ -667,7 +667,7 @@ function EventView({ store, ledger, t, newName, setNewName, onShowResult }: Even
                 <button
                   type="button"
                   class="link"
-                  aria-label={`${p.name} — ${t.t('entry.delete')}`}
+                  aria-label={`${p.name}, ${t.t('entry.delete')}`}
                   onClick={() => {
                     store.clearUndo();
                     store.write(removePerson(ledger, p.id));
@@ -802,7 +802,7 @@ function EventView({ store, ledger, t, newName, setNewName, onShowResult }: Even
                   <button
                     type="button"
                     class="link"
-                    aria-label={`${label} ${money(e.amount)} — ${t.t('entry.delete')}`}
+                    aria-label={`${label} ${money(e.amount)}, ${t.t('entry.delete')}`}
                     onClick={() => {
                       store.clearUndo();
                       const removed = e;
