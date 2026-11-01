@@ -93,7 +93,7 @@ export const zh: Messages = {
   'result.personOwes': '{name} 需付 {amount}',
   'result.personGets': '{name} 应收 {amount}',
   'result.transfer': '{from} 向 {to} 转 {amount}',
-  'result.noTransfers': '全部结清 —— 谁都不欠谁。',
+  'result.noTransfers': '全部结清，谁都不欠谁。',
   'result.paidAndShare': '已垫付 {paid} · 应分摊 {share}',
   'result.repaidOut': '已还 {amount}',
   'result.repaidIn': '已收 {amount}',
@@ -105,7 +105,7 @@ export const zh: Messages = {
   'remainder.receivesLess': '{name} 还有 {amount} 收不到。',
   'remainder.paysLess': '{name} 比算出来的少付 {amount}。',
   'remainder.explain':
-    '金额不总能分成整数的分。这一点余额不算在任何人头上 —— 你们自己商量吧 😉',
+    '金额不总能分成整数的分。这一点余额不算在任何人头上，你和其他人商量一下吧 😉',
   'remainder.wheel': '谈不拢？转个转盘吧。',
 
   'share.result': '分享结果',
@@ -122,7 +122,7 @@ export const zh: Messages = {
 
   'backup.heading': '备份这本账',
   'backup.body':
-    '数据只存在这个浏览器里。浏览器一清理就没了。分享链接或下载文件 —— 两者都是完整的备份。',
+    '数据只存在这个浏览器里。浏览器一清理就没了。分享链接或下载文件，两者都是完整的备份。',
   'backup.share': '分享链接',
   'backup.download': '下载文件',
   'backup.later': '以后再说',
@@ -139,11 +139,11 @@ export const zh: Messages = {
 
   'error.heading': '目前无法可靠地算出这本账',
   'error.body':
-    '为了不显示错误的金额，Collective-Calc 宁可一个数字都不显示。你的数据没有丢失 —— 可以下载下来。',
+    '为了不显示错误的金额，Collective-Calc 宁可一个数字都不显示。你的数据没有丢失，可以下载下来。',
   'error.exportRaw': '下载原始数据',
   'error.details': '具体哪里不对',
   'error.brokenLinkTitle': '这个链接读不出来',
-  'error.brokenLink': '这个链接读不出来，多半是发送时被截断了 —— 请对方再发一次。',
+  'error.brokenLink': '这个链接读不出来，多半是发送时被截断了，请对方再发一次。',
   'error.link.empty': '这个链接里没有账。',
   'error.link.notOurs': '这个链接不属于 Collective-Calc。',
   'error.link.truncated': '链接不完整，多半是发送时被截断了。请对方再发一次。',

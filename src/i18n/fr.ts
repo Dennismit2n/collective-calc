@@ -80,7 +80,7 @@ export const fr: Messages = {
   'currency.other': 'Autre …',
   'currency.otherPlaceholder': 'p. ex. RON',
   'currency.unsupported':
-    "Collective-Calc calcule en centièmes. Les devises sans sous-unité — le yen ou le won — ne sont donc pas possibles.",
+    "Collective-Calc calcule en centièmes. Les devises sans sous-unité (le yen ou le won) ne sont donc pas possibles.",
 
   'result.heading': 'Résultat',
   'result.columnPerson': 'Personne',
@@ -94,7 +94,7 @@ export const fr: Messages = {
   'result.personOwes': '{name} doit {amount}',
   'result.personGets': '{name} reçoit {amount}',
   'result.transfer': '{from} vire {amount} à {to}',
-  'result.noTransfers': 'Tout est soldé — personne ne doit rien à personne.',
+  'result.noTransfers': 'Tout est soldé, personne ne doit rien à personne.',
   'result.paidAndShare': 'avancé {paid} · part {share}',
   'result.repaidOut': 'remboursé {amount}',
   'result.repaidIn': 'reçu {amount}',
@@ -106,7 +106,7 @@ export const fr: Messages = {
   'remainder.receivesLess': 'Il reste {amount} non versés à {name}.',
   'remainder.paysLess': '{name} paie {amount} de moins que ce que donne le calcul.',
   'remainder.explain':
-    "Les montants ne se divisent pas toujours en centimes entiers. Ce reste n’est attribué à personne — arrangez-vous entre vous 😉",
+    "Les montants ne se divisent pas toujours en centimes entiers. Ce reste n’est attribué à personne, règle ça avec les autres 😉",
   'remainder.wheel': "Pas d’accord ? Fais tourner la roue.",
 
   'share.result': 'Partager le résultat',
@@ -147,11 +147,11 @@ export const fr: Messages = {
   'error.details': "Ce qui ne va pas exactement",
   'error.brokenLinkTitle': "Le lien n’a pas pu être lu",
   'error.brokenLink':
-    "Ce lien n’a pas pu être lu. Il a sans doute été coupé à l’envoi — demande qu’on te le renvoie.",
+    "Ce lien n’a pas pu être lu. Il a sans doute été coupé à l’envoi, demande qu’on te le renvoie.",
   'error.link.empty': "Ce lien ne contient aucun compte.",
   'error.link.notOurs': "Ce lien n’appartient pas à Collective-Calc.",
   'error.link.truncated':
-    "Le lien est incomplet — il a sans doute été coupé à l’envoi. Demande qu’on te le renvoie.",
+    "Le lien est incomplet, il a sans doute été coupé à l’envoi. Demande qu’on te le renvoie.",
   'error.link.garbled':
     "Le contenu du lien ne forme pas des comptes valides. Demande qu’on te le renvoie.",
   'error.link.newerFormat':

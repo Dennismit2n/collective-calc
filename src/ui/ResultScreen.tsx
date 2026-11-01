@@ -145,7 +145,7 @@ export function ResultScreen({ ledger, settlement, t, onMarkPaid }: Props) {
                       from: nameOf(tr.fromId),
                       amount: money(tr.amount),
                       to: nameOf(tr.toId),
-                    })} — ${t.t('repayment.markPaid')}`}
+                    })}, ${t.t('repayment.markPaid')}`}
                     onClick={() => onMarkPaid(tr.fromId, tr.toId, tr.amount)}
                   >
                     {t.t('repayment.markPaid')}

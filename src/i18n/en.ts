@@ -74,11 +74,11 @@ export const en: Messages = {
   'currency.foreign': 'In another currency',
   'currency.rate': 'Rate',
   'currency.converted': '{foreign} at rate {rate} = {amount}',
-  'currency.changeWarning': 'Switching converts nothing — it only changes the currency symbol shown.',
+  'currency.changeWarning': 'Switching converts nothing, it only changes the currency symbol shown.',
   'currency.other': 'Other …',
   'currency.otherPlaceholder': 'e.g. RON',
   'currency.unsupported':
-    'Collective-Calc works in hundredths. Currencies without a minor unit — such as yen or won — are therefore not possible.',
+    'Collective-Calc works in hundredths. Currencies without a minor unit (such as yen or won) are therefore not possible.',
 
   'result.heading': 'Result',
   'result.columnPerson': 'Person',
@@ -92,7 +92,7 @@ export const en: Messages = {
   'result.personOwes': '{name} owes {amount}',
   'result.personGets': '{name} gets {amount}',
   'result.transfer': '{from} transfers {amount} to {to}',
-  'result.noTransfers': 'All settled — nobody owes anybody anything.',
+  'result.noTransfers': 'All settled, nobody owes anybody anything.',
   'result.paidAndShare': 'paid {paid} · share {share}',
   'result.repaidOut': 'repaid {amount}',
   'result.repaidIn': 'received {amount}',
@@ -104,7 +104,7 @@ export const en: Messages = {
   'remainder.receivesLess': '{name} is short {amount}.',
   'remainder.paysLess': '{name} pays {amount} less than the calculation says.',
   'remainder.explain':
-    'Amounts cannot always be split into whole cents. This remainder is not assigned to anyone — sort it out among yourselves 😉',
+    'Amounts cannot always be split into whole cents. This remainder is not assigned to anyone, sort it out with the others 😉',
   'remainder.wheel': "Can’t agree? Spin the wheel.",
 
   'share.result': 'Share result',
@@ -122,7 +122,7 @@ export const en: Messages = {
 
   'backup.heading': 'Back up this settlement',
   'backup.body':
-    'The data lives only in this browser. If it gets cleared, the data is gone. Share the link or download a file — either one is a complete backup.',
+    'The data lives only in this browser. If it gets cleared, the data is gone. Share the link or download a file, either one is a complete backup.',
   'backup.share': 'Share link',
   'backup.download': 'Download file',
   'backup.later': 'Later',
@@ -139,16 +139,16 @@ export const en: Messages = {
 
   'error.heading': 'This settlement cannot be calculated safely right now',
   'error.body':
-    'To avoid showing wrong amounts, Collective-Calc shows no figures at all here. Your data is not lost — you can download it.',
+    'To avoid showing wrong amounts, Collective-Calc shows no figures at all here. Your data is not lost, you can download it.',
   'error.exportRaw': 'Download raw data',
   'error.details': 'What exactly is wrong',
   'error.brokenLinkTitle': 'The link could not be read',
   'error.brokenLink':
-    'This link could not be read. It was probably cut short when it was sent — ask for it again.',
+    'This link could not be read. It was probably cut short when it was sent, ask for it again.',
   'error.link.empty': 'There is no settlement in this link.',
   'error.link.notOurs': 'This link does not belong to Collective-Calc.',
   'error.link.truncated':
-    'The link is incomplete — it was probably cut short when it was sent. Ask for it again.',
+    'The link is incomplete, it was probably cut short when it was sent. Ask for it again.',
   'error.link.garbled': 'The contents of this link do not make a valid settlement. Ask for it again.',
   'error.link.newerFormat':
     'This link was created with a newer version of Collective-Calc. Reload the page to get the current version.',

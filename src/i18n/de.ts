@@ -93,11 +93,11 @@ export const de = {
   'currency.rate': 'Kurs',
   'currency.converted': '{foreign} zum Kurs {rate} = {amount}', // ⚠️
   'currency.changeWarning':
-    'Ein Wechsel rechnet nichts um — er ändert nur das angezeigte Währungszeichen.',
+    'Ein Wechsel rechnet nichts um, er ändert nur das angezeigte Währungszeichen.',
   'currency.other': 'Andere …',
   'currency.otherPlaceholder': 'z. B. RON',
   'currency.unsupported':
-    'Collective-Calc rechnet in Hundertsteln. Währungen ohne Untereinheit — etwa Yen oder Won — sind deshalb nicht möglich.',
+    'Collective-Calc rechnet in Hundertsteln. Währungen ohne Untereinheit (etwa Yen oder Won) sind also nicht möglich.',
 
   // --- Ergebnis ⚠️ ---
   'result.heading': 'Ergebnis',
@@ -114,7 +114,7 @@ export const de = {
   'result.personOwes': '{name} schuldet {amount}', // ⚠️
   'result.personGets': '{name} bekommt {amount}', // ⚠️
   'result.transfer': '{from} überweist {amount} an {to}', // ⚠️
-  'result.noTransfers': 'Alles ausgeglichen — niemand schuldet jemandem etwas.',
+  'result.noTransfers': 'Alles ausgeglichen, niemand schuldet jemandem etwas.',
   'result.paidAndShare': 'ausgelegt {paid} · Anteil {share}', // ⚠️
   'result.repaidOut': 'zurückgezahlt {amount}', // ⚠️
   'result.repaidIn': 'erhalten {amount}', // ⚠️
@@ -127,7 +127,7 @@ export const de = {
   'remainder.receivesLess': '{name} bekommt {amount} weniger, als rechnerisch zusteht.', // ⚠️
   'remainder.paysLess': '{name} zahlt {amount} weniger, als rechnerisch anfällt.', // ⚠️
   'remainder.explain':
-    'Beträge lassen sich nicht immer auf ganze Cent aufteilen. Dieser Rest wird niemandem zugeschlagen — macht das unter euch aus 😉',
+    'Beträge lassen sich nicht immer auf ganze Cent aufteilen. Dieser Rest wird niemandem zugeschlagen, den klärst du mit den anderen 😉',
   'remainder.wheel': 'Keine Einigung? Dreh das Rad.',
 
   // --- Teilen ---
@@ -148,7 +148,7 @@ export const de = {
   // --- Sicherung ---
   'backup.heading': 'Sichere diese Abrechnung',
   'backup.body':
-    'Die Daten liegen nur in diesem Browser. Wird er aufgeräumt, sind sie weg. Teile den Link oder lade eine Datei herunter — beides ist eine vollständige Sicherung.',
+    'Die Daten liegen nur in diesem Browser. Wird er aufgeräumt, sind sie weg. Teile den Link oder lade eine Datei herunter, beides ist eine vollständige Sicherung.',
   'backup.share': 'Link teilen',
   'backup.download': 'Datei herunterladen',
   'backup.later': 'Später',
@@ -167,18 +167,18 @@ export const de = {
   // --- Fehler ---
   'error.heading': 'Diese Abrechnung lässt sich gerade nicht sicher berechnen',
   'error.body':
-    'Damit keine falschen Beträge angezeigt werden, zeigt Collective-Calc hier lieber gar keine Zahlen. Deine Daten sind nicht verloren — du kannst sie herunterladen.',
+    'Damit keine falschen Beträge angezeigt werden, zeigt Collective-Calc hier lieber gar keine Zahlen. Deine Daten sind nicht verloren, du kannst sie herunterladen.',
   'error.exportRaw': 'Rohdaten herunterladen',
   'error.details': 'Was genau nicht stimmt',
   'error.brokenLinkTitle': 'Der Link ließ sich nicht lesen',
   'error.brokenLink':
-    'Dieser Link ließ sich nicht lesen. Vermutlich wurde er beim Verschicken abgeschnitten — lass ihn dir noch einmal schicken.',
+    'Dieser Link ließ sich nicht lesen. Vermutlich wurde er beim Verschicken abgeschnitten, lass ihn dir noch einmal schicken.',
   // Gründe, warum ein Link nicht gelesen werden konnte. Der Codec liefert nur
   // einen Schlüssel; der Text gehört hierher und nicht in den Code.
   'error.link.empty': 'In diesem Link steht keine Abrechnung.',
   'error.link.notOurs': 'Dieser Link gehört nicht zu Collective-Calc.',
   'error.link.truncated':
-    'Der Link ist unvollständig — vermutlich wurde er beim Verschicken abgeschnitten. Lass ihn dir noch einmal schicken.',
+    'Der Link ist unvollständig, vermutlich wurde er beim Verschicken abgeschnitten. Lass ihn dir noch einmal schicken.',
   'error.link.garbled':
     'Der Inhalt des Links ergibt keine gültige Abrechnung. Lass ihn dir noch einmal schicken.',
   'error.link.newerFormat':

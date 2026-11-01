@@ -65,7 +65,7 @@ export function validateLedger(ledger: Ledger): string[] {
       if (w < 0) problems.push(`${where}: Negatives Gewicht.`);
       if (w > 0) positive += 1;
     }
-    if (weightSum(e) <= 0) problems.push(`${where}: Kein Gewicht größer als 0 — Betrag unverteilbar.`);
+    if (weightSum(e) <= 0) problems.push(`${where}: Kein Gewicht größer als 0, Betrag unverteilbar.`);
     if (e.kind === 'repayment' && positive !== 1) {
       problems.push(`${where}: Eine Rückzahlung braucht genau einen Begünstigten.`);
     }

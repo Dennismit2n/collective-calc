@@ -74,7 +74,7 @@ export const hi: Messages = {
   'currency.foreign': 'दूसरी मुद्रा में',
   'currency.rate': 'दर',
   'currency.converted': '{foreign}, दर {rate} पर = {amount}',
-  'currency.changeWarning': 'मुद्रा बदलने से कुछ भी नहीं बदला जाता — सिर्फ़ दिखने वाला चिह्न बदलता है।',
+  'currency.changeWarning': 'मुद्रा बदलने से कुछ भी नहीं बदला जाता, सिर्फ़ दिखने वाला चिह्न बदलता है।',
   'currency.other': 'अन्य …',
   'currency.otherPlaceholder': 'जैसे RON',
   'currency.unsupported':
@@ -92,7 +92,7 @@ export const hi: Messages = {
   'result.personOwes': '{name} को {amount} देना है',
   'result.personGets': '{name} को {amount} मिलना है',
   'result.transfer': '{from} {to} को {amount} भेजे',
-  'result.noTransfers': 'सब बराबर — किसी को किसी से कुछ नहीं लेना-देना।',
+  'result.noTransfers': 'सब बराबर, किसी को किसी से कुछ नहीं लेना-देना।',
   'result.paidAndShare': 'चुकाया {paid} · हिस्सा {share}',
   'result.repaidOut': 'लौटाया {amount}',
   'result.repaidIn': 'मिला {amount}',
@@ -104,7 +104,7 @@ export const hi: Messages = {
   'remainder.receivesLess': '{name} को {amount} कम मिल रहा है।',
   'remainder.paysLess': '{name} हिसाब से {amount} कम चुका रहा है।',
   'remainder.explain':
-    'रकमें हमेशा पूरे पैसों में नहीं बँटतीं। यह बचा हुआ हिस्सा किसी के खाते नहीं डाला जाता — आपस में तय कर लीजिए 😉',
+    'रकमें हमेशा पूरे पैसों में नहीं बँटतीं। यह बचा हुआ हिस्सा किसी के खाते नहीं डाला जाता, इसे बाकी लोगों के साथ तय कर लीजिए 😉',
   'remainder.wheel': 'सहमति नहीं बनी? पहिया घुमाइए।',
 
   'share.result': 'नतीजा साझा करें',
@@ -121,7 +121,7 @@ export const hi: Messages = {
 
   'backup.heading': 'इस हिसाब को सुरक्षित करें',
   'backup.body':
-    'डेटा सिर्फ़ इसी ब्राउज़र में है। ब्राउज़र साफ़ हुआ तो वह चला जाएगा। लिंक साझा करें या फ़ाइल डाउनलोड करें — दोनों ही पूरी प्रति हैं।',
+    'डेटा सिर्फ़ इसी ब्राउज़र में है। ब्राउज़र साफ़ हुआ तो वह चला जाएगा। लिंक साझा करें या फ़ाइल डाउनलोड करें, दोनों ही पूरी प्रति हैं।',
   'backup.share': 'लिंक साझा करें',
   'backup.download': 'फ़ाइल डाउनलोड करें',
   'backup.later': 'बाद में',
@@ -138,15 +138,15 @@ export const hi: Messages = {
 
   'error.heading': 'इस समय यह हिसाब भरोसे के साथ नहीं लगाया जा सकता',
   'error.body':
-    'गलत रकमें न दिखें, इसलिए Collective-Calc यहाँ कोई संख्या दिखाना ही नहीं चाहता। आपका डेटा खोया नहीं है — आप उसे डाउनलोड कर सकते हैं।',
+    'गलत रकमें न दिखें, इसलिए Collective-Calc यहाँ कोई संख्या दिखाना ही नहीं चाहता। आपका डेटा खोया नहीं है, आप उसे डाउनलोड कर सकते हैं।',
   'error.exportRaw': 'कच्चा डेटा डाउनलोड करें',
   'error.details': 'ठीक-ठीक क्या गड़बड़ है',
   'error.brokenLinkTitle': 'लिंक पढ़ा नहीं जा सका',
   'error.brokenLink':
-    'यह लिंक पढ़ा नहीं जा सका। भेजते समय शायद कट गया — दोबारा भेजने के लिए कहें।',
+    'यह लिंक पढ़ा नहीं जा सका। भेजते समय शायद कट गया, दोबारा भेजने के लिए कहें।',
   'error.link.empty': 'इस लिंक में कोई हिसाब नहीं है।',
   'error.link.notOurs': 'यह लिंक Collective-Calc का नहीं है।',
-  'error.link.truncated': 'लिंक अधूरा है — भेजते समय शायद कट गया। दोबारा भेजने के लिए कहें।',
+  'error.link.truncated': 'लिंक अधूरा है, भेजते समय शायद कट गया। दोबारा भेजने के लिए कहें।',
   'error.link.garbled': 'लिंक की सामग्री से कोई सही हिसाब नहीं बनता। दोबारा भेजने के लिए कहें।',
   'error.link.newerFormat':
     'यह लिंक Collective-Calc के नए संस्करण से बना है। मौजूदा संस्करण पाने के लिए पृष्ठ दोबारा लोड करें।',

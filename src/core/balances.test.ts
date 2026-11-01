@@ -74,7 +74,7 @@ describe('validateLedger meldet genau den eingebauten Fehler', () => {
 
   it('kein einziges Gewicht über null', () => {
     expect(validateLedger(ledger(p, [e({ weights: { p1: 0, p2: 0 } })]))).toEqual([
-      'Eintrag e: Kein Gewicht größer als 0 — Betrag unverteilbar.',
+      'Eintrag e: Kein Gewicht größer als 0, Betrag unverteilbar.',
     ]);
   });
 

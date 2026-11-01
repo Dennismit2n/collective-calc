@@ -79,7 +79,7 @@ export function EventList({
               <button
                 type="button"
                 class="link"
-                aria-label={`${displayTitle(l)} — ${t.t('event.delete')}`}
+                aria-label={`${displayTitle(l)}, ${t.t('event.delete')}`}
                 onClick={() => {
                   // Der einzige Ort, der ausdrücklich nachfragt: Hier ist auf einen
                   // Schlag alles weg, und ein Rückgängig-Streifen wäre dafür zu wenig (F7).

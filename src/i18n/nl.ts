@@ -76,11 +76,11 @@ export const nl: Messages = {
   'currency.rate': 'Koers',
   'currency.converted': '{foreign} tegen koers {rate} = {amount}',
   'currency.changeWarning':
-    'Van valuta wisselen rekent niets om — het verandert alleen het getoonde valutasymbool.',
+    'Van valuta wisselen rekent niets om, het verandert alleen het getoonde valutasymbool.',
   'currency.other': 'Andere …',
   'currency.otherPlaceholder': 'bijv. RON',
   'currency.unsupported':
-    'Collective-Calc rekent in honderdsten. Valuta’s zonder kleinere eenheid — zoals de yen of de won — zijn daarom niet mogelijk.',
+    'Collective-Calc rekent in honderdsten. Valuta’s zonder kleinere eenheid (zoals de yen of de won) zijn daarom niet mogelijk.',
 
   'result.heading': 'Resultaat',
   'result.columnPerson': 'Persoon',
@@ -94,7 +94,7 @@ export const nl: Messages = {
   'result.personOwes': '{name} moet {amount} betalen',
   'result.personGets': '{name} krijgt {amount}',
   'result.transfer': '{from} maakt {amount} over aan {to}',
-  'result.noTransfers': 'Alles vereffend — niemand is iemand iets schuldig.',
+  'result.noTransfers': 'Alles vereffend, niemand is iemand iets schuldig.',
   'result.paidAndShare': 'voorgeschoten {paid} · aandeel {share}',
   'result.repaidOut': 'terugbetaald {amount}',
   'result.repaidIn': 'ontvangen {amount}',
@@ -106,7 +106,7 @@ export const nl: Messages = {
   'remainder.receivesLess': '{name} komt {amount} tekort.',
   'remainder.paysLess': '{name} betaalt {amount} minder dan de berekening aangeeft.',
   'remainder.explain':
-    'Bedragen zijn niet altijd in hele centen te verdelen. Dit restbedrag wordt aan niemand toegerekend — los dat onderling op 😉',
+    'Bedragen zijn niet altijd in hele centen te verdelen. Dit restbedrag wordt aan niemand toegerekend, regel dat met de anderen 😉',
   'remainder.wheel': 'Komen jullie er niet uit? Draai aan het rad.',
 
   'share.result': 'Resultaat delen',
@@ -125,7 +125,7 @@ export const nl: Messages = {
 
   'backup.heading': 'Stel deze afrekening veilig',
   'backup.body':
-    'De gegevens staan alleen in deze browser. Wordt die leeggemaakt, dan zijn ze weg. Deel de link of download een bestand — beide zijn een volledige reservekopie.',
+    'De gegevens staan alleen in deze browser. Wordt die leeggemaakt, dan zijn ze weg. Deel de link of download een bestand, beide zijn een volledige reservekopie.',
   'backup.share': 'Link delen',
   'backup.download': 'Bestand downloaden',
   'backup.later': 'Later',
@@ -142,16 +142,16 @@ export const nl: Messages = {
 
   'error.heading': 'Deze afrekening kan nu niet veilig berekend worden',
   'error.body':
-    'Om geen verkeerde bedragen te tonen, laat Collective-Calc hier liever helemaal geen cijfers zien. Je gegevens zijn niet verloren — je kunt ze downloaden.',
+    'Om geen verkeerde bedragen te tonen, laat Collective-Calc hier liever helemaal geen cijfers zien. Je gegevens zijn niet verloren, je kunt ze downloaden.',
   'error.exportRaw': 'Ruwe gegevens downloaden',
   'error.details': 'Wat er precies niet klopt',
   'error.brokenLinkTitle': 'De link kon niet gelezen worden',
   'error.brokenLink':
-    'Deze link kon niet gelezen worden. Waarschijnlijk is hij bij het versturen afgekapt — vraag of de afzender de link opnieuw stuurt.',
+    'Deze link kon niet gelezen worden. Waarschijnlijk is hij bij het versturen afgekapt, vraag of de afzender de link opnieuw stuurt.',
   'error.link.empty': 'In deze link staat geen afrekening.',
   'error.link.notOurs': 'Deze link hoort niet bij Collective-Calc.',
   'error.link.truncated':
-    'De link is onvolledig — waarschijnlijk is hij bij het versturen afgekapt. Vraag of de afzender de link opnieuw stuurt.',
+    'De link is onvolledig, waarschijnlijk is hij bij het versturen afgekapt. Vraag of de afzender de link opnieuw stuurt.',
   'error.link.garbled':
     'De inhoud van de link vormt geen geldige afrekening. Vraag of de afzender de link opnieuw stuurt.',
   'error.link.newerFormat':
