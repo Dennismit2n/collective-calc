@@ -201,35 +201,6 @@ Typecheck, Einheitentests und Browser-Test laufen bei jedem Push über GitHub Ac
 **die Auslieferung hängt daran**: Was die Geldlogik nicht besteht, geht nicht live. Der
 Mutationstest läuft wöchentlich und auf Zuruf — er ist eine Messung, kein Wächter.
 
-## Was gezählt wird
-
-Die Zählung läuft über [GoatCounter](https://www.goatcounter.com/) — ohne Kekse, ohne
-Kennung, ohne Wiedererkennung über Besuche hinweg. Das Zählskript kommt vom eigenen Server
-(`public/js/vendor/count.js`); nach draußen geht nur der Zählaufruf selbst.
-
-**Gesendet wird:** ein Seitenaufruf mit dem festen Pfad `/`, und vier benannte Zähler:
-
-| Zähler | wann |
-|---|---|
-| `erste-ausgabe` | in einem Anlass wurde zum ersten Mal etwas erfasst |
-| `geteilt` | ein Link wurde geteilt oder kopiert |
-| `ergebnis-geoeffnet` | ein geteilter Link wurde geöffnet |
-| `mehrtaegig` | ein Anlass hat an einem **späteren Kalendertag** eine weitere Ausgabe bekommen |
-
-**Nicht gesendet wird:** Beträge, Namen, Beschreibungen, Währungen, Personenzahl, die
-Kennung eines Anlasses — und vor allem nicht der Anker der Adresse, in dem bei diesem
-Werkzeug die vollständige Abrechnung steckt. Die automatische Zählung des Skripts ist
-deshalb abgeschaltet; der eine Aufruf wird von Hand mit einem festen Pfad ausgelöst.
-
-Die Entscheidung, ob etwas zählenswert ist, fällt **auf dem Gerät**. Ob ein Anlass
-mehrtägig ist, weiß nur der Browser des Nutzers; nach draußen geht ein Zähler ohne Inhalt.
-
-`mehrtaegig` ist die Leitkennzahl. Sie unterscheidet „ausprobiert" von „im Urlaub
-tatsächlich benutzt": Wer neugierig zwei Beispielausgaben eintippt, erzeugt Aufrufe, eine
-Erfassung und vielleicht sogar einen geteilten Link — aber er kommt am nächsten Tag nicht
-wieder. Rückzahlungen zählen bewusst nicht mit, sonst würde ein Abhaken am Folgetag als
-mehrtägige Nutzung durchgehen, obwohl niemand unterwegs etwas erfasst hat.
-
 ## Was bewusst nicht getestet wird
 
 Es gibt **keine Komponententests der Oberfläche**. Bei einer App dieser Größe würden sie
@@ -244,6 +215,5 @@ irgendwann ignoriert, und ein ignoriertes rotes Prüfergebnis ist schlechter als
 MIT — siehe [LICENSE](LICENSE). Im ausgelieferten Bündel stecken zwei Fremdpakete, beide
 ebenfalls MIT: [Preact](https://preactjs.com) und
 [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) von Kazuhiko Arase.
-Das Zählskript von GoatCounter liegt als Kopie in `public/js/vendor/count.js` und steht
-unter der ISC-Lizenz (im Dateikopf genannt). „QR Code“ ist eine eingetragene
+„QR Code“ ist eine eingetragene
 Marke von DENSO WAVE INCORPORATED.
