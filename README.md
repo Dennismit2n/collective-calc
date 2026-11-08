@@ -1,12 +1,12 @@
 # Collective-Calc
 
-**Wer schuldet wem was?** — Gruppenausgaben teilen, ohne Konto, ohne App, ohne eigenen Server.
+**Wer schuldet wem was?** Gruppenausgaben teilen, ohne Konto, ohne App, ohne eigenen Server.
 
 Eine Gruppe gibt gemeinsam Geld aus: Urlaub, Ferienhaus, Junggesellenabschied, Festival,
 Restaurantabend. Collective-Calc rechnet aus, wer wem wie viel schuldet, und schickt das
-Ergebnis als Link an alle — die brauchen weder ein Konto noch eine Installation, um es zu sehen.
+Ergebnis als Link an alle. Die brauchen weder ein Konto noch eine Installation, um es zu sehen.
 
-**→ [dennismit2n.github.io/collective-calc](https://dennismit2n.github.io/collective-calc/)**
+**→ [dennismit2n.github.io/collective-calc](https://dennismit2n.github.io/collective-calc/)** · [Anleitung und Neuigkeiten](https://dennismit2n.github.io/werkstatt.html#collective)
 
 <img src="docs/screenshot-en.webp" alt="Collective-Calc mit einer eingetragenen Ausgabe: oben die Personen der Runde, darunter die Liste der Ausgaben, unten die Eingabezeile, die „1234,50“ als 1.234,50 € liest." width="640">
 
@@ -14,15 +14,15 @@ Ergebnis als Link an alle — die brauchen weder ein Konto noch eine Installatio
 
 - **Kein Konto, keine App.** Die Mitreisenden öffnen einen Link. Das war’s.
 - **Kein eigener Server.** Die Abrechnung steckt komprimiert hinter dem `#` im Link und
-  erreicht deshalb technisch nie einen Server — weder GitHub noch die Vorschau-Roboter der
+  erreicht deshalb technisch nie einen Server, weder GitHub noch die Vorschau-Roboter der
   Messenger. Ausgeliefert wird die Seite selbst von GitHub Pages; verarbeitet wird dort nichts.
 - **Fragt nie nach Kontodaten.** Kein IBAN-Feld, kein PayPal, kein Überweisungs-QR.
-- **Läuft offline — nach dem ersten Aufruf.** Der erste Besuch braucht Netz, damit der Service
+- **Läuft offline, nach dem ersten Aufruf.** Der erste Besuch braucht Netz, damit der Service
   Worker die Dateien einlagern kann. Danach: Ferienhaus ohne Empfang, Berghütte, Ausland ohne
   Roaming.
 - **Selbsttragende Links.** Ein geteilter Link funktioniert auch dann noch, wenn dieses
-  Projekt längst nicht mehr gepflegt wird: es gibt kein Konto und keine Datenbank, die vorher
-  verschwinden könnten. Er braucht nur die ausgelieferte Seite — und die ist quelloffen und
+  Projekt längst nicht mehr gepflegt wird: Es gibt kein Konto und keine Datenbank, die vorher
+  verschwinden könnten. Er braucht nur die ausgelieferte Seite, und die ist quelloffen und
   ohne Bauschritt, lässt sich also notfalls überall sonst hinstellen.
 
 ## Die Rechnung
@@ -30,7 +30,7 @@ Ergebnis als Link an alle — die brauchen weder ein Konto noch eine Installatio
 Der Kern des Werkzeugs ist die Frage, ob die Beträge stimmen. Dafür gilt:
 
 **Es wird ausschließlich in ganzen Cent gerechnet, als Ganzzahl.** Fließkommazahlen kommen
-nirgends vor — mit ihnen ergibt `0.1 + 0.2` nicht `0.3`, und damit wäre keine Zusage über
+nirgends vor. Mit ihnen ergibt `0.1 + 0.2` nicht `0.3`, und damit wäre keine Zusage über
 Cent-Genauigkeit haltbar.
 
 **Gerundet wird genau einmal, ganz am Ende.** Bis dahin bleibt jeder Anteil ein exakter Bruch
@@ -40,7 +40,7 @@ Ende rundet, bleibt bei wenigen Cent.
 
 **Der Rest-Cent wird niemandem untergeschoben.** Alle Salden werden zur Null hin abgeschnitten,
 niemand schuldet oder bekommt dadurch mehr als rechnerisch zusteht. Was dann nicht aufgeht,
-wird namentlich ausgewiesen — „Bei Anna bleibt 1 Cent offen" — statt still bei jemandem zu landen.
+wird namentlich ausgewiesen („Bei Anna bleibt 1 Cent offen“), statt still bei jemandem zu landen.
 
 **Ausgeglichen wird mit der kleinstmöglichen Zahl an Überweisungen.** Dafür wird die Gruppe in
 Teilmengen zerlegt, die für sich genommen auf null aufgehen; jede solche Teilmenge spart eine
@@ -65,7 +65,7 @@ Diese Bedingungen werden an zwei Stellen geprüft: in der Testsuite gegen tausen
 erzeugte Abrechnungen, und **zur Laufzeit als Eingangskontrolle für fremde Daten**. Letzteres
 ist ausdrücklich kein Misstrauen gegen die eigene Rechnung, sondern der Schutz gegen einen im
 Messenger abgeschnittenen Link, eine von Hand editierte Datei oder eine fehlgeschlagene
-Formatmigration — Fehlerquellen, die außerhalb dieses Programms liegen und die keine Testsuite
+Formatmigration: Fehlerquellen, die außerhalb dieses Programms liegen und die keine Testsuite
 abdecken kann. Schlägt die Kontrolle an, zeigt das Tool **keine Zahlen**, sondern eine Meldung
 und bietet den Export der Rohdaten an. Halb richtige Beträge wären schlimmer als gar keine.
 
@@ -85,8 +85,8 @@ damit sie nicht irgendwann still nicht mehr stimmen.
 ### Haben die Tests Zähne?
 
 Eine grüne Testsuite beweist nur, dass sie gelaufen ist. Deshalb läuft ein **Mutationstest**
-über die Geldlogik: Er baut absichtlich kleine Fehler ein — aus einem Plus wird ein Minus, aus
-„größer" wird „größer gleich" — und misst, wie viele davon die Tests bemerken.
+über die Geldlogik: Er baut absichtlich kleine Fehler ein (aus einem Plus wird ein Minus, aus
+„größer“ wird „größer gleich“) und misst, wie viele davon die Tests bemerken.
 
 ```bash
 npm run test:mutation
@@ -94,12 +94,12 @@ npm run test:mutation
 
 | Datei | erkannt |
 |---|---|
-| `balances.ts` — Eingangskontrolle, Salden | 98,0 % |
+| `balances.ts`, Eingangskontrolle, Salden | 98,0 % |
 | `invariants.ts` | 89,3 % |
-| `rational.ts` — exakte Bruchrechnung | 88,9 % |
-| `settle.ts` — Rundung, offener Rest, Ausgleich | 82,4 % |
-| `amount.ts` — Betragseingabe | 79,6 % |
-| `currency.ts` — Umrechnung | 70,9 % |
+| `rational.ts`, exakte Bruchrechnung | 88,9 % |
+| `settle.ts`, Rundung, offener Rest, Ausgleich | 82,4 % |
+| `amount.ts`, Betragseingabe | 79,6 % |
+| `currency.ts`, Umrechnung | 70,9 % |
 | **gesamt** | **84,7 %** |
 
 Bis Oktober 2026 stand hier 86,4 %, die Zahl war zu hoch. Schuld waren die Zeitgrenzen der
@@ -120,7 +120,7 @@ bei krummen ein echtes Minuszeichen. Jetzt steht überall das Minuszeichen.
 
 Der erste Lauf lag bei 82,5 % und hat zwei echte Mängel aufgedeckt: eine Handvoll
 Bruchrechnungs-Funktionen, die nie jemand aufrief und die deshalb gelöscht wurden statt
-nachträglich getestet zu werden — und die Erkenntnis, dass die Kurzliste der Währungen den
+nachträglich getestet zu werden, und die Erkenntnis, dass die Kurzliste der Währungen den
 ungarischen Forint enthielt, der keine Untereinheit hat. Jeder Betrag wäre dort um den Faktor
 hundert daneben gewesen. Ein Test prüft die Liste jetzt gegen dieselbe Regel wie das Freifeld.
 
@@ -129,22 +129,22 @@ eine Änderung, die am Ergebnis nichts ändern kann. Ein Beispiel aus der Bruchr
 `a < 0n` wird `a <= 0n`, das macht nur bei null einen Unterschied, und dort ist −0 dasselbe wie 0.
 Ein anderes aus der Umrechnung: Ein unbrauchbarer Kurs wird zweimal abgefangen, einmal am Kurs und
 einmal am Ergebnis. Nimmt man die erste Prüfung raus, greift die zweite. Solche Mutanten ließen
-sich nur mit Tests „töten", die allein dafür geschrieben wären, und solche Tests messen dann sich
+sich nur mit Tests „töten“, die allein dafür geschrieben wären, und solche Tests messen dann sich
 selbst statt der Software. Auf 100 % kommt der Wert also nie, und das ist auch richtig so.
 
 ## Barrierefreiheit
 
 Zielmarke ist **WCAG 2.1 Stufe AA**. Was dafür getan wurde, und was nicht:
 
-**Automatisch geprüft** — axe läuft im Browser-Test über die Ergebnisansicht und die
+**Automatisch geprüft:** axe läuft im Browser-Test über die Ergebnisansicht und die
 geteilte Ansicht, in hellem *und* dunklem Farbschema. Keine Verstöße gegen A und AA.
 Diese Prüfung findet erfahrungsgemäß etwa ein Drittel der Probleme.
 
 **Von Hand geprüft** (Stand 29.07.2026, Chromium unter Windows 11):
 
 - Vollständiger Durchlauf mit der Tastatur. Ergebnis: Die Erfassungszeile stand an
-  Position 20 der Reihenfolge — bei vierzig Ausgaben wären es über fünfzig Sprünge
-  bis zur Hauptfunktion gewesen. Ein zweiter Sprunganker „Zur Erfassung springen"
+  Position 20 der Reihenfolge. Bei vierzig Ausgaben wären es über fünfzig Sprünge
+  bis zur Hauptfunktion gewesen. Ein zweiter Sprunganker „Zur Erfassung springen“
   wurde ergänzt und ist per Browser-Test abgesichert.
 - Sichtbare Fokusumrandung an allen Bedienelementen, geprüft.
 - Antippbare Flächen mindestens 44 Pixel.
@@ -159,11 +159,11 @@ Diese Prüfung findet erfahrungsgemäß etwa ein Drittel der Probleme.
 - Der Rückgängig-Streifen verschwindet **nicht nach Zeit**, sondern erst bei der nächsten
   Handlung. Ein Zeitfenster hätte ausgerechnet die Nutzer benachteiligt, die es am
   dringendsten brauchen.
-- Die Textalternative eines QR-Codes ist der Link selbst, nicht das Wort „QR-Code".
+- Die Textalternative eines QR-Codes ist der Link selbst, nicht das Wort „QR-Code“.
 
 **Was offen ist:** Ein Durchlauf mit einem echten Vorleseprogramm (NVDA, VoiceOver) steht
-aus. Die Auszeichnung ist darauf ausgelegt — Meldebereiche für die Bestätigungszeile,
-echte Tabellenauszeichnung mit Kopfzellen im Ergebnis —, aber geprüft ist sie nur über
+aus. Die Auszeichnung ist darauf ausgelegt (Meldebereiche für die Bestätigungszeile,
+echte Tabellenauszeichnung mit Kopfzellen im Ergebnis), aber geprüft ist sie nur über
 den Barrierefreiheitsbaum, nicht durch Hören.
 
 ## Woran gemessen wird, ob das Tool benutzt wird
@@ -180,10 +180,12 @@ immer erreicht, deshalb steht die Messlatte hier und nicht später.
 
 Die letzte Zeile entscheidet. Wird sie erreicht, benutzen echte Gruppen das Werkzeug im
 Alltag. Wird sie verfehlt, während die oberen drei stimmen, ist ein gutes Werkzeug
-entstanden, das Leute ausprobieren und nicht behalten — dann liegt die Antwort nicht in
+entstanden, das Leute ausprobieren und nicht behalten. Dann liegt die Antwort nicht in
 mehr Funktionen, sondern in der Frage, warum sie am zweiten Tag nicht wiederkommen.
 
-Die Zahlen sind Schätzungen, keine Vergleichswerte aus dem Markt.
+Die Zahlen sind Schätzungen, keine Vergleichswerte aus dem Markt. Seit dem 03.11.2026 zählt
+die Seite keine Besuche und keine Klicks mehr. Ob die Messlatte erreicht ist, lässt sich seitdem
+nur noch an Rückmeldungen ablesen, nicht an Zahlen.
 
 ## Entwicklung
 
@@ -199,21 +201,20 @@ npm run build          # Auslieferungsstand nach dist/
 
 Typecheck, Einheitentests und Browser-Test laufen bei jedem Push über GitHub Actions, und
 **die Auslieferung hängt daran**: Was die Geldlogik nicht besteht, geht nicht live. Der
-Mutationstest läuft wöchentlich und auf Zuruf — er ist eine Messung, kein Wächter.
+Mutationstest läuft wöchentlich und auf Zuruf. Er ist eine Messung, kein Wächter.
 
 ## Was bewusst nicht getestet wird
 
 Es gibt **keine Komponententests der Oberfläche**. Bei einer App dieser Größe würden sie
 überwiegend das Framework prüfen, bei jeder Gestaltungsänderung brechen und mehr kosten, als
 sie einbringen. Stattdessen: erschöpfende Tests des Rechenkerns, Rundwegtests für Link und
-Export, ein Mutationstest, der misst ob die Tests überhaupt etwas merken, und **genau ein**
+Export, ein Mutationstest, der misst, ob die Tests überhaupt etwas merken, und **genau ein**
 Browser-Test für den Link-Rundweg. Ein einzelner Browser-Test wird gepflegt; zwanzig werden
 irgendwann ignoriert, und ein ignoriertes rotes Prüfergebnis ist schlechter als keins.
 
 ## Lizenz
 
-MIT — siehe [LICENSE](LICENSE). Im ausgelieferten Bündel stecken zwei Fremdpakete, beide
+MIT, siehe [LICENSE](LICENSE). Im ausgelieferten Bündel stecken zwei Fremdpakete, beide
 ebenfalls MIT: [Preact](https://preactjs.com) und
 [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) von Kazuhiko Arase.
-„QR Code“ ist eine eingetragene
-Marke von DENSO WAVE INCORPORATED.
+„QR Code“ ist eine eingetragene Marke von DENSO WAVE INCORPORATED.
